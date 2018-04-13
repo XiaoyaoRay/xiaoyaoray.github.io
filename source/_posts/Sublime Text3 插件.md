@@ -47,9 +47,9 @@ tags:
 
 - 安装参考[安装插件步骤](#jump01)
 
-## 附录
+### 附录
 
-### 问题1
+#### 问题1
 
 - Build时报错**UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-2: ordinal not in range(128)**[网上链接](https://stackoverflow.com/questions/15166076/sublime-text-2-encoding-error-with-python3-build/15174760#15174760)
 
@@ -62,9 +62,8 @@ tags:
   }
   ```
 
-  ​
 
-## 参考
+### 参考
 
 [将Sublime Text 3设置为Python全栈开发环境](http://lib.csdn.net/article/python/63800)
 
