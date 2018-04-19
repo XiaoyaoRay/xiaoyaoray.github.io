@@ -3,3 +3,4 @@ debug.log
 db.json
 package-lock.json
 public
+.deploy_git
