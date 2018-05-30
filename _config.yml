@@ -86,3 +86,15 @@ deploy:
   #repo: https://gitee.com/xiaoyaoray/xiaoyaoray.git
   repo: https://github.com/XiaoyaoRay/xiaoyaoray.github.io.git
   branch: master
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
+algolia:
+  applicationID: 'XWEG9FP02L'
+  apiKey: 'ad4807d42df04834188df426b50b0fcc'
+  indexName: 'test_BLOG'
+  chunkSize: 5000

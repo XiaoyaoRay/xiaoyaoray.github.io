@@ -51,6 +51,11 @@ tags:
 - 在目录`deploy-ui`目录下运行命令：
 
   ```shell
+  # 清理已存在volume
+  [root@test--0005 deploy-ui]# docker volume list | grep wise2c-playbook
+  local               deployui_wise2c-playbook
+  [root@test--0005 deploy-ui]# docker volume rm deployui_wise2c-playbook
+  
   # 启动部署UI的docker-compose
   [root@test--0005 deploy-ui]# docker-compose up -d
   Creating network "deployui_default" with the default driver
@@ -110,7 +115,7 @@ tags:
 
   ```shell
   #查看部署日志
-  [root@test--0005 deploy-ui]# docker-compose logs -f
+  [root@test--0005 deploy-ui]# docker-compose logs -f deploy
   Attaching to deployui_ui_1, deployui_deploy_1, deployui_wise2c-playbook_1, deployui_yum-repo_1
   deploy_1           | [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
   deploy_1           |  - using env:	export GIN_MODE=release
@@ -530,7 +535,7 @@ tags:
 
   ![image-20180523140741207](https://ws3.sinaimg.cn/large/006tNc79gy1frl8pi9ww5j313b0hhdko.jpg)
 
-A：在haproxy所在的主机修改`haproxy.cfg`配置文件，对应的`Redis`,`consul`,`RabbitMQ`字段下server的IP地址改为公共组件所在的地址
+A：在haproxy所在的主机修改`haproxy.cfg`配置文件，对应的`Redis`,`consul`,`RabbitMQ`字段下server的IP地址改为公共组件所在的地址，然后重启haproxy的docker
 
 ```shell
 [root@test--0002 loadbalancer]# pwd
