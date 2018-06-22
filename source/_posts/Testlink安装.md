@@ -21,14 +21,14 @@ services:
       - MARIADB_USER=bn_testlink
       - MARIADB_DATABASE=bitnami_testlink
     volumes:
-      - '~/testlink/mariadb_data:/bitnami'
+      - 'mariadb_data:/bitnami'
   testlink:
     image: 'bitnami/testlink:latest'
     ports:
       - '10080:80'
       - '10443:443'
     volumes:
-      - '~/testlink/testlink_data:/bitnami'
+      - 'testlink_data:/bitnami'
     depends_on:
       - mariadb
     environment:
@@ -56,7 +56,38 @@ docker-compose up -d
 docker-compose logs -f
 ```
 
+###  docker-compose重新安装
+
+```shell
+docker-compose down
+docker volume list
+
+# 删除testlink的两个数据卷
+docker volume rm <testlink_mariadb_data testlink_testlink_data>
+```
+
+#### 备份数据
+
+```shell
+[root@test--0005 volumes]# pwd
+/var/lib/docker/volumes
+
+# 需要备份的两个数据
+[root@test--0005 volumes]# ls | grep testlink
+testlink_mariadb_data
+testlink_testlink_data
+[root@test--0005 volumes]#
+```
+
+
+
 ### 直接用docker安装
+
+#### 创建testlink的docker网络
+
+```shell
+docker network create testlink-tier
+```
 
 #### 安装数据库
 
