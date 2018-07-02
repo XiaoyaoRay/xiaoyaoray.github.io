@@ -76,7 +76,52 @@ docker volume rm <testlink_mariadb_data testlink_testlink_data>
 [root@test--0005 volumes]# ls | grep testlink
 testlink_mariadb_data
 testlink_testlink_data
-[root@test--0005 volumes]#
+
+# 打包1
+[root@test--0005 volumes]#cd /var/lib/docker/volumes/testlink_mariadb_data/_data
+[root@test--0005 _data]#tar -czf mariadb_data.tar.gz .
+
+# 打包2
+[root@test--0005 _data]#cd /var/lib/docker/volumes/testlink_testlink_data/_data
+[root@test--0005 _data]#tar -czf testlink_data.tar.gz .
+```
+
+#### 恢复数据
+
+```shell
+# 新建两个目录存放数据
+mkdir mariadb_data
+mkdir testlink_data
+
+# 把备份的数据解压到上述两个文件中
+tar -xvfz testlink_data.tar.gz -C testlink_data
+tar -xvfz mariadb_data.tar.gz -C mariadb_data
+
+# 修改docker-compose.yaml中数据卷
+.....
+....
+ mariadb:
+    image: 'bitnami/mariadb:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_testlink
+      - MARIADB_DATABASE=bitnami_testlink
+    volumes:
+      - '/root/mariadb_data:/bitnami'	# 修改为创建的实际路径
+  testlink:
+    image: 'bitnami/testlink:latest'
+    ports:
+      - '10080:80'
+      - '10443:443'
+    volumes:
+      - '/root/testlink_data:/bitnami'	# 修改为创建的实际路径
+    depends_on:
+      - mariadb
+....
+....
+
+# 启动docker-compose
+docker-compose up -d
 ```
 
 
