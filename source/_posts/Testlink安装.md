@@ -89,12 +89,10 @@ testlink_testlink_data
 #### 恢复数据
 
 ```shell
-# 新建两个目录存放数据
+# 新建目录存放数据
 mkdir mariadb_data
-mkdir testlink_data
 
-# 把备份的数据解压到上述两个文件中
-tar -xvfz testlink_data.tar.gz -C testlink_data
+# 把备份的数据解压到上述文件中
 tar -xvfz mariadb_data.tar.gz -C mariadb_data
 
 # 修改docker-compose.yaml中数据卷
@@ -114,7 +112,7 @@ tar -xvfz mariadb_data.tar.gz -C mariadb_data
       - '10080:80'
       - '10443:443'
     volumes:
-      - '/root/testlink_data:/bitnami'	# 修改为创建的实际路径
+      - 'testlink_data:/bitnami'
     depends_on:
       - mariadb
 ....
@@ -122,6 +120,61 @@ tar -xvfz mariadb_data.tar.gz -C mariadb_data
 
 # 启动docker-compose
 docker-compose up -d
+```
+
+#### 每天定时备份脚本
+
+```shell
+#!/bin/sh
+
+# 运行命令,如果失败会尝试3次
+run_cmd(){
+    for i in `seq 3`  
+    do  
+        $1
+        if [ $? -eq 0 ];then
+            break
+        fi  
+    done 
+}
+
+gitdir="/home/testlink"
+
+# 从git上拉取自动化测试代码
+run_cmd "git clone https://<码云账号>:<账号密码>@gitee.com/wisecloud/wisecloud-test.git $gitdir"
+
+# 切换到log分支 日志输出文件以时间来命名
+cd $gitdir
+git checkout testlink
+outputdir=`date +%Y%m%d%H%M%S`
+
+# testlink 备份数据打包
+echo "mariadb data backup---------------------------"
+cd /var/lib/docker/volumes/testlink_mariadb_data/_data
+tar -czf mariadb_data_${outputdir}.tar.gz .
+mv mariadb_data_${outputdir}.tar.gz $gitdir
+
+# 保留8个以内的日志文件
+cd $gitdir
+dirs_mariadb=`ls -l ./ | grep "mariadb_data_" | awk '{print $9}'| sort -r`
+i=0
+for name in $dirs_mariadb
+do
+    let i=i+1
+    if [ $i -ge 8 ];then
+        rm -rf $name
+	echo "delete $name -----------"
+    fi
+done
+
+# 提交到码云上
+git config --global user.email "<邮件地址>"
+git config --global user.name "TestGroup"
+git add --all
+git commit -m $outputdir
+run_cmd "git push origin testlink"
+
+rm -rf $gitdir
 ```
 
 
