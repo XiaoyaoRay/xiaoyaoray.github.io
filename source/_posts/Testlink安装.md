@@ -66,24 +66,20 @@ docker volume list
 docker volume rm <testlink_mariadb_data testlink_testlink_data>
 ```
 
-#### 备份数据
+### 备份数据
 
 ```shell
 [root@test--0005 volumes]# pwd
 /var/lib/docker/volumes
 
-# 需要备份的两个数据
+# 需要备份的数据
 [root@test--0005 volumes]# ls | grep testlink
 testlink_mariadb_data
-testlink_testlink_data
 
-# 打包1
+# 打包
 [root@test--0005 volumes]#cd /var/lib/docker/volumes/testlink_mariadb_data/_data
 [root@test--0005 _data]#tar -czf mariadb_data.tar.gz .
 
-# 打包2
-[root@test--0005 _data]#cd /var/lib/docker/volumes/testlink_testlink_data/_data
-[root@test--0005 _data]#tar -czf testlink_data.tar.gz .
 ```
 
 #### 恢复数据
@@ -143,7 +139,7 @@ gitdir="/home/testlink"
 # 从git上拉取自动化测试代码
 run_cmd "git clone https://<码云账号>:<账号密码>@gitee.com/wisecloud/wisecloud-test.git $gitdir"
 
-# 切换到log分支 日志输出文件以时间来命名
+# 切换到testlink分支 日志输出文件以时间来命名
 cd $gitdir
 git checkout testlink
 outputdir=`date +%Y%m%d%H%M%S`
