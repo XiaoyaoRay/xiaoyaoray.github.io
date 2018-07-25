@@ -6,7 +6,7 @@ tags:
 ---
 ## 1.准备
 
-#### 关闭防火墙
+#### 1.1关闭防火墙
 
 如果各个主机启用了防火墙，需要开放Kubernetes各个组件所需要的端口，可以查看[Installing kubeadm](https://kubernetes.io/docs/setup/independent/install-kubeadm/)中的”Check required ports”一节。 这里简单起见在各节点禁用防火墙：
 
@@ -15,18 +15,18 @@ systemctl stop firewalld
 systemctl disable firewalld
 ```
 
-#### 禁用SELINUX
+#### 1.2禁用SELINUX
 
 ```Shell
 # 临时禁用
 setenforce 0
 
-# 永久禁用 重启主机生效 
+# 永久禁用 
 vim /etc/selinux/config	# 或者修改/etc/sysconfig/selinux
 SELINUX=disabled
 ```
 
-#### 修改k8s.conf文件
+#### 1.3修改k8s.conf文件
 
 ```shell
 cat <<EOF >  /etc/sysctl.d/k8s.conf
@@ -36,7 +36,7 @@ EOF
 sysctl --system
 ```
 
-#### 关闭swap
+#### 1.4关闭swap
 
 ```shell
 # 临时关闭
@@ -53,7 +53,9 @@ swapoff -a
 
 ## 2.安装Docker
 
-#### 卸载老版本的Docker
+#### 2.1卸载老版本的Docker
+
+如果有没有老版本Docker，则不需要这步
 
 ```shell
 yum remove docker \
@@ -62,7 +64,7 @@ yum remove docker \
            docker-engine
 ```
 
-#### 使用yum进行安装
+#### 2.2使用yum进行安装
 
 每个节点均要安装，目前官网建议安装17.03版本的docker，[官网链接](https://kubernetes.io/docs/setup/independent/install-kubeadm/)
 
@@ -95,7 +97,7 @@ sudo systemctl enable docker && systemctl start docker
 # sudo yum -y install docker-ce-[VERSION]
 ```
 
-#### docker安装问题小结
+#### 2.3docker安装问题小结
 
 错误信息
 
@@ -126,7 +128,7 @@ yum -y install https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable
 
 https://blog.csdn.net/csdn_duomaomao/article/details/79019764
 
-#### 安装校验
+#### 2.4安装校验
 
 ```shell
 docker version
@@ -148,7 +150,7 @@ Server:
  Experimental: false
 ```
 
-#### 参考文献
+#### 2.5参考文献
 
 https://yq.aliyun.com/articles/110806
 
@@ -156,7 +158,7 @@ https://yq.aliyun.com/articles/110806
 
 在各节点安装kubeadm，kubelet，kubectl
 
-#### 修改yum安装源
+#### 3.1修改yum安装源
 
 ```Shell
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
@@ -170,7 +172,7 @@ gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors
 EOF
 ```
 
-#### 安装软件
+#### 3.2安装软件
 
 ```shell
 yum install -y kubelet kubeadm kubectl
@@ -179,7 +181,7 @@ systemctl enable kubelet && systemctl start kubelet
 
 ## 4.初始化Master节点
 
-### 配置kubeadm init 初始化文件
+### 4.1配置kubeadm init 初始化文件
 
 配置文件[官网介绍链接](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file)
 
@@ -196,7 +198,7 @@ networking:
 imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers # image的仓库源
 ```
 
-### 运行初始化命令
+### 4.2运行初始化命令
 
 ```shell
 kubeadm init --config kubeadm-init.yaml
@@ -221,9 +223,9 @@ as root:
   kubeadm join --token <token> <master-ip>:<master-port> --discovery-token-ca-cert-hash sha256:<hash>
 ```
 
-### 使kubectl正常工作
+### 4.3使kubectl正常工作
 
-#### 非root用户
+#### 4.3.1非root用户
 
 ```shell
 mkdir -p $HOME/.kube
@@ -231,23 +233,23 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-#### root用户
+#### 4.3.2root用户
 
 ```shell
 export KUBECONFIG=/etc/kubernetes/admin.conf
 ```
 
-### 问题解决
+### 4.4问题解决
 
 [官网解决问题链接](https://kubernetes.io/docs/setup/independent/troubleshooting-kubeadm/)
 
-#### 多次运行kubeadm init命令，需要reset
+#### 4.4.1多次运行kubeadm init命令，需要reset
 
 ```shell
 kubeadm reset
 ```
 
-#### cgroup driver报错
+#### 4.4.2cgroup driver报错
 
 ```
  error: failed to run Kubelet: failed to create kubelet:
@@ -261,7 +263,7 @@ sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/ku
 systemctl daemon-reload && systemctl restart kubelet
 ```
 
-#### kubelet不能启动成功原因之一
+#### 4.4.3kubelet不能启动成功原因之一
 
 在`systemctl status docker`中如果出现需要镜像`k8s.gcr.io/pause:3.1`，运行以下命令修改下标签
 
