@@ -6,6 +6,8 @@ tags:
 ---
 ## 准备
 
+每个节点均要执行以下步骤
+
 ### 关闭防火墙
 
 如果各个主机启用了防火墙，需要开放Kubernetes各个组件所需要的端口，可以查看[Installing kubeadm](https://kubernetes.io/docs/setup/independent/install-kubeadm/)中的”Check required ports”一节。 这里简单起见在各节点禁用防火墙：
@@ -43,13 +45,14 @@ sysctl --system
 swapoff -a
 ```
 
-修改 /etc/fstab 文件，注释掉 SWAP 的自动挂载，使用`free -m`确认swap已经关闭。 swappiness参数调整，修改/etc/sysctl.d/k8s.conf添加下面一行：
+修改 /etc/fstab 文件，注释掉 SWAP 的自动挂载（永久关闭swap，重启后生效）
 
 ```shell
-  vm.swappiness=0
+# 注释掉以下字段
+/dev/mapper/cl-swap     swap                    swap    defaults        0 0
 ```
 
-执行`sysctl -p /etc/sysctl.d/k8s.conf`使修改生效
+
 
 ## 安装Docker
 
@@ -153,6 +156,8 @@ Server:
 ### 参考文献
 
 https://yq.aliyun.com/articles/110806
+
+
 
 ## 安装kubeadm，kubelet，kubectl
 
@@ -271,6 +276,8 @@ systemctl daemon-reload && systemctl restart kubelet
 docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1 k8s.gcr.io/pause:3.1
 ```
 
+
+
 ## 安装Pod Network
 
 [官网链接](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network)
@@ -344,6 +351,8 @@ node "node1" untainted
   kubeadm reset
   ```
 
+
+
 ## 附录
 
 ### 配置代理
@@ -367,6 +376,8 @@ EOF
 systemctl daemon-reload
 systemctl restart docker
 ```
+
+
 
 ## 参考
 
