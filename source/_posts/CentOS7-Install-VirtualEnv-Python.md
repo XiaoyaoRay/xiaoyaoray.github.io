@@ -12,7 +12,7 @@ tags:
 ```shell
 [root@ray ~]# yum -y install python-pip
 ```
-
+<!--more-->
 #### 安装Virtualenv
 
 ```shell

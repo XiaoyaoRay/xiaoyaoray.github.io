@@ -8,7 +8,7 @@ subtitle:
 description:
 keywords:
 author: XiaoyaoRay
-language: zh_CN
+language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
@@ -41,9 +41,8 @@ relative_link: false
 future: true
 highlight:
   enable: true
-  hljs: true
   line_number: true
-  auto_detect: true
+  auto_detect: false
   tab_replace:
   
 # Home page setting
@@ -75,37 +74,27 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 plugins: hexo-generate-feed
-# Hexo generator feed
-feed:
-  type: atom
-  path: atom.xml
-  limit: 20
-  hub:
-  content:
-  content_limit: 140
-  content_limit_delim: ' '
 ## Themes: https://hexo.io/themes/
 #theme: landscape
-theme: aria
+theme: next
 #theme: maupassant
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://gitee.com/xiaoyaoray/xiaoyaoray.git
-  #repo: https://github.com/XiaoyaoRay/xiaoyaoray.github.io.git
+  #repo: https://gitee.com/xiaoyaoray/xiaoyaoray.git
+  repo: https://github.com/XiaoyaoRay/xiaoyaoray.github.io.git
   branch: master
 
 search:
   path: search.xml
-  #field: post
-  field: all
- # format: html
- # limit: 10000
+  field: post
+  format: html
+  limit: 10000
 
-#algolia:
-#  applicationID: 'XWEG9FP02L'
-#  apiKey: 'ad4807d42df04834188df426b50b0fcc'
-#  indexName: 'test_BLOG'
-#  chunkSize: 5000
+algolia:
+  applicationID: 'XWEG9FP02L'
+  apiKey: 'ad4807d42df04834188df426b50b0fcc'
+  indexName: 'test_BLOG'
+  chunkSize: 5000
