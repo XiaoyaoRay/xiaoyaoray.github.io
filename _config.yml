@@ -93,8 +93,8 @@ theme: aria
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://gitee.com/xiaoyaoray/xiaoyaoray.git
-  #repo: https://github.com/XiaoyaoRay/xiaoyaoray.github.io.git
+ # repo: https://gitee.com/xiaoyaoray/xiaoyaoray.git
+  repo: https://github.com/XiaoyaoRay/xiaoyaoray.github.io.git
   branch: master
 
 search:
