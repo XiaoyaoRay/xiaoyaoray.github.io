@@ -103,7 +103,7 @@ tags:
 
   F: <60 
 
-  ```shell
+  ```
   #/bin/bash
   #Verson:0.1
   #Auther:lovelace

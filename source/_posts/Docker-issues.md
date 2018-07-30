@@ -9,7 +9,7 @@ tags:
 
 - Docker挂载主机目录，访问相应的文件出现Premission denied的权限访问问题:
 <!--more-->
-```shell
+```
 [root@localhost soft]# docker images
 REPOSITORY TAG IMAGE ID CREATED SIZE
 docker.io/centos 7.2.1511 686672a1d0cc 5 weeks ago
@@ -19,7 +19,7 @@ docker run -i -t -v /soft:/soft 686672a1d0cc /bin/bash
 
 - 挂载后，查看相应的文件出现如下的提示：
 
-```Shell
+```
 [root@ba471da26d07 soft]# ls
 ls: cannot access jdk-8u102-linux-x64.tar.gz: Permission denied
 hadoop-2.7.2.tar.gz jdk-8u102-linux-x64.tar.gz
@@ -70,7 +70,7 @@ setenforce 0
 
 ### 配置了—restart=always的容器停止
 
-```shell
+```
 docker service ls
 docker service rm <service-id>
 ```

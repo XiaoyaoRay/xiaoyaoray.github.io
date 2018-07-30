@@ -50,7 +50,7 @@ tags:
 
 - 在目录`deploy-ui`目录下运行命令：
 
-  ```shell
+  ```
   # 清理已存在volume
   [root@test--0005 deploy-ui]# docker volume list | grep wise2c-playbook
   local               deployui_wise2c-playbook
@@ -81,7 +81,7 @@ tags:
 
 - 部署`playbook`存放目录
 
-  ```shell
+  ```
   # 查看playbook的映射到宿主机的目录名称
   [root@test--0005 deploy-ui]# docker volume list | grep wise2c-playbook
   local               deployui_wise2c-playbook
@@ -113,7 +113,7 @@ tags:
 
 - 安装时用命令查看日志
 
-  ```shell
+  ```
   #查看部署日志
   [root@test--0005 deploy-ui]# docker-compose logs -f deploy
   Attaching to deployui_ui_1, deployui_deploy_1, deployui_wise2c-playbook_1, deployui_yum-repo_1
@@ -141,7 +141,7 @@ tags:
 
 - 直接在docker容器中运行playbook可以看到更具体的信息，在容器内找到playbook的`install.ansible`文件，运行命令`ansible-playbook install.ansible`
 
-  ```shell
+  ```
   # 查看部署UI的docker容器
   [root@test--0005 deploy-ui]# docker ps | grep deploy
   9f3927ba11b5        registry.cn-hangzhou.aliyuncs.com/wise2c-dev/deploy-ui:v0.4                                                                  "/root/entrypoint.sh"    31 minutes ago      Up 31 minutes                                                                                                                                                deployui_ui_1
@@ -234,7 +234,7 @@ tags:
 
   - `pull-img.sh`内容
 
-    ```shell
+    ```
     #!/bin/bash
     
     function pull_img(){
@@ -282,7 +282,7 @@ tags:
 
   - `push-img.sh`内容
 
-    ```shell
+    ```
     #!/bin/bash
     
     
@@ -330,7 +330,7 @@ tags:
 
 - 把需要的镜像push到对应的registry(Harbor)
 
-  ```shell
+  ```
   # 需要的文件列表
   [root@test--0004 v1.4.10]# ls
   img-list.txt  pull-img.sh  push-img.sh
@@ -371,7 +371,7 @@ tags:
 
 - 从码云上拉取部署需要的文件
 
-  ```shell
+  ```
   [root@test--0004 ~]# git clone https://gitee.com/wisecloud/wisecloud-k8s-yaml.git
   Cloning into 'wisecloud-k8s-yaml'...
   Username for 'https://gitee.com': leicj@wise2c.com
@@ -392,7 +392,7 @@ tags:
 
 - 为主机打上标签
 
-  ```shell
+  ```
   # 进入到wisecloud-k8s-yaml目录
   [root@test--0004 wisecloud-k8s-yaml]# pwd
   /root/liaoxb/v1.4.10/wisecloud-k8s-yaml
@@ -404,7 +404,7 @@ tags:
 
   `label.json`文件内容
 
-  ```shell
+  ```
   {"roles":[
       {"name":"controller", "hosts":["test--0001","test--0002","test--0003"]},
       {"name":"ingress-gateway", "hosts":["test--0004","test--0006"]},
@@ -417,7 +417,7 @@ tags:
 
 - 执行部署脚本
 
-  ```shell
+  ```
   # 进入到wisecloud-k8s-yaml目录
   [root@test--0004 wisecloud-k8s-yaml]# pwd
   /root/liaoxb/v1.4.10/wisecloud-k8s-yaml
@@ -429,7 +429,7 @@ tags:
 
   `install.sh`文件内容
 
-  ```shell
+  ```
   # 注意k8s_wisecloud_deploy2.sh 这个文件名称可能有变动
   ./k8s_wisecloud_deploy2.sh \
         --db_url=192.168.1.28 \
@@ -467,7 +467,7 @@ tags:
 
 - 查看部署结果（如果都是running状态，表示部署成功）
 
-  ```shell
+  ```
   # kcc 命令等效于：kubectl -n wisecloud-controller
   [root@test--0004 ~]# kcc get pods
   NAME                                READY     STATUS    RESTARTS   AGE
@@ -537,7 +537,7 @@ tags:
 
 A：在haproxy所在的主机修改`haproxy.cfg`配置文件，对应的`Redis`,`consul`,`RabbitMQ`字段下server的IP地址改为公共组件所在的地址，然后重启haproxy的docker
 
-```shell
+```
 [root@test--0002 loadbalancer]# pwd
 /var/lib/wise2c/loadbalancer
 [root@test--0002 loadbalancer]#

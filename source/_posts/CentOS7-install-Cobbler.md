@@ -47,7 +47,7 @@ tags:
 
 ### 1.2.1 环境说明
 
-```shell
+```
 # selinux 查看是否关闭
 [root@Cobbler ~]# getenforce
 Disabled
@@ -61,7 +61,7 @@ Disabled
 
 ### 1.2.2 更新yum源
 
-```shell
+```
 [root@Cobbler ~]# curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 [root@Cobbler ~]# curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
 [root@Cobbler ~]# yum clean all
@@ -70,7 +70,7 @@ Disabled
 
 ### 1.2.3 使用yum安装cobble
 
-```shell
+```
 [root@Cobbler ~]# yum -y install cobbler cobbler-web dhcp tftp-server pykickstart httpd
 ```
 
@@ -78,7 +78,7 @@ Disabled
 
 ### 1.2.4 cobbler语法检查前先启动http与cobbler
 
-```shell
+```
 systemctl start httpd.service
 systemctl start cobblerd.service
 cobbler check
@@ -86,7 +86,7 @@ cobbler check
 
 ### 1.2.5 进行语法检查
 
-```shell
+```
 [root@Cobbler ~]# cobbler check
 The following are potential configuration items that you may want to fix:
 
@@ -113,7 +113,7 @@ Restart cobblerd and then run 'cobbler sync' to apply changes.
 
 *命令集*
 
-```shell
+```
 sed -i 's/server: 127.0.0.1/server: 172.16.1.202/' /etc/cobbler/settings
 sed -i 's/next_server: 127.0.0.1/next_server: 172.16.1.202/' /etc/cobbler/settings
 sed -i 's/manage_dhcp: 0/manage_dhcp: 1/' /etc/cobbler/settings
@@ -138,7 +138,7 @@ View *命令集  单击+打开*
 
 *解决1*、*2*
 
-```shell
+```
 cp /etc/cobbler/settings{,.ori}
 sed -i 's/server: 127.0.0.1/server: 172.16.1.202/' /etc/cobbler/settings
 sed -i 's/next_server: 127.0.0.1/next_server: 172.16.1.202/' /etc/cobbler/settings
@@ -146,13 +146,13 @@ sed -i 's/next_server: 127.0.0.1/next_server: 172.16.1.202/' /etc/cobbler/settin
 
 *问题3*
 
-```shell
+```
 sed 's#yes#no#g' /etc/xinetd.d/tftp -i
 ```
 
 *问题:4下载包所需的软件包*
 
-```shell
+```
 [root@Cobbler ~]# cobbler get-loaders
 [root@Cobbler ~]# ls  /var/lib/cobbler/loaders
 COPYING.elilo     elilo-ia64.efi   menu.c32    yaboot
@@ -162,7 +162,7 @@ COPYING.yaboot    grub-x86.efi     README
 
 *5**启动rsync**服务*
 
-```shell
+```
 [root@Cobbler ~]# systemctl start rsyncd.service
 [root@Cobbler ~]# systemctl enable rsyncd.service
 ```
@@ -171,7 +171,7 @@ COPYING.yaboot    grub-x86.efi     README
 
 *7**、修改安装完成后的root**密码*
 
-```shell
+```
 openssl passwd -1 -salt 'random-phrase-here' 'your-password-here'
 random-phrase-here  随机字符串
 your-password-here 密码
@@ -179,32 +179,32 @@ your-password-here 密码
 
 *示例*
 
-```shell
+```
 [root@Cobbler ~]# openssl passwd -1 -salt 'CLSN' '123456'
 $1$CLSN$LpJk4x1cplibx3q/O4O/K/
 ```
 
 *管理dhcp*
 
-```shell
+```
 sed -i 's/manage_dhcp: 0/manage_dhcp: 1/' /etc/cobbler/settings
 ```
 
 *防止重装*
 
-```shell
+```
 sed -i 's/pxe_just_once: 0/pxe_just_once: 1/' /etc/cobbler/settings
 ```
 
 *修改dhcp**模板*
 
-```shell
+```
 sed -i.ori 's#192.168.1#172.16.1#g;22d;23d' /etc/cobbler/dhcp.template
 ```
 
 cobbler组配置文件位置
 
-```shell
+```
 /etc/cobbler/settings
 ```
 
@@ -214,7 +214,7 @@ cobbler组配置文件位置
 
 *再次检查语法：*
 
-```shell
+```
 [root@Cobbler ~]# cobbler check
 The following are potential configuration items that you may want to fix:
 
@@ -226,7 +226,7 @@ Restart cobblerd and then run 'cobbler sync' to apply changes.
 
 重启所有服务
 
-```shell
+```
 systemctl restart httpd.service
 systemctl restart cobblerd.service
 systemctl restart dhcpd.service
@@ -274,7 +274,7 @@ mount: /dev/sr0 is write-protected, mounting read-only
 
 *导入过程使用rsync进行导入，三个进程消失表示导入完毕*
 
-```shell
+```
 [root@Cobbler mnt]# ps -ef |grep rsync
 root   12026      1  0 19:04 ?   00:00:00 /usr/bin/rsync --daemon --no-detach
 root  13554  11778 12 19:51 ?    00:00:06 rsync -a /mnt/ /var/www/cobbler/ks_mirror/CentOS7.4-x86_64 --progress

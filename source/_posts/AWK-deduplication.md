@@ -8,7 +8,7 @@ tags:
 ---
 #### 原文
 
-```shell
+```
 [root@test--0007 ~]# cat test.txt
 abc 13
 abc 3
@@ -24,7 +24,7 @@ a d a
 <!--more-->
 #### 去重显示没有重复的行
 
-```shell
+```
 [root@test--0007 ~]# cat test.txt |awk '!a[$1]++{print}'
 abc 13
 a d a
@@ -35,7 +35,7 @@ c c c
 
 #### 去除重复的行
 
-```shell
+```
 [root@test--0007 ~]# cat test.txt |awk '!a[$0]++{print}'
 abc 13
 abc 3
@@ -49,7 +49,7 @@ c c c
 
 #### 只显示重复的行
 
-```shell
+```
 [root@test--0007 ~]# cat test.txt |awk 'a[$0]++{print}'
 a a a
 a d a

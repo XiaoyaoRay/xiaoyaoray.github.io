@@ -8,13 +8,13 @@ tags:
 
 ### 在hexo的目录下初始化github
 
-```shell
+```
 git init  //初始化本地仓库
 ```
 <!--more-->
 ### 在`.gitignore`文件中添加忽略的文件和文件夹
 
-```shell
+```
 cat .gitignore
 node_modules
 debug.log
@@ -25,7 +25,7 @@ public
 
 ### push到GitHub
 
-```shell
+```
 git add .
 git commit -m "Blog Source Hexo"
 git branch hexo  //新建hexo分支
@@ -37,7 +37,7 @@ git remote add origin git@github.com:yourname/yourname.github.io.git  //将本�
 
 ###其他终端clone，安装npm的modules，生成blog
 
-```shell
+```
 git clone -b hexo git@github.com:yourname/yourname.github.io.git //将Github中hexo分支clone到本地
 cd  yourname.github.io  //切换到刚刚clone的文件夹内
 npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init

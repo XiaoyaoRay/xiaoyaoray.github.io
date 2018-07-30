@@ -25,7 +25,7 @@ tags:
 
     nohup 无疑是我们首先想到的办法。顾名思义，nohup 的用途就是让提交的命令忽略 hangup 信号。让我们先来看一下 nohup 的帮助信息：
 
-    ```shell
+    ```
     NOHUP(1)                        User Commands                        NOHUP(1)
      
     NAME
@@ -50,7 +50,7 @@ tags:
 
     ##### nohup 示例
 
-    ```shell
+    ```
     [root@pvcent107 ~]# nohup ping www.ibm.com &
     [1] 3059
     nohup: appending output to `nohup.out'
@@ -67,7 +67,7 @@ tags:
 
     nohup 无疑能通过忽略 HUP 信号来使我们的进程避免中途被中断，但如果我们换个角度思考，如果我们的进程不属于接受 HUP 信号的终端的子进程，那么自然也就不会受到 HUP 信号的影响了。setsid 就能帮助我们做到这一点。让我们先来看一下 setsid 的帮助信息：
 
-    ```shell
+    ```
     SETSID(8)                 Linux Programmer’s Manual                 SETSID(8)
      
     NAME
@@ -84,7 +84,7 @@ tags:
 
     ##### setsid 示例
 
-    ```shell
+    ```
     [root@pvcent107 ~]# setsid ping www.ibm.com
     [root@pvcent107 ~]# ps -ef |grep www.ibm.com
     root     31094     1  0 07:28 ?        00:00:00 ping www.ibm.com
@@ -102,7 +102,7 @@ tags:
 
     ##### subshell 示例
 
-    ```shell
+    ```
     [root@pvcent107 ~]# (ping www.ibm.com &)
     [root@pvcent107 ~]# ps -ef |grep www.ibm.com
     root     16270     1  0 14:13 pts/4    00:00:00 ping www.ibm.com
@@ -124,7 +124,7 @@ tags:
 
   这时想加 nohup 或者 setsid 已经为时已晚，只能通过作业调度和 disown 来解决这个问题了。让我们来看一下 disown 的帮助信息
 
-  ```shell
+  ```
   disown [-ar] [-h] [jobspec ...]
       Without options, each jobspec is  removed  from  the  table  of
       active  jobs.   If  the -h option is given, each jobspec is not
@@ -158,7 +158,7 @@ tags:
 
   ##### disown 示例1（如果提交命令时已经用“&”将命令放入后台运行，则可以直接使用“disown”）
 
-  ```shell
+  ```
   [root@pvcent107 build]# cp -r testLargeFile largeFile &
   [1] 4825
   [root@pvcent107 build]# jobs
@@ -172,7 +172,7 @@ tags:
 
   ##### disown 示例2（如果提交命令时未使用“&”将命令放入后台运行，可使用 CTRL+Z 和“bg”将其放入后台，再使用“disown”）
 
-  ```shell
+  ```
   [root@pvcent107 build]# cp -r testLargeFile largeFile2
    
   [1]+  Stopped                 cp -i -r testLargeFile largeFile2
@@ -199,7 +199,7 @@ tags:
 
   此时最方便的方法就是 screen 了。简单的说，screen 提供了 ANSI/VT100 的终端模拟器，使它能够在一个真实终端下运行多个全屏的伪终端。screen 的参数很多，具有很强大的功能，我们在此仅介绍其常用功能以及简要分析一下为什么使用 screen 能够避免 HUP 信号的影响。我们先看一下 screen 的帮助信息：
 
-  ```shell
+  ```
   SCREEN(1)                                                           SCREEN(1)
    
   NAME
@@ -230,7 +230,7 @@ tags:
 
   ##### screen 示例
 
-  ```shell
+  ```
   [root@pvcent107 ~]# screen -dmS Urumchi
   [root@pvcent107 ~]# screen -list
   There is a screen on:
@@ -244,7 +244,7 @@ tags:
 
   ##### 1. 未使用 screen 时新进程的进程树
 
-  ```shell
+  ```
   [root@pvcent107 ~]# ping www.google.com &
   [1] 9499
   [root@pvcent107 ~]# pstree -H 9499
@@ -258,7 +258,7 @@ tags:
 
   ##### 2. 使用了 screen 后新进程的进程树
 
-  ```shell
+  ```
   [root@pvcent107 ~]# screen -r Urumchi
   [root@pvcent107 ~]# ping www.ibm.com &
   [1] 9488

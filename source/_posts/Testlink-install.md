@@ -51,14 +51,14 @@ volumes:
 
 #### 命令使用
 
-```shell
+```
 docker-compose up -d
 docker-compose logs -f
 ```
 
 ###  docker-compose重新安装
 
-```shell
+```
 docker-compose down
 docker volume list
 
@@ -68,7 +68,7 @@ docker volume rm <testlink_mariadb_data testlink_testlink_data>
 
 ### 备份数据
 
-```shell
+```
 [root@test--0005 volumes]# pwd
 /var/lib/docker/volumes
 
@@ -84,7 +84,7 @@ testlink_mariadb_data
 
 #### 恢复数据
 
-```shell
+```
 # 新建目录存放数据
 mkdir mariadb_data
 
@@ -120,7 +120,7 @@ docker-compose up -d
 
 #### 每天定时备份脚本
 
-```shell
+```
 #!/bin/sh
 
 # 运行命令,如果失败会尝试3次
@@ -179,13 +179,13 @@ rm -rf $gitdir
 
 #### 创建testlink的docker网络
 
-```shell
+```
 docker network create testlink-tier
 ```
 
 #### 安装数据库
 
-```shell
+```
 docker run -d --name mariadb \
 --net testlink-tier \
 -e ALLOW_EMPTY_PASSWORD=yes \
@@ -197,7 +197,7 @@ bitnami/mariadb:latest
 
 #### 安装Testlink
 
-```shell
+```
 docker run -d -p 18000:80 -p 18443:443 --name testlink \
 -e ALLOW_EMPTY_PASSWORD=yes \
 -e MARIADB_USER=bn_testlink \

@@ -12,13 +12,13 @@ tags:
 <!--more-->
 ### 清理所有停止的容器
 
-```shell
+```
 docker container prune 
 ```
 
 ### 清理所有不用数据(停止的容器,不使用的volume,不使用的networks,*悬挂*的镜像)
 
-```shell
+```
 docker system prune -a
 ```
 
@@ -36,7 +36,7 @@ docker system prune -a
 
 这个三个层对应了 overlayFs的结构. 我们通过docker inspect 可以查看到如下结构
 
-```shell
+```
 "GraphDriver": {
             "Name": "overlay",
             "Data": {
@@ -123,7 +123,7 @@ docker logs -f container name 噼里啪啦 一大堆，，，，太对，清理�
 
 ### 第二部：清理一下
 
-```shell
+```
 cat /dev/null >/var/lib/docker/containers/containerid/<containerid>.log-json.log
 ```
 

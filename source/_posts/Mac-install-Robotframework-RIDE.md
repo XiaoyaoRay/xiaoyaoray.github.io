@@ -12,7 +12,7 @@ tags:
 
 - [文件百度云链接](https://pan.baidu.com/s/1Ud2oGuTIdrj01z_SZZJkUg)，从百度云下载文件到目录`Downloads`
 
-  ```shell
+  ```
   sudo cp ~/Downloads/wxredirect.pth /Library/Python/2.7/site-packages/
   ```
 
@@ -22,7 +22,7 @@ tags:
 
 - 在执行命令之前，请先确保你的/usr/local/lib目录是存在的，如果lib目录没有请自己创建一个:
 
-  ```shell
+  ```
   sudo mkdir /usr/local/lib
   ```
 
@@ -30,7 +30,7 @@ tags:
 
 - 如果已经有lib目录就不用创建目录了，直接执行下面的语句
 
-  ```shell
+  ```
   sudo cp -r ~/Downloads/wxPython-unicode-2.8.12.1/ /usr/local/lib/wxPython-unicode-2.8.12.1/
   ```
 
@@ -44,26 +44,26 @@ tags:
 
 - 执行以下命令
 
-  ```shell
+  ```
   pip install robotframework-ride
   ```
 
 - 找到ride.py文件
 
-  ```shell
+  ```
   # which ride.py
   /Library/Frameworks/Python.framework/Versions/2.7/bin/ride.py
   ```
 
 - 运行以下命令启动RIDE，主要是wxPython2.8.12.1需要32位的python2.7才能运行（`可以把命令写成shell脚本`）
 
-  ```shell
+  ```
   python2.7-32 /Library/Frameworks/Python.framework/Versions/2.7/bin/ride.py
   ```
 
 - PS：简单用一个命令处理一下，在终端运行命令：
 
-  ```shell
+  ```
   defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
   ride.py
   ```

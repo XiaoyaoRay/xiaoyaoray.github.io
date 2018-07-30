@@ -29,7 +29,7 @@ tags:
 
 - 登入三台机器关闭防火墙
 
-  ```shell
+  ```
   # 每台主机关闭防火墙
   systemctl stop firewalld
   systemctl disable firewalld
@@ -40,7 +40,7 @@ tags:
 
 - 登入ansible host
 
-  ```shell
+  ```
   # 安装yum的epel源
   yum install -y epel-release
   
@@ -62,7 +62,7 @@ tags:
 
 - 修改inventory
 
-  ```shell
+  ```
   # 复制主机配置
   cp inventory/inventory.example inventory/inventory.cfg
   vim inventory/inventory.cfg
@@ -93,7 +93,7 @@ tags:
 
 - 备份并修改安装的配置
 
-  ```shell
+  ```
   # 备份
   cp inventory/group_vars/all.yml inventory/group_vars/all.yml.bak
   cp inventory/group_vars/k8s-cluster.yml inventory/group_vars/k8s-cluster.yml.bak
@@ -110,7 +110,7 @@ tags:
 
 - 修改下载的包，将国外下载慢的包，改成用阿里的
 
-  ```shell
+  ```
   # 修改roles/download/defaults/main.yml中的镜像
   sed -i 's#^etcd_image_repo:.*#etcd_image_repo: "registry.cn-hangzhou.aliyuncs.com/linkcloud/etcd"#g' roles/download/defaults/main.yml
   sed -i 's#^calicoctl_image_repo:.*#calicoctl_image_repo: "registry.cn-hangzhou.aliyuncs.com/linkcloud/ctl"#g' roles/download/defaults/main.yml
@@ -136,6 +136,6 @@ tags:
 
 - 部署
 
-  ```shell
+  `Trailing``
   ansible-playbook -b -i inventory/inventory.cfg cluster.yml --flush-cache
   ```

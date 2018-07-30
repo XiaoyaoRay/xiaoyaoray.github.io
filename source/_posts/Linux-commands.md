@@ -10,25 +10,25 @@ tags:
 
 - **统计当前文件夹下文件的个数**
 
-  ```shell
+  ```
   ls -l |grep "^-"|wc -l
   ```
 <!--more-->
 - **统计当前文件夹下目录的个数**
 
-  ```shell
+  ```
   ls -l |grep "^d"|wc -l
   ```
 
 - **统计当前文件夹下文件的个数，包括子文件夹里的**
 
-  ```shell
+  ```
   ls -lR|grep "^-"|wc -l
   ```
 
 - **统计文件夹下目录的个数，包括子文件夹里的**
 
-  ```shell
+  ```
   ls -lR|grep "^d"|wc -l
   ```
 
@@ -40,7 +40,7 @@ tags:
 
 - 提取文件名
 
-  ```shell
+  ```
   [root@localhost log]# var=/dir1/dir2/file.txt
   [root@localhost log]# echo ${var##*/}
   file.txt
@@ -48,14 +48,14 @@ tags:
 
 - 提取后缀
 
-  ```shell
+  ```
   [root@localhost log]# echo ${var##*.}
   txt
   ```
 
 - 提取不带后缀的文件名，分两步
 
-  ```shell
+  ```
   [root@localhost log]# tmp=${var##*/}
   [root@localhost log]# echo $tmp
   file.txt
@@ -65,7 +65,7 @@ tags:
 
 - 提取目录
 
-  ```shell
+  ```
   [root@localhost log]# echo ${var%/*}
   /dir1/dir2
   ```
@@ -74,21 +74,21 @@ tags:
 
 - 提取文件名，注意：basename是一个命令，使用$(), 而不是${}
 
-  ```shell
+  ```
   [root@localhost log]# echo $(basename $var)
   file.txt
   ```
 
 - 提取不带后缀的文件名
 
-  ```shell
+  ```
   [root@localhost log]# echo $(basename $var .txt)
   file
   ```
 
 - 提取目录
 
-  ```shell
+  ```
   [root@localhost log]# dirname $var
   /dir1/dir2
   [root@localhost log]# echo $(dirname $var)

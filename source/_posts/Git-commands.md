@@ -10,13 +10,13 @@ tags:
 
 - 查看所有分支，找到要删除的分支名称
 
-  ```shell
+  ```
   git branch -a
   ```
 <!--more-->
 - 运行命令删除远程分支
 
-  ```shell
+  ```
   git push origin --delete <branch name>
   ```
 
@@ -25,7 +25,7 @@ tags:
 
 - 通过`git submodule add`将外部项目加为子模块
 
-  ```shell
+  ```
   $ git submodule add git://github.com/chneukirchen/rack.git rack
   Initialized empty Git repository in /opt/subtest/rack/.git/
   remote: Counting objects: 3181, done.
@@ -39,7 +39,7 @@ tags:
 
   这里你将克隆一个带子模块的项目。当你接收到这样一个项目，你将得到了包含子项目的目录，但里面没有文件：
 
-  ```shell
+  ```
   $ git clone git://github.com/schacon/myproject.git
   Initialized empty Git repository in /opt/myproject/.git/
   remote: Counting objects: 6, done.
@@ -56,7 +56,7 @@ tags:
 
   `rack`目录存在了，但是是空的。你必须运行两个命令：`git submodule init`来初始化你的本地配置文件，`git submodule update`来从那个项目拉取所有数据并检出你上层项目里所列的合适的提交：
 
-  ```shell
+  ```
   $ git submodule init
   Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
   $ git submodule update

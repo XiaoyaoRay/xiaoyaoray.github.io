@@ -9,13 +9,13 @@ tags:
 
 #### 安装PIP
 
-```shell
+```
 [root@ray ~]# yum -y install python-pip
 ```
 <!--more-->
 #### 安装Virtualenv
 
-```shell
+```
 [root@ray ~]# pip install virtualenv
 [root@ray ~]# virtualenv --version
 ```
@@ -24,19 +24,19 @@ tags:
 
 - 安装编译需要的包
 
-  ```shell
+  ```
   [root@ray ~]# yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make
   ```
 
 - 下载python源码
 
-  ```shell
+  ```
   [root@ray ~]# wget https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz
   ```
 
 - 编译源码
 
-  ```shell
+  ```
   [root@ray ~]# tar -xvjf Python-3.6.5.tar.xz
   [root@ray ~]# cd Python-3.6.5
   [root@ray ~]# ./configure prefix=/usr/local/python3
@@ -45,7 +45,7 @@ tags:
 
 #### 创建虚拟环境
 
-```shell
+```
 [root@ray pythonenv]# virtualenv -p /usr/local/python3/bin/python3.6 python36
 Running virtualenv with interpreter /usr/local/python3/bin/python3.6
 Using base prefix '/usr/local/python3'

@@ -74,7 +74,7 @@ CMD ["crond -f"]
 
 - 运行以下`shell`命令
 
-```shell
+```
 docker run -d --name chrome-browser -v /dev/shm:/dev/shm selenium/standalone-chrome
 docker run -d --name wise2c-auto --link chrome-browser:web registry.cn-hangzhou.aliyuncs.com/xiaoyaoray/robotframework-wise2c # 可以加上 -v xxxx:/automationtest automationtest主要存放RobotFramework需要运行的Case
 sh /run_robotframework.sh #进入到容器wise2c-auto中执行该脚本 
@@ -89,7 +89,7 @@ sh /run_robotframework.sh #进入到容器wise2c-auto中执行该脚本
 
 - `run_robotframework.sh`脚本
 
-  ```shell
+  ```
   git clone https://wise2c_leicj:qwer1234@gitee.com/wisecloud/automationtest.git /home/wise2c
   cp -r /home/wise2c/* /automationtest
   cd /home/wise2c

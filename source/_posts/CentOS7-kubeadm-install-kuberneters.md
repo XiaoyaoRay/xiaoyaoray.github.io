@@ -12,14 +12,14 @@ tags:
 
 如果各个主机启用了防火墙，需要开放Kubernetes各个组件所需要的端口，可以查看[Installing kubeadm](https://kubernetes.io/docs/setup/independent/install-kubeadm/)中的”Check required ports”一节。 这里简单起见在各节点禁用防火墙：
 <!--more-->
-```shell
+```
 systemctl stop firewalld
 systemctl disable firewalld
 ```
 
 ### 禁用SELINUX
 
-```Shell
+```
 # 临时禁用
 setenforce 0
 
@@ -30,7 +30,7 @@ SELINUX=disabled
 
 ### 修改k8s.conf文件
 
-```shell
+```
 cat <<EOF >  /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
@@ -40,14 +40,14 @@ sysctl --system
 
 ### 关闭swap
 
-```shell
+```
 # 临时关闭
 swapoff -a
 ```
 
 修改 /etc/fstab 文件，注释掉 SWAP 的自动挂载（永久关闭swap，重启后生效）
 
-```shell
+```
 # 注释掉以下字段
 /dev/mapper/cl-swap     swap                    swap    defaults        0 0
 ```
@@ -60,7 +60,7 @@ swapoff -a
 
 如果有没有老版本Docker，则不需要这步
 
-```shell
+```
 yum remove docker \
            docker-common \
            docker-selinux \
@@ -71,7 +71,7 @@ yum remove docker \
 
 每个节点均要安装，目前官网建议安装17.03版本的docker，[官网链接](https://kubernetes.io/docs/setup/independent/install-kubeadm/)
 
-```Shell
+```
 # step 1: 安装必要的一些系统工具
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 # Step 2: 添加软件源信息
@@ -104,7 +104,7 @@ sudo systemctl enable docker && systemctl start docker
 
 错误信息
 
-```shell
+```
 Error: Package: docker-ce-17.03.2.ce-1.el7.centos.x86_64 (docker-ce-stable)
            Requires: docker-ce-selinux >= 17.03.2.ce-1.el7.centos
            Available: docker-ce-selinux-17.03.0.ce-1.el7.centos.noarch (docker-ce-stable)
@@ -119,7 +119,7 @@ Error: Package: docker-ce-17.03.2.ce-1.el7.centos.x86_64 (docker-ce-stable)
 
 解决办法
 
-```shell
+```
 #要先安装docker-ce-selinux-17.03.2.ce，否则安装docker-ce会报错
 yum install -y https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm
 
@@ -133,7 +133,7 @@ https://blog.csdn.net/csdn_duomaomao/article/details/79019764
 
 ### 安装校验
 
-```shell
+```
 docker version
 Client:
  Version:      17.03.2-ce
@@ -165,7 +165,7 @@ https://yq.aliyun.com/articles/110806
 
 ### 修改yum安装源
 
-```Shell
+```
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -179,7 +179,7 @@ EOF
 
 ### 安装软件
 
-```shell
+```
 yum install -y kubelet kubeadm kubectl
 systemctl enable kubelet && systemctl start kubelet
 ```
@@ -192,7 +192,7 @@ systemctl enable kubelet && systemctl start kubelet
 
 创建配置文件kubeadm-init.yaml文件
 
-```shell
+```
 apiVersion: kubeadm.k8s.io/v1alpha2
 kind: MasterConfiguration
 kubernetesVersion: v1.11.1	# kubernetes的版本
@@ -205,7 +205,7 @@ imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers # image的�
 
 ### 运行初始化命令
 
-```shell
+```
 kubeadm init --config kubeadm-init.yaml
 
 ......
@@ -232,7 +232,7 @@ as root:
 
 #### 非root用户
 
-```shell
+```
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -240,7 +240,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 #### root用户
 
-```shell
+```
 export KUBECONFIG=/etc/kubernetes/admin.conf
 ```
 
@@ -250,7 +250,7 @@ export KUBECONFIG=/etc/kubernetes/admin.conf
 
 #### 多次运行kubeadm init命令，需要reset
 
-```shell
+```
 kubeadm reset
 ```
 
@@ -272,7 +272,7 @@ systemctl daemon-reload && systemctl restart kubelet
 
 在`systemctl status docker`中如果出现需要镜像`k8s.gcr.io/pause:3.1`，运行以下命令修改下标签
 
-```shell
+```
 docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1 k8s.gcr.io/pause:3.1
 ```
 
@@ -312,27 +312,27 @@ node "node1" untainted
 
 - 添加命令
 
-  ```shell
+  ```
   kubeadm join --token <token> <master-ip>:<master-port> --discovery-token-ca-cert-hash sha256:<hash>
   ```
 
 - 查看token的值，在master节点运行以下命令
 
-  ```shell
+  ```
   # 如果没有token，请使用命令kubeadm token create 创建
   kubeadmin token list
   ```
 
 - 查看hash值，在master节点运行以下命令
 
-  ```shell
+  ```
   openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
      openssl dgst -sha256 -hex | sed 's/^.* //'
   ```
 
 - node2加入集群很是顺利，下面在master节点上执行命令查看集群中的节点：
 
-  ```shell
+  ```
   kubectl get nodes
   ```
 
@@ -340,14 +340,14 @@ node "node1" untainted
 
   在master节点上执行：
 
-  ```shell
+  ```
   kubectl drain node2 --delete-local-data --force --ignore-daemonsets
   kubectl delete node <node name>
   ```
 
   在node2上执行：
 
-  ```shell
+  ```
   kubeadm reset
   ```
 
@@ -357,7 +357,7 @@ node "node1" untainted
 
 ### 配置代理
 - 配置全局代理
-```shell
+```
 cat <<EOF >  ~/.bashrc
 export http_proxy=http://username:password@ip:port
 export https_proxy=http://username:password@ip:port
@@ -367,7 +367,7 @@ source ~/.bashrc
 ```
 
 - 配置docker代理，拉谷歌镜像要用到
-```shell
+```
 mkdir -p /etc/systemd/system/docker.service.d/
 cat <<EOF > /etc/systemd/system/docker.service.d/http-proxy.conf
 [Service]

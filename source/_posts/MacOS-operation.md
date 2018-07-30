@@ -11,7 +11,7 @@ tags:
 
 2. 先关闭你的 Lantern，然后通过命令行启动 Lantern，在电脑终端输入：
 <!--more-->
-   ```shell
+   ```
    /Applications/Lantern.app/Contents/MacOS/lantern -addr 0.0.0.0:8787 
    ```
 
@@ -21,7 +21,7 @@ tags:
 
 - 打开终端，输入下面的命令，Finder就能在顶部看见完整的地址了
 
-  ```shell
+  ```
   defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
   ```
 

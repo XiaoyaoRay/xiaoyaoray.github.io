@@ -45,7 +45,7 @@ Unencrypted
 
 2. 取消挂载U盘
 
-```shell
+```
 lapommedeMacBook-Pro:~ lapomme$ diskutil umountDisk /dev/disk2
 Unmount of all volumes on disk2 was successful
 ```
@@ -60,7 +60,7 @@ Unmount of all volumes on disk2 was successful
 
 *（2）获取映像名称和完整路径可以直接将文件拖入终端，即在终端中显示*
 
-```shell
+```
 lapommedeMacBook-Pro:~ lapomme$ sudo dd if=/xxx.iso of=/dev/rdisk2 bs=1m
 2934+1 records in
 2934+1 records out
@@ -85,7 +85,7 @@ KB/t tps MB/s KB/t tps MB/s KB/t tps MB/s us sy id 1m 5m 15m
 
 5. 操作完毕后将U盘弹出
 
-```shell
+```
 lapommedeMacBook-Pro:~ lapomme$ diskutil eject /dev/disk2
 Disk /dev/disk2 ejected
 ```
@@ -98,7 +98,7 @@ Disk /dev/disk2 ejected
 UDRW 替换为 UDTO
 ```
 
-```shell
+```
 lapommedeMacBook-Pro:~ lapomme$ sudo hdiutil convert -format UDRW -o /linux.dmg kali.iso
 Password:
 正在读取Master Boot Record（MBR：0）…

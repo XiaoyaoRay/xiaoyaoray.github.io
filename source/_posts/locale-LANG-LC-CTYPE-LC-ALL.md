@@ -11,7 +11,7 @@ tags:
 
 - locale这个单词中文翻译成地区或者地域，其实这个单词包含的意义要宽泛很多。Locale是根据计算机用户所使用的语言，所在国家或者地区，以及当地的文化传统所定义的一个软件运行时的语言环境。
 <!--more-->
-  ```shell
+  ```
   [oracle@game ~]$ locale
   LANG=en_US.UTF-8
   LC_CTYPE="en_US.UTF-8"
@@ -49,7 +49,7 @@ tags:
 
 - 所以说，locale就是某一个地域内的人们的语言习惯和文化传统和生活习惯。一个地区的locale就是根据这几大类的习惯定义的，这些locale定 义文件放在/usr/share/i18n/locales目录下面，例如en_US, zh_CN and de_DE@euro都是locale的定义文件，这些文件都是用文本格式书写的，你可以用写字板打开，看看里边的内容，当然出了有限的注释以外，大部分 东西可能你都看不懂，因为是用的Unicode的字符索引方式。
 
-  ```shell
+  ```
   [oracle@game ~]$ cd /usr/share/i18n/locales
   [oracle@game locales]$ ls
   aa_DJ        ar_YE       el_GR       es_ES       fr_CH           iso14651_t1 ne_NP       so_ET                  translit_hangul
@@ -123,7 +123,7 @@ tags:
 
 - 在终端下输入
 
-  ```shell
+  ```
   vim ~/.zshrc
   ```
 
@@ -131,7 +131,7 @@ tags:
 
 - 在文件内容末端添加：
 
-  ```shell
+  ```
   export LC_ALL=en_US.UTF-8
   export LANG=en_US.UTF-8
   ```
@@ -140,7 +140,7 @@ tags:
 
   设置成功的话，在本地和登录到服务器输入locale回车会显示下面内容
 
-  ```shell
+  ```
   LANG="en_US.UTF-8"
   LC_COLLATE="en_US.UTF-8"
   LC_CTYPE="en_US.UTF-8"

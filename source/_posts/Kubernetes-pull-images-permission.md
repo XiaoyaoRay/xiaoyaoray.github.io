@@ -9,7 +9,7 @@ tags:
 
 https://kubernetes.io/docs/concepts/configuration/secret/#creating-a-secret-manually
 <!--more-->
-```shell
+```
 # 获取系统中默认的secret，并把yaml拷贝出来
 kubectl get secret
 kubectl get secret privateregistrykey -o yaml > xxx.yaml
