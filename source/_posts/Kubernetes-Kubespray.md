@@ -136,6 +136,6 @@ tags:
 
 - 部署
 
-  `Trailing``
+  ```
   ansible-playbook -b -i inventory/inventory.cfg cluster.yml --flush-cache
   ```

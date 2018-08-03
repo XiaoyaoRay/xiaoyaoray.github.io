@@ -320,7 +320,7 @@ node "node1" untainted
 
   ```
   # 如果没有token，请使用命令kubeadm token create 创建
-  kubeadmin token list
+  kubeadm token list
   ```
 
 - 查看hash值，在master节点运行以下命令
