@@ -50,7 +50,7 @@ $ echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homeb
 $ source ~/.bash_profile
 
 # 应用生效:
-$ brew update123456789101112131415161718192021222324
+$ brew update
 ```
 
 　　以上在中国科大和清华大学任选其一即可，在使用其他源的时候，最好先尝试访问其链接看看是否健在，并且因为历史原因，最初的brew.git是叫homebrew.git的，而现在部分更新源早已随官方更名，所以切记要验证。 
@@ -73,7 +73,7 @@ $ git fetch
 $ git reset --hard origin/master
 
 # 应用生效:
-$ brew update123456789101112131415
+$ brew update
 ```
 
 ## 重置更新源
@@ -87,7 +87,7 @@ $ git remote set-url origin https://github.com/Homebrew/brew.git
 
 # 重置homebrew-core.git:
 $ cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
-$ git remote set-url origin https://github.com/Homebrew/homebrew-core.git1234567
+$ git remote set-url origin https://github.com/Homebrew/homebrew-core.git
 ```
 
 　　至于homebrew-bottles，本质上作为一个环境变量的存在，之前的命令也只是将其写入到`/usr/.bash_profile`中，并且只是在文件尾部添加一行。所以之前的命令不推荐重复执行，在未掌握相关命令技巧的前提下，我推荐直接去修改`.bash_profile`文件：![bash_profile](https://musoucrow.github.io/images/brew_changing/bash_profile.png)
