@@ -2,6 +2,8 @@
 title: Linux中curl命令使用
 copyright: true
 date: 2018-08-14 10:19:32
+categories:
+- Linux
 tags:
 - Linux
 ---

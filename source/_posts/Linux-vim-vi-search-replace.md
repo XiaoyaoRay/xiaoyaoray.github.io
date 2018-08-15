@@ -1,10 +1,11 @@
 ---
 title: Vim/Vi中查找和替换操作
 copyright: true
-date: 2018-04-19 16:20:35
+Date: 2018-04-19 16:20:35
+categories:
+- Linux
 tags:
 - Linux
-- Vim/Vi
 ---
 
 ### 查找

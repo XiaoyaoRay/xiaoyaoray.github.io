@@ -2,6 +2,8 @@
 title: PostMan自动化测试
 copyright: true
 date: 2018-04-19 16:37:50
+categories:
+- 测试
 tags:
 - 测试
 ---

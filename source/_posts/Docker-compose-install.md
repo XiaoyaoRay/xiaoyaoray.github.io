@@ -2,6 +2,8 @@
 title: centos中安装docker-compose
 copyright: true
 date: 2018-08-14 09:58:00
+categories:
+- Docker
 tags:
 - Docker-compose
 ---

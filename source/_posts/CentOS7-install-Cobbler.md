@@ -2,6 +2,8 @@
 title: CentOS7安装Cobbler
 copyright: true
 date: 2018-06-21 15:34:19
+categories:
+- 运维
 tags:
 - CentOS
 - 运维

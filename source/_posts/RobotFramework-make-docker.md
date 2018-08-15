@@ -2,6 +2,8 @@
 title: RobotFramework-Docker制作
 copyright: true
 date: 2018-04-27 14:29:52
+categories:
+- 测试
 tags:
 - RobotFramework
 - Wise2c

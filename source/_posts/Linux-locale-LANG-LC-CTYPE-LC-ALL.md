@@ -2,8 +2,10 @@
 title: locale的设定及LANG、LC_CTYPE、LC_ALL环境变量
 copyright: true
 date: 2018-06-12 14:31:03
+categories:
+- Linux
 tags:
-- Mac
+- MacOS
 - Linux
 ---
 

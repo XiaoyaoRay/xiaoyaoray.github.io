@@ -2,6 +2,8 @@
 title: Shell脚本语法小结
 copyright: true
 date: 2018-04-27 15:23:51
+categories:
+- Shell
 tags:
 - Shell
 - Linux

@@ -2,6 +2,8 @@
 title: Centos7纯手工安装kubernetes
 copyright: true
 date: 2018-08-14 20:41:04
+categories:
+- Kubernetes
 tags:
 - Kubernetes
 ---

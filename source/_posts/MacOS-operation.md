@@ -1,8 +1,10 @@
 ---
 title: Mac OS 操作 
 copyright: true
+categories:
+- MacOS
 tags:
-- Mac
+- MacOS
 ---
 
 ### MAC OS上配置Lantern代理

@@ -2,6 +2,8 @@
 title: Linux下dd命令
 copyright: true
 date: 2018-06-01 10:32:12
+categories:
+- Linux
 tags:
 - Linux
 ---

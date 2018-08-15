@@ -2,8 +2,10 @@
 title: Mac VMware fusion 网络关闭DHCP
 copyright: true
 date: 2018-08-08 10:54:25
+categories:
+- MacOS
 tags:
-- Mac
+- MacOS
 ---
 
 ### 转载：[Mac VMware fusion 专用网络关闭DHCP](https://blog.csdn.net/miiser/article/details/44419759)

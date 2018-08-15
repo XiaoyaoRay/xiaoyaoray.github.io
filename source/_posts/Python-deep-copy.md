@@ -2,6 +2,8 @@
 title: 深入理解Python中的复制、引用、拷贝、作用域
 copyright: true
 date: 2018-05-30 15:33:42
+categories:
+- Python
 tags:
 - Python
 ---

@@ -2,6 +2,8 @@
 title: WiseCloud部署安装
 copyright: true
 date: 2018-05-23 14:26:35
+categories:
+- Wise2c
 tags:
 - Wise2c
 ---

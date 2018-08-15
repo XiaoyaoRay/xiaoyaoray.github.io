@@ -2,6 +2,8 @@
 title: Dockerfile编写最佳实践
 copyright: true
 date: 2018-05-29 15:27:01
+categories:
+- Docker
 tags:
 - Docker
 ---

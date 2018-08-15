@@ -2,6 +2,8 @@
 title: Docker清理方案
 copyright: true
 date: 2018-06-21 16:41:20
+categories:
+- Docker
 tags:
 - Docker
 ---

@@ -2,6 +2,8 @@
 title: Git中.gitignore文件的使用
 copyright: true
 date: 2018-08-03 10:48:55
+categories:
+- Git
 tags:
 - Git
 ---

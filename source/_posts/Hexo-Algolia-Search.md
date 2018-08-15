@@ -2,6 +2,8 @@
 title: Hexo-Algolia-Search
 copyright: true
 date: 2018-05-30 14:07:52
+categories:
+- Hexo
 tags:
 - Hexo
 ---

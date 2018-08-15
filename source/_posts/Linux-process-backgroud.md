@@ -2,6 +2,8 @@
 title: Linux-进程在后台可靠运行的几种方法
 copyright: true
 date: 2018-04-13 17:43:40
+categories:
+- Linux
 tags:
 - Linux
 ---

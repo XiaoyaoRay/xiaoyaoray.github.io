@@ -1,6 +1,8 @@
 ---
 title: Docker问题收集
 copyright: true
+categories:
+- Docker
 tags: 
 - Docker
 ---

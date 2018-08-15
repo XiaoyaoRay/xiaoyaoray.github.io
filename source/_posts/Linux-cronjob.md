@@ -2,6 +2,8 @@
 title: Linux添加定时任务
 copyright: true
 date: 2018-04-27 16:04:59
+categories:
+- Linux
 tags:
 - Linux
 ---

@@ -2,6 +2,8 @@
 title: python中__file__ 与argv[0]使用
 copyright: true
 date: 2018-08-14 10:53:04
+categories:
+- Python
 tags:
 - Python
 ---

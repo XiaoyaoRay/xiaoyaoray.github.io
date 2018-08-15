@@ -2,6 +2,8 @@
 title: 解决Windows10运行VMware Workstation出现与Device Guard不兼容导致无法运行与创建虚拟机问题
 copyright: true
 date: 2018-08-11 16:00:41
+categories:
+- VMWare
 tags:
 - VMWare
 ---

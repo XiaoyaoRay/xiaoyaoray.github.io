@@ -2,6 +2,8 @@
 title: Github上fork了别人的项目后，再同步更新别人的提交
 copyright: true
 date: 2018-04-30 09:44:47
+categories:
+- Git
 tags:
 - Github
 ---

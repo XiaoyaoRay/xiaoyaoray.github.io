@@ -2,6 +2,8 @@
 title: Hexo在不同终端同步
 copyright: true
 date: 2018-04-13 14:47:34
+categories:
+- Hexo
 tags:
 - Hexo
 ---

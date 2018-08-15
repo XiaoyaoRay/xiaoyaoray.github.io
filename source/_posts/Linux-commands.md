@@ -2,6 +2,8 @@
 title: Linux命令小结
 copyright: true
 date: 2018-04-27 15:19:07
+categories:
+- Linux
 tags:
 - Linux
 ---

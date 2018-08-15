@@ -1,6 +1,8 @@
 ---
 title: Git 操作
 copyright: true
+categories:
+- Git
 tags: 
 - Git
 ---

@@ -1,6 +1,8 @@
 ---
 title: CentOS7中用kubeadm安装Kubernetes
 copyright: true
+categories:
+- Kubernetes
 tags:
 - Kubernetes
 ---

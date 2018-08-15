@@ -2,6 +2,8 @@
 title: 解决Centos7开启Django服务不能远程访问的问题
 copyright: true
 date: 2018-06-01 09:55:21
+categories:
+- Python
 tags:
 - Python
 - Django

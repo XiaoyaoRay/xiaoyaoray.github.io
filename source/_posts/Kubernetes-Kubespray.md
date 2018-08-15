@@ -2,6 +2,8 @@
 title: Kubernetes安装之Kubespray
 copyright: true
 date: 2018-06-22 13:58:01
+categories:
+- Kubernetes
 tags:
 - Kubernetes
 ---

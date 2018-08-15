@@ -2,6 +2,8 @@
 title: 修改使用Alpine Linux的Docker容器的时区
 copyright: true
 date: 2018-04-27 16:01:48
+categories:
+- Linux
 tags:
 - Docker
 - Alpine

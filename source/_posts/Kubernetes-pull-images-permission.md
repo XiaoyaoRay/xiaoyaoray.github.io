@@ -2,6 +2,8 @@
 title: Kubernetes没有拉取镜像权限
 copyright: true
 date: 2018-06-12 15:47:11
+categories:
+- Kubernetes
 tags:
 - Kubernetes
 - Wise2c

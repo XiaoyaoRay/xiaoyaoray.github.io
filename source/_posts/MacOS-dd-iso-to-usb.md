@@ -1,8 +1,10 @@
 ---
 title: 在Mac OS X系统下 用dd命令将iso镜像写入u盘
 copyright: true
+categories:
+- MacOS
 tags:
-- Mac
+- MacOS
 ---
 
 

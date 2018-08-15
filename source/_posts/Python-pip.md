@@ -2,6 +2,8 @@
 title: Pip使用
 copyright: true
 date: 2018-08-10 14:12:47
+categories:
+- Python
 tags:
 - Python
 ---

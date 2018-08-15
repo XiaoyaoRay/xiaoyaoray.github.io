@@ -2,6 +2,8 @@
 title: awk去重
 copyright: true
 date: 2018-05-24 09:43:05
+categories:
+- Linux
 tags:
 - Linux
 - awk

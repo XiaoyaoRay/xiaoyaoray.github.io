@@ -2,8 +2,10 @@
 title: 更换Homebrew的更新源
 copyright: true
 date: 2018-07-26 16:54:31
+categories:
+- MacOS
 tags:
-- Mac
+- MacOS
 ---
 
 **欢迎参与讨论，转载请注明出处。** 

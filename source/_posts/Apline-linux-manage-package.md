@@ -2,6 +2,8 @@
 title: Apline Linux 系统简介
 copyright: true
 date: 2018-08-10 14:05:06
+categories:
+- Linux
 tags:
 - Apline
 ---

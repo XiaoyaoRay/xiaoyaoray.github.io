@@ -2,9 +2,11 @@
 typora-copy-images-to: ipic
 title: Mac Sublime Text3 插件
 copyright: true
+categories:
+- MacOS
 tags: 
 - Sublime Text3
-- Mac
+- MacOS
 ---
 
 

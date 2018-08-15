@@ -1,6 +1,8 @@
 ---
 title: RabbitMQ命令行
 copyright: true
+categories:
+- RabbitMQ
 tags:
 - RabbitMQ
 ---

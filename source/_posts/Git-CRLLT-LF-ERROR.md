@@ -2,6 +2,8 @@
 title: Git出现换行符报错(CRLT和LF)
 copyright: true
 date: 2018-06-01 10:01:52
+categories:
+- Git
 tags:
 - Git
 ---

@@ -2,6 +2,8 @@
 title: CentOS7-Install-VirtualEnv-Python
 copyright: true
 date: 2018-05-30 14:45:55
+categories:
+- Python
 tags:
 - CentOS
 - Python

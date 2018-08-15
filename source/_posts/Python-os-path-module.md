@@ -2,6 +2,8 @@
 title: Python中os.path模块常用用法
 copyright: true
 date: 2018-06-01 10:26:55
+categories:
+- Python
 tags:
 - Python
 ---

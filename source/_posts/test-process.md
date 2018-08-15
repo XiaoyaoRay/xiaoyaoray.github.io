@@ -2,6 +2,8 @@
 title: 测试流程
 copyright: true
 date: 2018-05-15 10:27:16
+categories:
+- 测试
 tags:
 - 测试
 ---

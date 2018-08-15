@@ -2,8 +2,10 @@
 title: Mac上安装Robotframework-RIDE
 copyright: true
 date: 2018-04-19 15:50:29
+categories:
+- 测试
 tags:
-- Mac
+- MacOS
 - Robotframework
 - 测试
 ---
