@@ -99,8 +99,8 @@ deploy:
 
 search:
   path: search.xml
-  #field: post
-  field: all
+  field: post
+  #field: all
  # format: html
  # limit: 10000
 

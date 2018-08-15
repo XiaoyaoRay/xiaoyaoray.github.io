@@ -6,8 +6,8 @@ categories:
 - Linux
 tags:
 - Docker
-- Alpine
 - Linux
+- Apline
 ---
 
 #### 适用对象

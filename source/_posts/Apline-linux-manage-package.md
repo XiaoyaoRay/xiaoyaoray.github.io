@@ -5,6 +5,7 @@ date: 2018-08-10 14:05:06
 categories:
 - Linux
 tags:
+- Linux
 - Apline
 ---
 
