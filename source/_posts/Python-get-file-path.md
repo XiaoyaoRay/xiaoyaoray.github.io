@@ -10,7 +10,7 @@ tags:
 
 在python下，获取当前执行主脚本的方法有两个：sys.argv[0]和\_\_file\_\_
 
-### sys.argv[0]
+## sys.argv[0]
 
 获取主执行文件路径的最佳方法是用sys.argv[0]，它可能是一个相对路径，所以再取一下abspath是保险的做法，像这样：
 
@@ -30,7 +30,7 @@ running from /root
 file is test.py 
 ```
 
-#### sys.path[0]，os.getcwd()，sys.argv[0]
+### sys.path[0]，os.getcwd()，sys.argv[0]
 
 ```
 print "3",sys.path[0] 
@@ -48,7 +48,7 @@ print "5",os.getcwd()
 
 **通过sys.path[0],os.getcwd()获得的是执行脚本的目录**
 
-### \_\_file\_\_
+## \_\_file\_\_
 
 \__file__ 是用来获得模块所在的路径的，这可能得到的是一个相对路径，比如在脚本test.py中写入：
 
@@ -62,7 +62,7 @@ print \__file__
 
 而在Python控制台下，直接使用print \_\_file\_\_是会导致  name ‘\__file\_\_’ is not defined错误的，因为这时没有在任何一个脚本下执行，自然没有 \_\_file\_\_的定义了。
 
-#### python中os.path.dirname(\__file__)
+### python中os.path.dirname(\__file__)
 
 ```
 print "7",os.path.dirname(__file__)
@@ -76,7 +76,7 @@ python test.py
 那么将输出空字符串
 ```
 
-#### 其他
+### 其他
 
 ```
 print "6",__file__
@@ -98,7 +98,7 @@ print "10",os.path.dirname(os.path.abspath(__file__))
 
  
 
-### \__file__和argv[0]差异
+## \__file__和argv[0]差异
 
 在主执行文件中时，两者没什么差异，不过要是在不同的文件下，就不同了，下面示例：
 
@@ -129,7 +129,7 @@ show_where: cwd is 'C:\\junk\\so'
 
 **所以一般来说，argv[0]要更可靠些**
 
-### 参考
+## 参考
 
 [python \__file__ 与argv[0]](https://blog.csdn.net/weixin_37746272/article/details/78980259)
 

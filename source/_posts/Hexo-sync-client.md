@@ -37,7 +37,7 @@ git remote add origin git@github.com:yourname/yourname.github.io.git  //将本�
 
 
 
-###其他终端clone，安装npm的modules，生成blog
+### 其他终端clone，安装npm的modules，生成blog
 
 ```
 git clone -b hexo git@github.com:yourname/yourname.github.io.git //将Github中hexo分支clone到本地
