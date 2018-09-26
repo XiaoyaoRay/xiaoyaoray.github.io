@@ -8,6 +8,21 @@ tags:
 - Python
 ---
 
+## Pip 安装
+
+### CentOS
+
+```
+# 安装epel扩展源
+yum -y install epel-release
+
+# 然后再安装pip
+yum -y install python-pip
+
+# 更新pip
+pip install --upgrade pip
+```
+
 ## Pip更换国内镜像源
 
 阿里云 <http://mirrors.aliyun.com/pypi/simple/> 

@@ -28,6 +28,8 @@ yum -y install ppp pptp pptp-setup
 >  --encrypt 是表示需要加密，不必指定加密方式，命令会读取配置文件中的加密方式
 >
 >  --start是表示创建连接完后马上连接
+<!--more-->
+
 
 ```
 # pptpsetup --create vpn --server x.x.x.x --username vpntest --password 1234567890 --encrypt --start
