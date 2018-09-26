@@ -7,8 +7,7 @@ tags:
 - Git
 ---
 
-
-#### 删除远程分支
+### 删除远程分支
 
 - 查看所有分支，找到要删除的分支名称
 
@@ -22,8 +21,7 @@ tags:
   git push origin --delete <branch name>
   ```
 
-
-#### [子模块](https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97)
+### [子模块](https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97)
 
 - 通过`git submodule add`将外部项目加为子模块
 
@@ -71,4 +69,23 @@ tags:
   Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
   ```
 
-  ​
+### 本地代码推送到远程仓库
+
+参考：[Git如何把本地代码推送到远程仓库](https://blog.csdn.net/yl_cc/article/details/72676538)
+
+- 初始本地文件目录
+
+  ```
+  git init   // 初始化版本库
+  git commit -am "first commit" // 把添加的文件提交到版本库，并填写提交备注
+  ```
+
+- 到目前为止，我们完成了代码库的初始化，但代码是在本地，还没有提交到远程服务器，所以关键的来了，要提交到就远程代码服务器，进行以下两步：
+
+  ```
+  git remote add origin 你的远程库地址  // 把本地库与远程库关联
+  git push -u origin master    // 第一次推送时
+  git push origin master  // 第一次推送后，直接使用该命令即可推送修改
+  ```
+
+

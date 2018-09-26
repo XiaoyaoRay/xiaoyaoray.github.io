@@ -1,5 +1,5 @@
 ---
-title: CentOS7-Install-VirtualEnv-Python
+title: CentOS7安装python虚拟运行环境
 copyright: true
 date: 2018-05-30 14:45:55
 categories:

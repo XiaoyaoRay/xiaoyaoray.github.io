@@ -8,8 +8,11 @@ tags:
 
 ### Docker-compose安装
 
+[docker-compose官网地址](https://docs.docker.com/compose/compose-file/compose-file-v2/)
+
 #### docker-compose.yaml文件
 <!--more-->
+
 ```yaml
 version: '2'
 
@@ -68,6 +71,8 @@ docker volume rm <testlink_mariadb_data testlink_testlink_data>
 
 ### 备份恢复
 
+[Github链接](https://github.com/XiaoyaoRay/testlink)
+
 #### 清空原有数据
 
 ```
@@ -79,8 +84,6 @@ docker volume rm <testlink_mariadb_data testlink_testlink_data>
 ```
 
 #### docker-comose.yaml 文件
-
-[backup服务镜像Github链接](https://github.com/XiaoyaoRay/testlink)
 
 其中服务`backup`将在第一次运行时从七牛上下载最新的备份数据，并且每天凌晨3点开始打包备份数据库的数据，然后上传到七牛。如果需要指定恢复数据，请配置`backup`服务环境变量`MARIADB_FILE`的值（"七牛上备份文件的名字"）
 

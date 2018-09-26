@@ -62,6 +62,8 @@ C:\Documents and Settings\All Users\Application Data\PyPA\pip\pip.conf (Windows 
 C:\ProgramData\PyPA\pip\pip.conf (Windows 7及以后)
 ```
 
+
+
 ### 修改配置文件
 
 #### 临时使用
@@ -71,6 +73,8 @@ C:\ProgramData\PyPA\pip\pip.conf (Windows 7及以后)
 ```
 pip install scrapy -i <https://pypi.tuna.tsinghua.edu.cn/simple>
 ```
+
+
 
 #### 永久修改
 
@@ -86,6 +90,8 @@ timeout = 120
 trusted-host = mirrors.aliyun.com	#添加豆瓣源为可信主机，要不然可能报错
 ```
 
+
+
 ## Pip使用详解
 
 ### Pip安装包
@@ -95,6 +101,8 @@ trusted-host = mirrors.aliyun.com	#添加豆瓣源为可信主机，要不然可
   [...]
   Successfully installed SomePackage
 ```
+
+
 
 ### Pip查看已安装的包
 
@@ -108,12 +116,16 @@ trusted-host = mirrors.aliyun.com	#添加豆瓣源为可信主机，要不然可
    [...]
 ```
 
+
+
 ### Pip检查哪些包需要更新
 
 ```
 # pip list --outdated
   SomePackage (Current: 1.0 Latest: 2.0)
 ```
+
+
 
 ### Pip升级包
 
@@ -127,6 +139,8 @@ trusted-host = mirrors.aliyun.com	#添加豆瓣源为可信主机，要不然可
   Successfully installed SomePackage
 ```
 
+
+
 ### Pip卸载包
 
 ```
@@ -136,6 +150,8 @@ $ pip uninstall SomePackage
   Proceed (y/n)? y
   Successfully uninstalled SomePackage
 ```
+
+
 
 ### Pip参数解释
 
@@ -170,6 +186,30 @@ General Options:
   --exists-action <action>    Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup.
   --cert <path>               证书.
 ```
+
+
+
+### 需求文件requirements.txt的创建及使用
+
+**参考：[python笔记---需求文件requirements.txt的创建及使用](https://blog.csdn.net/loyachen/article/details/52028825)**
+
+python项目中必须包含一个 requirements.txt 文件，用于记录所有依赖包及其精确的版本号。以便新环境部署。
+
+#### 在环境中生成requirements.txt
+
+安装或升级包后，最好更新这个文件，可以弄个虚拟环境来搞。
+
+```
+pip freeze >requirements.txt
+```
+
+#### 在环境中使用requirements.txt
+
+```
+pip install -r requirements.txt
+```
+
+
 
 ### 参考
 
