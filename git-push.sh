@@ -1,5 +1,5 @@
 curdate=`date '+%Y%m%d-%H:%M:%S'`
-
-git commit -am "${curdate}"
+git add .
+git commit -m "${curdate}"
 git push origin hexo
 
