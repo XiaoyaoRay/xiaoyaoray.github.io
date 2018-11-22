@@ -17,7 +17,7 @@ Processes that are running inside a container, have a different mechanism for co
 
 For more information about service accounts in Kubernetes, see <https://kubernetes.io/docs/user-guide/service-accounts/>.
 
- 
+ <!--more-->
 
 For long running services we can use service account to access the Kubernetes API server, which allows access to the CLI for extended periods of time. 
 

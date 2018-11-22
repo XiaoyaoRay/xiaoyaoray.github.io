@@ -32,6 +32,8 @@ test_str1 = "test11 %s " % None
 test_str2 = "test22 %s" % [1,2]
 ```
 
+<!--more-->
+
 
 
 ### 忘记在 if , elif , else , for , while , class ,def 声明末尾添加 ：（导致 “SyntaxError ：invalid syntax”）

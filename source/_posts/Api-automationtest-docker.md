@@ -18,6 +18,8 @@ tags:
   cd robot
   ```
 
+  <!--more-->
+
 - 在新建的目录下创建一个`docker-compose.yaml`文件，文件内容如下
 
   ```

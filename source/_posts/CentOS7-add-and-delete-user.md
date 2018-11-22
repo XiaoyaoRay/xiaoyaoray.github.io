@@ -22,6 +22,12 @@ tags:
   sudo adduser <username>
   ```
 
+
+
+<!--more-->
+
+
+
 #### 用户添加`sudo`权限
 
 - root用户，运行以下命令
