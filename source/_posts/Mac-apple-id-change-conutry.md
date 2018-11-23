@@ -5,7 +5,7 @@ categories:
 tags:
 ---
 
-##转载： [苹果Apple ID怎么更换地区？最简易的 Apple ID 转区方法](https://www.aiweibk.com/7604.html)
+## 转载： [苹果Apple ID怎么更换地区？最简易的 Apple ID 转区方法](https://www.aiweibk.com/7604.html)
 
 前几天比较忙，看到朋友推荐Apple ID转区的帖子，便顺手转载了。
 

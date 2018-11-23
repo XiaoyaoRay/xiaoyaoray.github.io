@@ -7,13 +7,15 @@ tags:
 - Linux
 ---
 
-###sshpass安装
+### sshpass安装
 
 #### CentOS
 
 ```
 yum -y install sshpass
 ```
+
+<!--more-->
 
 ### sshpass使用
 
