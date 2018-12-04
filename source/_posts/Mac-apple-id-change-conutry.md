@@ -2,7 +2,9 @@
 title: 苹果Apple ID怎么更换地区
 date: 2018-11-16 14:11:44
 categories:
+- Mac
 tags:
+- Mac
 ---
 
 ## 转载： [苹果Apple ID怎么更换地区？最简易的 Apple ID 转区方法](https://www.aiweibk.com/7604.html)

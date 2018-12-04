@@ -2,7 +2,9 @@
 title: Python中的字符串与字符编码
 date: 2018-11-21 14:52:21
 categories:
+- Python
 tags:
+- Python
 ---
 
 # 转载： [Python中的字符串与字符编码](https://www.cnblogs.com/zhangqigao/p/6496172.html)
