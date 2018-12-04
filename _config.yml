@@ -94,7 +94,7 @@ theme: aria
 deploy:
   type: git
   repo:
-    gitee: git@gitee.com:xiaoyaoray/xiaoyaoray.git
+  #  gitee: git@gitee.com:xiaoyaoray/xiaoyaoray.git
     github: https://github.com/XiaoyaoRay/xiaoyaoray.github.io.git
     coding: https://git.coding.net/XiaoyaoRay/XiaoyaoRay.git
   branch: master

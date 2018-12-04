@@ -6,6 +6,7 @@ menu:
   categories: categories/
   tags: tags/
   about: about/
+  blogslink: blogslink/
 
 # Transform your image to those favicons in https://realfavicongenerator.net/.
 favicon:
