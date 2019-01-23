@@ -20,3 +20,4 @@ and a list of all methods with
 ```
 [method for method in dir(myObj) if callable(getattr(myObj, method))]
 ```
+
