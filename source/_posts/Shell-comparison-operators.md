@@ -11,7 +11,7 @@ tags:
 
 A *binary* comparison operator compares two variables or quantities. *Note that integer and string comparison use a different set of operators.*
 
-
+<!--more-->
 
 **integer comparison**
 

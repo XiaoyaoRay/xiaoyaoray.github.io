@@ -11,14 +11,14 @@ tags:
 
 在容器的使用过程中，如果能及时的掌握容器使用的系统资源，无论对开发还是运维工作都是非常有益的。幸运的是 docker 自己就提供了这样的命令：docker stats。
 
-
+<!--more-->
 
 ### 默认输出
 
 docker stats 命令用来显示容器使用的系统资源。不带任何选项执行 docker stats 命令：
 
 ```
-`$ docker stats`
+$ docker stats
 ```
 
 ![image-20190115171844942](https://ws2.sinaimg.cn/large/006tNc79gy1fz7e3d8j4uj30s70cn41l.jpg)
@@ -59,7 +59,9 @@ docker stats 命令用来显示容器使用的系统资源。不带任何选项�
 
 细心的同学可能已经发现了，第一列不再显示默认的容器 ID，而是显示了我们传入的容器名称和 ID。基于此，我们可以通过简单的方式使用容器的名称替代默认输出中的容器 ID：
 
-`$ docker stats $(docker ``ps` `--``format``={{.Names}})`
+```
+$ docker stats $(docker ps --format="{{ .Names }}
+```
 
 ![image-20190115172453381](https://ws1.sinaimg.cn/large/006tNc79gy1fz7e9pbqybj31e704qjsm.jpg)
 
@@ -69,7 +71,9 @@ docker stats 命令用来显示容器使用的系统资源。不带任何选项�
 
 我们在前面搞了点小手段把输出中的容器 ID 替换成了名称。其实 docker stats 命令支持我们通过 --format 选项自定义输出的内容和格式：
 
-`$ docker stats --``format` `"table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"`
+```
+$ docker stats --format "table {{ .Name }}\t{{ .CPUPerc }}\t{{ .MemUsage }}"
+```
 
 ![image-20190115173937378](https://ws2.sinaimg.cn/large/006tNc79gy1fz7ep0fozvj30zh03qdh3.jpg)
 
@@ -91,7 +95,9 @@ docker stats 命令用来显示容器使用的系统资源。不带任何选项�
 
 除了以 table 格式输出结果，还可以通过 format 选项输出 json 格式的结果：
 
-`$ docker stats --no-stream --format \``"{\"container\":\"{{ .Container }}\",\"memory\":{\"raw\":\"{{ .MemUsage }}\",\"percent\":\"{{ .MemPerc }}\"},\"cpu\":\"{{ .CPUPerc }}\"}"`
+```
+$ docker stats --no-stream --format \"{\"container\":\"{{ .Container }}\",\"memory\":{\"raw\":\"{{ .MemUsage }}\",\"percent\":\"{{ .MemPerc }}\"},\"cpu\":\"{{ .CPUPerc }}\"}"
+```
 
 ![image-20190115174154514](https://ws3.sinaimg.cn/large/006tNc79gy1fz7erem25yj317h033dgz.jpg)
 
