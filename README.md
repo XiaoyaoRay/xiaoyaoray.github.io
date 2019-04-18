@@ -1,7 +1,7 @@
 ### Clone and checkout branch hexo
 
 ```shell
-git clone https://github.com/XiaoyaoRay/xiaoyaoray.github.io.git
+git clone https://github.com/rayleighl/rayleigh.github.io.git
 git checkout hexo
 ```
 
