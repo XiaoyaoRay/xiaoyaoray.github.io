@@ -121,22 +121,22 @@ social:
   enable: true
   links:
     - name: E-Mail
-      link: HalsignRay@gmail.com
+      link: halsignray@gmail.com
       icon: fas fa-envelope
     - name: GitHub
-      link: https://github.com/XiaoyaoRay
+      link: https://github.com/rayleighl
       icon: fab fa-github
 
 blogroll:
   enable: false
   links:
     - name: GitHub
-      link: https://github.com/XiaoyaoRay
+      link: https://github.com/rayleighl
 
 # `comment.commentjs.type`: Choose between `github` and `oschina`.
 comment:
   enable: false
-  disqus_shortname: XiaoyaoRay
+  disqus_shortname: RayleighLei
   commentjs:
     enable: false
     type:
