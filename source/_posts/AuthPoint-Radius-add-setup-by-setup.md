@@ -100,7 +100,7 @@ tags:
 
 ![image-20190423103410439](https://ws2.sinaimg.cn/large/006tNc79gy1g2cd4izkdqj30h30c3js7.jpg)
 
-- 添加Policy
+- 添加Policy, 选择`RADIUS Clicet`
 
 ![image-20190423103457822](https://ws1.sinaimg.cn/large/006tNc79gy1g2cd5cg9h5j30qg0ld0ts.jpg)
 
