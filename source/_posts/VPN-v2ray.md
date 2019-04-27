@@ -15,6 +15,8 @@ tags:
 
 - 进入到`v2ray`目录新建一个文件`config.json`，可以在[V2Ray生成配置网站](https://intmainreturn0.com/v2ray-config-gen/#)生成。填写所需的端口，然后复制配置到文件`config.json`
 
+  <!--more-->
+
   ![image-20190125144154593](https://ws1.sinaimg.cn/large/006tNc79gy1fzitr8y5qxj30m30qatcd.jpg)
 
 - 进入到`v2ray`目录新建一个`Makefile`文件，主要文件中的使用`tab`键

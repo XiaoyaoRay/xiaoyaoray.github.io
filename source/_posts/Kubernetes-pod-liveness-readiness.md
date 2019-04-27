@@ -1,5 +1,5 @@
 ---
-title: Kubernetes-pod-liveness-readiness
+title: 配置Pod的liveness和readiness探针
 date: 2019-01-15 18:22:12
 categories:
 - Kubernetes
