@@ -20,6 +20,8 @@ Serial over IP deice
 
 - 17个端口：一个提供给用户访问SN设备，其余16个端口为网络接口(管理不同设备的串口)
 
+<!--more-->
+
 ### PN
 
 Power over IP deice
