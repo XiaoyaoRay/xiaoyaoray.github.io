@@ -119,9 +119,9 @@ tags:
 
 - **Name**：自定义
 - **Application Type**: 选择Firebox Access Portal
-- **Service Provider Entity ID** : 粘贴从https://< your Host Name >/auth/saml网页上复制的EntityID
-- **Assertion Consumer Service**：粘贴从https://< your Host Name >/auth/saml网页上复制的Assertion Consumer Service URL
-- **Choose File**：选择从**Choose File**下载的证书
+- **Service Provider Entity ID** : 粘贴从`https://< your Host Name >/auth/saml`网页上复制的EntityID
+- **Assertion Consumer Service**：粘贴从`https://< your Host Name >/auth/saml`网页上复制的Assertion Consumer Service URL
+- **Choose File**：选择从`https://< your Host Name >/auth/saml`下载的证书
 - 点击**SAVE**按钮
 
 ![image-20190423100846010](https://ws3.sinaimg.cn/large/006tNc79gy1g2cce3ogjjj30px0nqta1.jpg)
