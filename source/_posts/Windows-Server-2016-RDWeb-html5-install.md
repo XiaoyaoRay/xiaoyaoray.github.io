@@ -8,9 +8,7 @@ tags:
 - Windows Server
 ---
 
-# RDS 2016 – Preview HTML5 RDP Client for Remote Desktop Services 2016
-
-### From [HTML5 RDP Client](https://c-nergy.be/blog/?p=11974)	
+## From [HTML5 RDP Client](https://c-nergy.be/blog/?p=11974)	
 
 Hello World, 
 
@@ -24,15 +22,15 @@ Let’s do this …
 
 <!--more-->
 
-### RDWeb Client Requirements and Installation
+## RDWeb Client Requirements and Installation
 
-#### Overview
+### Overview
 
 The **Remote Desktop web client**  (also called RDP HTML5 Client) basically allows you to access the  Remote Desktop infrastructure through a compatible web browser.  Some  people might say : wait a minute, in previous version, we are also  accessing RDS infrastructure through a web interface via the RD Web  Access role, right?. So, what’s different ?  This is correct. However,  the previous RDS version needed Internet explorer and an activeX to have  a seamless experience.  The Internet explorer is calling the RDP client  installed on your Windows machine. 
 
 The RDWeb client **does not need any ActiveX or any RDP client installed on the machine**.   A compatible browser  is what you need.  This means that you can  connect to remote Desktop sessions through other browsers like  Edge,Firefox,Chrome, and from different platform windows or linux as you  do not need a dedicated rdp client…
 
-#### Our Setup 
+### Our Setup 
 
 We have performed a quick installation  RDS scenario on a single server where the RD GW, Connection Broker and  RD Web access are installed on a single computer    
 
@@ -42,7 +40,7 @@ Notice also that we have generated  self-signed certificates for the RDS server 
 
 ![image-20190530154415214](http://ww1.sinaimg.cn/large/006tNc79gy1g3je0kra1wj312z0u0aj3.jpg)
 
-#### Requirements
+### Requirements
 
 To be able to test and install the RDWeb client, you will need to ensure that the following requirements are met 
 
@@ -55,7 +53,7 @@ To be able to test and install the RDWeb client, you will need to ensure that th
 
 *The documentation also mention to install the [Windows 10 KB4025334](https://support.microsoft.com/en-us/help/4025334/windows-10-update-kb4025334) update on  the RD Gateway.  If your system is patched on a regular base, when  trying to install this patch, you might get an error stating that this  update is not applicable for your system.  If this is the case, simply  do not install the patch and proceed with the instructions*
 
-#### Update the PowerShellGet module  
+### Update the PowerShellGet module  
 
  
 
@@ -74,7 +72,7 @@ To be able to test and install the RDWeb client, you will need to ensure that th
 
 - When done, close and open again the PowerShell console with elevated rights  
 
-#### Download and Install the RDWeb client package 
+### Download and Install the RDWeb client package 
 
 To perform the installation, in the PowerShell windows (run as administrator), execute the following commands 
 
@@ -137,7 +135,7 @@ Publish-RDWebClientPackage  -Type Production -Latest
 
 Your installation is completed and now it’s time to test it….
 
-### Accessing the RDWeb client Page and test it
+## Accessing the RDWeb client Page and test it
 
 To use the normal web interface of the  RDWeb access server role (the one with the ActiveX component), you would  open your browser and type the following (if no url redirection has  been set)
 
@@ -193,7 +191,7 @@ For fun, we have tried to access the RD  Web Access server using the new RDWeb c
 
  
 
-### Final Notes
+## Final Notes
 
 Keep in mind that this RDWeb client is a **preview version** and not final.  That means that maybe new features would be made available. 
 
