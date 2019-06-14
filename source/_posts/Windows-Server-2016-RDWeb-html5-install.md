@@ -34,11 +34,11 @@ The RDWeb client **does not need any ActiveX or any RDP client installed on the 
 
 We have performed a quick installation  RDS scenario on a single server where the RD GW, Connection Broker and  RD Web access are installed on a single computer    
 
-![image-20190530154230567](http://ww3.sinaimg.cn/large/006tNc79gy1g3jdyr9uspj31ne0u0k3u.jpg)
+​	![image-20190530154230567](http://ww3.sinaimg.cn/large/006tNc79gy1g3jdyr9uspj31ne0u0k3u.jpg)
 
 Notice also that we have generated  self-signed certificates for the RDS server roles for testing purposes.   As long as these certificates are trusted within your organization, you  should be able to test the RD Web client solution 
 
-![image-20190530154415214](http://ww1.sinaimg.cn/large/006tNc79gy1g3je0kra1wj312z0u0aj3.jpg)
+​	![image-20190530154415214](http://ww1.sinaimg.cn/large/006tNc79gy1g3je0kra1wj312z0u0aj3.jpg)
 
 ### Requirements
 
@@ -82,7 +82,7 @@ Install-Module -Name RDWebClientManagement
 
 Confirm your selection; accept the license and wait for completion.   
 
- 	![image-20190530160236276](http://ww4.sinaimg.cn/large/006tNc79gy1g3jejojenvj313n0u0q8d.jpg)
+​	![image-20190530160236276](http://ww4.sinaimg.cn/large/006tNc79gy1g3jejojenvj313n0u0q8d.jpg)
 
 ​	![image-20190530160304206](http://ww4.sinaimg.cn/large/006tNc79gy1g3jek779x7j313n0u0q8d.jpg)
 
@@ -106,7 +106,7 @@ Finally, you will need to import the certificates of the RD  Connection broker i
 Import-RDWebClientBrokerCert  <%Location of the certificate file (.cer format)%>
 ```
 
- 	![image-20190530160514910](http://ww2.sinaimg.cn/large/006tNc79gy1g3jemeuqdbj31cc098mzg.jpg)
+​	![image-20190530160514910](http://ww2.sinaimg.cn/large/006tNc79gy1g3jemeuqdbj31cc098mzg.jpg)
 
 
 
@@ -173,7 +173,7 @@ So, there is not real SSO capabilities  here.  You have to login to the interfac
 
 At this stage, you should access the  remote desktop session within your browser and you should see which  applications are available to you 
 
-![image-20190530160931552](http://ww1.sinaimg.cn/large/006tNc79gy1g3jeqv5wxbj311l0u0k4u.jpg)
+​	![image-20190530160931552](http://ww1.sinaimg.cn/large/006tNc79gy1g3jeqv5wxbj311l0u0k4u.jpg)
 
 
 
@@ -185,7 +185,7 @@ If you RDS collection is configured to  allow only Remote Desktop session, you c
 
 For fun, we have tried to access the RD  Web Access server using the new RDWeb client from a Linux machine using  Firefox browser and no RDP client installed on it.  The results are  actually quite good and Linux users can now have access to Microsoft  applications through the Remote Desktop solution… Look pretty good …. 
 
-![image-20190530161031152](http://ww1.sinaimg.cn/large/006tNc79gy1g3jerx3gbjj31ec0u0b2a.jpg)
+​	![image-20190530161031152](http://ww1.sinaimg.cn/large/006tNc79gy1g3jerx3gbjj31ec0u0b2a.jpg)
 
 
 
@@ -195,7 +195,7 @@ For fun, we have tried to access the RD  Web Access server using the new RDWeb c
 
 Keep in mind that this RDWeb client is a **preview version** and not final.  That means that maybe new features would be made available. 
 
- 	![image-20190530161055790](http://ww1.sinaimg.cn/large/006tNc79gy1g3jesbzs8oj31gu0u0qby.jpg)
+​	![image-20190530161055790](http://ww1.sinaimg.cn/large/006tNc79gy1g3jesbzs8oj31gu0u0qby.jpg)
 
 
 

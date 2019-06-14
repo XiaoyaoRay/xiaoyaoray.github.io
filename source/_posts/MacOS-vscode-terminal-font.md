@@ -24,13 +24,15 @@ sudo git clone https://github.com/abertsch/Menlo-for-Powerline.git
 
 ![image-20190510100611190](https://ws3.sinaimg.cn/large/006tNc79gy1g2vzun4fqqj30y407etad.jpg)
 
+<!--more-->
+
 - 在JSON文件中添加以下字段
 
 ```
 "editor.fontFamily": "Menlo for Powerline"
 ```
 
-![image-20190510100803027](https://ws4.sinaimg.cn/large/006tNc79gy1g2vzwlfx8sj30mg060gm9.jpg)
+ ![image-20190510100803027](https://ws4.sinaimg.cn/large/006tNc79gy1g2vzwlfx8sj30mg060gm9.jpg)
 
 ### 效果
 

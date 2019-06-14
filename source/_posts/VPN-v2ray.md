@@ -9,9 +9,11 @@ tags:
 
 ## 安装
 
-### Docker 安装
+### 使用Docker方式安装
 
-- 新建运行目录，比如：`madir v2ray`
+- Docker具体安装请见：https://docs.docker.com/install/linux/docker-ce/centos/
+
+- 新建运行目录，比如：`makir v2ray`
 
 - 进入到`v2ray`目录新建一个文件`config.json`，可以在[V2Ray生成配置网站](https://intmainreturn0.com/v2ray-config-gen/#)生成。填写所需的端口，然后复制配置到文件`config.json`
 
@@ -24,7 +26,7 @@ tags:
   ```
   .PHONY: run clear
   run: clear
-  	docker run -d --privileged=true --name v2ray -v $(PWD):/etc/v2ray --network=host  v2ray/official  v2ray -config=/etc/v2ray/config.json
+  	docker run -d --privileged=true --name v2ray -v $(PWD):/etc/v2ray --network=host  v2ray/official
   
   clear:
   	-docker rm -f v2ray
