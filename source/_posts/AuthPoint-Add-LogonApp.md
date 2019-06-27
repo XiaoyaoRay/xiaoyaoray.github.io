@@ -1,5 +1,5 @@
 ---
-title: 一步一步添加AuthPoint LogonApp
+title: AuthPoint添加LogonApp
 date: 2019-04-28 17:07:02
 categories:
 - WatchGuard

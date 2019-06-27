@@ -1,5 +1,5 @@
 ---
-title: 一步一步添加AuthPoint SAML
+title: AuthPoint添加SAML
 date: 2019-04-22 15:53:25
 categories:
 - WatchGuard

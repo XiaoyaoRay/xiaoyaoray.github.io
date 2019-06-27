@@ -1,5 +1,5 @@
 ---
-title: 一步一步添加AuthPoint RADIUS
+title: AuthPoint添加RADIUS
 date: 2019-04-23 16:09:19
 categories:
 - WatchGuard
