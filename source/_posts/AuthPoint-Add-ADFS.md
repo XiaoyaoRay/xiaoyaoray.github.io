@@ -16,6 +16,8 @@ tags:
 
 ![image-20190624102156098](http://ww2.sinaimg.cn/large/006tNc79gy1g4c16ygc00j30uu0gemyp.jpg)
 
+<!--more-->
+
 ### 添加ADFS Resource
 
 - 在AuthPoint界面选择`Resource`， 选择`ADFS`并添加
