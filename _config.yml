@@ -94,7 +94,7 @@ theme: aria
 deploy:
   type: git
   repo:
-    gitee: git@https://gitee.com/rayleigo/rayleigo.git
+    gitee: https://gitee.com/rayleigo/rayleigo.git
     github: https://github.com/rayleigo/rayleigo.github.io.git
    # coding: https://git.coding.net/XiaoyaoRay/XiaoyaoRay.git
   branch: master
