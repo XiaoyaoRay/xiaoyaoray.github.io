@@ -124,14 +124,14 @@ social:
       link: halsignray@gmail.com
       icon: fas fa-envelope
     - name: GitHub
-      link: https://github.com/rayleighl
+      link: https://github.com/rayleigo
       icon: fab fa-github
 
 blogroll:
   enable: false
   links:
     - name: GitHub
-      link: https://github.com/rayleighl
+      link: https://github.com/rayleigo
 
 # `comment.commentjs.type`: Choose between `github` and `oschina`.
 comment:
