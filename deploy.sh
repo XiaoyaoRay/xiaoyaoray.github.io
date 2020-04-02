@@ -1,2 +1,3 @@
-npm install
+sudo npm install -g cnpm --registry=https://registry.npm.taobao.org
+cnpm install
 hexo g -d
