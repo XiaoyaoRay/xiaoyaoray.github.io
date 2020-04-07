@@ -95,8 +95,7 @@ deploy:
   type: git
   repo:
     gitee: https://gitee.com/ritboy/ritboy.git
-    github: https://github.com/rayleigo/rayleigo.github.io.git
-   # coding: https://git.coding.net/XiaoyaoRay/XiaoyaoRay.git
+    github: https://github.com/ritboylei/ritboylei.github.io.git
   branch: master
 
 search:
