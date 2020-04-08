@@ -210,3 +210,36 @@ Till next time
 See ya
 
 
+
+
+
+## ISSUES
+
+### UnableToDownload https://go.microsoft.com/fwlink/?LinkID=627338&clcid=0x409
+
+
+
+[To test this](https://answers.microsoft.com/en-us/windows/forum/windows_7-performance/trying-to-install-program-using-powershell-and/4c3ac2b2-ebd4-4b2a-a673-e283827da143) :
+
+1. Open Powershell (As Admin)
+
+2. [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+3. Try it again!
+
+### Install PowerShellGet
+
+https://docs.microsoft.com/zh-tw/powershell/scripting/gallery/installing-psget?view=powershell-7
+
+安装时可以不使用`-Force`参数
+
+PowerShell安装包查询：https://www.powershellgallery.com/packages
+
+
+
+### Source Location 'https://www.powershellgallery.com/api/v2/package/RDWebclientManagement/1.0.3' is not valid.
+
+```powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+```
+
