@@ -1273,6 +1273,9 @@ pre .javascript .function {
   margin: 10px;
   text-align: center;
 }
+.site-diy-time {
+  margin-top: 10px;
+}
 .site-description {
   color: #999;
   font-size: 0.8125em;
@@ -1293,7 +1296,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #b8ff14;
+  background: #2aff3b;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
