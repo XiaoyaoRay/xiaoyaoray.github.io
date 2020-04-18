@@ -29,18 +29,18 @@
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
 <meta property="og:description" content="转载：mitmproxy 使用指南mitmproxy 是 man-in-the-middle proxy 的简称，译为中间人代理工具，可以用来拦截、修改、保存 HTTP&#x2F;HTTPS 请求。以命令行终端形式呈现，操作上类似于Vim，同时提供了 mitmweb 插件，是类似于 Chrome 浏览器开发者模式的可视化工具。 它是基于Python开发的开源工具，最重要的是它提供了Python API，你完">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://foofish.net/images/1538555782.jpg">
-<meta property="og:image" content="https://foofish.net/images/WX20181003-164058@2x.png">
-<meta property="og:image" content="https://foofish.net/images/WX20181003-223105@2x.png">
-<meta property="og:image" content="https://foofish.net/images/WX20181008-224031@2x.png">
-<meta property="og:image" content="https://foofish.net/images/mitmweb.png">
-<meta property="og:image" content="https://foofish.net/images/mitmdump.png">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/8fdc4341377f3697afd61657d84079f4.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/cec139248f6f285a07551061ef08301e.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/5d7c141ccfa77ba10e5f3e0aefdd620a.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/ab07e69a22e39100d5d0cdab3ebff558.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/b734cb44c86cd28b99cf49e54a076170.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/aad6ffbbcd402447f1a08e68b079242c.jpg">
 <meta property="article:published_time" content="2019-02-11T07:58:05.000Z">
 <meta property="article:modified_time" content="2019-02-11T07:58:05.000Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://foofish.net/images/1538555782.jpg">
+<meta name="twitter:image" content="https://image.ritboy.com/markdown/202004/8fdc4341377f3697afd61657d84079f4.jpg">
 
 <link rel="canonical" href="https://blog.ritboy.com/articles/1176531390.html">
 
@@ -171,7 +171,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -303,27 +303,27 @@
 
 <p>启动 mitmproxy 之后，默认开启8080端口， mitmproxy 命令不支持Windows平台，需要使用 mitmdump 或者 mitmweb 命令代替。Windows系统也可以在官网下载它的EXE文件进行安装。</p>
 <p>手机或者浏览器设置好代理之后，就可以进行抓包分析了，打开浏览器访问某个网址，mitmproxy 看到的效果是：</p>
-<p><img src="https://foofish.net/images/1538555782.jpg" alt="1538555782.jpg"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/8fdc4341377f3697afd61657d84079f4.jpg" alt="1538555782.jpg"></p>
 <p>当前一共有136个请求，当前选择的是第16个请求，请求方法是 GET， 返回的状态码是200，代理的端口是8080，通过 J、K 键可上下切换到不同的请求，回车可以看到当前选中的请求详情，包括三部分，Request和Response还有 Detail</p>
-<p><img src="https://foofish.net/images/WX20181003-164058@2x.png" alt="WX20181003-164058@2x.png"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/cec139248f6f285a07551061ef08301e.jpg" alt="WX20181003-164058@2x.png"></p>
 <p>mitmproxy 快捷键</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">? 帮助文档  </span><br><span class="line">q 返回&#x2F;退出程序 </span><br><span class="line">b 保存response body </span><br><span class="line">f 输入过滤条件</span><br><span class="line">k 上</span><br><span class="line">j 下</span><br><span class="line">h 左</span><br><span class="line">l 右</span><br><span class="line">space 翻页</span><br><span class="line">enter 进入接口详情</span><br><span class="line">z 清屏</span><br><span class="line">e 编辑</span><br><span class="line">r 重新请求</span><br></pre></td></tr></table></figure>
 
 <h3 id="HTTPS-抓包配置"><a href="#HTTPS-抓包配置" class="headerlink" title="HTTPS 抓包配置"></a>HTTPS 抓包配置</h3><p>对于HTTPS请求，为了能正常抓到请求，需要先安装证书。没安装证书的请求看到的效果是这样的。</p>
-<p><img src="https://foofish.net/images/WX20181003-223105@2x.png" alt="WX20181003-223105@2x.png"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/5d7c141ccfa77ba10e5f3e0aefdd620a.jpg" alt="WX20181003-223105@2x.png"></p>
 <p>打开网址 <a href="http://mitm.it" target="_blank" rel="noopener external nofollow noreferrer">http://mitm.it</a> ， 选择匹配的平台，下载 HTTPS 证书。并按照对应的步骤进行安装</p>
-<p><img src="https://foofish.net/images/WX20181008-224031@2x.png" alt="WX20181008-224031@2x.png"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/ab07e69a22e39100d5d0cdab3ebff558.jpg" alt="WX20181008-224031@2x.png"></p>
 <h3 id="mitmweb"><a href="#mitmweb" class="headerlink" title="mitmweb"></a>mitmweb</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mitmweb</span><br></pre></td></tr></table></figure>
 
 <p>启动 mitmweb 命令后，会有一个类似Chrome开发者工具的Web页面，功能上类似mitmroxy，一样可以查看每个请求的详情，包括请求、响应，还可以对请求和响应内容进行修改，包括过滤、重新发送请求等常用功能。</p>
-<p><img src="https://foofish.net/images/mitmweb.png" alt="mitmweb.png"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/b734cb44c86cd28b99cf49e54a076170.jpg" alt="mitmweb.png"></p>
 <h3 id="mitmdump"><a href="#mitmdump" class="headerlink" title="mitmdump"></a>mitmdump</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mitmdump -s script.py</span><br></pre></td></tr></table></figure>
 
 <p>mitmdump 命令最大的特点就是可以自定义脚本，你可以在脚本中对请求或者响应内容通过编程的方式来控制，实现数据的解析、修改、存储等工作</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># script.py</span><br><span class="line">from mitmproxy import http</span><br><span class="line"></span><br><span class="line">def request(flow: http.HTTPFlow) -&gt; None:</span><br><span class="line">    # 将请求新增了一个查询参数</span><br><span class="line">    flow.request.query[&quot;mitmproxy&quot;] &#x3D; &quot;rocks&quot;</span><br><span class="line"></span><br><span class="line">def response(flow: http.HTTPFlow) -&gt; None:</span><br><span class="line">    # 将响应头中新增了一个自定义头字段</span><br><span class="line">    flow.response.headers[&quot;newheader&quot;] &#x3D; &quot;foo&quot;</span><br><span class="line">    print(flow.response.text)</span><br></pre></td></tr></table></figure>
 
 <p>当你在浏览器请求 <a href="http://httpbin.org/get" target="_blank" rel="noopener external nofollow noreferrer">http://httpbin.org/get</a> ，看到的效果：</p>
-<p><img src="https://foofish.net/images/mitmdump.png" alt="mitmdump.png"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/aad6ffbbcd402447f1a08e68b079242c.jpg" alt="mitmdump.png"></p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li>官方文档：<a href="https://docs.mitmproxy.org/stable/" target="_blank" rel="noopener external nofollow noreferrer">https://docs.mitmproxy.org/stable/</a></li>
 <li>GitHub地址：<a href="https://github.com/mitmproxy/mitmproxy" target="_blank" rel="noopener external nofollow noreferrer">https://github.com/mitmproxy/mitmproxy</a></li>
@@ -896,7 +896,7 @@
 
     
 
-    <span title="站点总字数">364k</span>
+    <span title="站点总字数">355k</span>
 
 
 

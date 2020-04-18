@@ -29,16 +29,16 @@
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
 <meta property="og:description" content="转载：ADFS 概念与基本开发介绍 （1）ADFS 相关开发技术的中文资料相对匮乏，之前在弄这个东西的时候搞的比较辛苦，因此总结此文档，以解后人之忧。 本文会首先介绍与联合身份验证有关的概念及相关的系统设计意图，随后会对 ADFS 联合身份验证的配置过程、结构及处理流程进行阐述。然后会基于已有的系统提出一个支持多 ADFS 联合身份验证的改进实例，并对其结构及处理流程进行阐述。最后会对开发过程中所">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g280tbzifyj30yg0lk77f.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g280zosoxqj315y0qwdhh.jpg">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2811qt69kj314f0omtbs.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g28146w9dhj30zi0kqq44.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/1485d4481efc4c6abf28db5e1e38d945.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/2fb2d6e27776e2f105cdca05c8ac8b3b.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/980fe49e24bced33347182da45b057e4.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/538ef2f4cccf4415bda632a28a3c8616.jpg">
 <meta property="article:published_time" content="2019-04-19T08:11:06.000Z">
 <meta property="article:modified_time" content="2019-04-19T08:11:06.000Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="ADFS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g280tbzifyj30yg0lk77f.jpg">
+<meta name="twitter:image" content="https://image.ritboy.com/markdown/202004/1485d4481efc4c6abf28db5e1e38d945.jpg">
 
 <link rel="canonical" href="https://blog.ritboy.com/articles/1409642034.html">
 
@@ -169,7 +169,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -300,12 +300,12 @@
 <a id="more"></a>
 
 <h2 id="ADFS-基本概念与设计意图"><a href="#ADFS-基本概念与设计意图" class="headerlink" title="ADFS 基本概念与设计意图"></a>ADFS 基本概念与设计意图</h2><h3 id="基本概念阐述"><a href="#基本概念阐述" class="headerlink" title="基本概念阐述"></a>基本概念阐述</h3><h4 id="联合身份验证"><a href="#联合身份验证" class="headerlink" title="联合身份验证"></a>联合身份验证</h4><p>联合身份验证（Federated Identity）是一种用户身份的验证方式，这种验证方式通过把用户身份的验证过程与被该用户访问的服务提供商（SP，Service Provider，如我们自己的站点）进行逻辑分离，在保证用户身份信息被隔离在用户所属系统的内部的同时，为受信任的服务提供商提供所需要的用户信息。<br>当服务提供商需要对用户的身份进行验证时，会将相关的验证过程转交给身份验证提供方（IdP，Identity Provider，如AvePoint域的 AD FS 验证服务），当用户经由身份验证提供方成功登录后，身份验证提供方会将用户的身份验证凭据和用户相关的信息返还给服务提供商，从而实现服务提供商对于用户身份的验证，以及对于用户信息获取。<br>常见的联合身份验证的实现有SAML、OAuth、OpenID等方式，本文主要介绍的是基于Claims和SAML 2.0的 AD FS 联合身份验证。在基于Claims的联合身份验证的过程中，当身份验证提供方完成对于用户身份的验证，返还用户的相关信息时，其数据信息实体被称之为令牌（Token），其中的相关信息字段被称为声明（Claims）。令牌保证了用户身份的真实性，并包含了实用信息，其结构如下图所示。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g280tbzifyj30yg0lk77f.jpg" alt="image-20190419161559239"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/1485d4481efc4c6abf28db5e1e38d945.jpg" alt="image-20190419161559239"></p>
 <h4 id="基于Claims的身份验证简述"><a href="#基于Claims的身份验证简述" class="headerlink" title="基于Claims的身份验证简述"></a>基于Claims的身份验证简述</h4><p>基于传统的开发方式，创建一个应用程序（即服务提供商）并保证多种身份验证机制可以协调工作并不是一件简单的工作。首先，我们需要决定对于特定的应用程序，哪一种身份验证技术最为合适。如果应用程序允许用户通过不同的方式进行访问，例如，允许同属一个组织下的域用户群体，或者跨越不同组织的多个域下的域用户群体，再或者同时允许这些域用户及传统的注册用户通过公网对应用程序进行访问，那么使用传统的单一的身份验证机制是完全不能满足这些需求的。在这些需求下，应用程序应该以直接经由用户所属的组织或系统处获取对应用户验证的结果。同时，也需要从一个AD目录服务或其它某处查询到用户相关的信息，并且保证这些信息可以在公网上，能够以统一的方式进行传递。<br>基于Claims的身份验证（Claims-based identity）为我们提供了这种统一的身份验证方式，让不同的服务提供商可以通过公网，获得所需要的保存在用户所属组织内部的关于用户的验证信息。其基本流程如下图所示。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g280zosoxqj315y0qwdhh.jpg" alt="image-20190419163200144"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/2fb2d6e27776e2f105cdca05c8ac8b3b.jpg" alt="image-20190419163200144"></p>
 <p>首先，用户通过客户端（如浏览器），访问服务提供商（如图中①过程，相对于身份验证提供方也可以称其为信赖方RP）。信赖方向身份验证提供方提出验证请求（如图中②所示），身份验证提供方会要求用户输入登陆凭据（如用户名及验证码）。在通过其验证确认后，身份验证提供方会将验证成功的消息及该用户相关的数据信息以令牌的方式交还给信赖方（如图中③所示）。</p>
 <p>以我的站点与某第三方联合身份验证系统的验证流程为例，其过程也可以用如下的时序图阐明。</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2811qt69kj314f0omtbs.jpg" alt="image-20190419163225531"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/980fe49e24bced33347182da45b057e4.jpg" alt="image-20190419163225531"></p>
 <p>如前所述，我们涉及到两个新的概念，依赖方与安全令牌服务。<br>信赖方（RP，Relying Party）就相当于服务提供商，也就是由我们构建的依赖声明的应用程序（如我的网站）。信赖方有时也被称为“声明感知应用程序”或“基于声明的应用程序”。信赖方作为应用程序需要使用由安全令牌服务（STS）所颁发的令牌，并从令牌中提取声明，从而进行用户身份的验证和用户信息的获取。<br>安全令牌服务（STS，Security Token Service），信赖方所使用的令牌的创建者就是安全令牌服务。它作为一个Web服务存在。STS可以由我们自行构建，也可以应用已有的实现，AD联合身份验证服务（AD FS）就是一个STS的实现。<br>为了充分利用基于Claims的身份验证机制，我们将会使用由微软提供的用于支撑应用程序实现联合认证功能的可供依赖的基础架构。这些技术包括：AD联合身份验证服务（AD FS，Active Directory Federation Services），与Windows身份验证基础类库（WIF，Windows Identity Foundation）。</p>
 <h4 id="AD-FS"><a href="#AD-FS" class="headerlink" title="AD FS"></a>AD FS</h4><p>Active Directory联合身份验证服务（AD FS，Active Directory Federation Services）是由微软自Windows Server 2003 R2起，在各个Server版本操作系统中提供的一个软件组件，其最新版本是集成在Windows Server 2012 R2的AD FS 3.0。<br>AD FS 使用基于Claims的访问控制验证模型来实现联合认证。它提供 Web 单一登录技术，这样只要在会话的有效期内，就可对一次性的对用户所访问的多个Web应用程序进行验证。<br>我们可以将 AD FS 理解为组织域内与公网之外用户桥梁。我们编写的应用程序作为Internet服务在公网部署，当程序需要对域内的用户进行验证时，就可以委托 AD FS 服务器进行验证。 AD FS 服务提供了一个 AD FS 联合服务器代理，这类似于一个只提供了登录界面的应用程序，我们将相关域用户的验证过程委托给该程序进行处理，该程序将提示用户输入验证凭据（这可以是在浏览器中弹出登录提示框或跳转到一个登录页面的形式），随后其将所获取的凭据传递给AD FS联合身份验证服务。 AD FS 作为AD的一部分有权限（其拥有AD域管理员的权限）使用AD DS的标准方式认证一个域内的用户，如果认证成功，AD FS 将会依据应用程序预先设定的信息需求，以Claims的形式将安全令牌信息返还给我们的应用程序。</p>
 <h4 id="AD-FS-联合服务代理"><a href="#AD-FS-联合服务代理" class="headerlink" title="AD FS 联合服务代理"></a>AD FS 联合服务代理</h4><p>如前所述，AD FS 联合服务代理是运行用户通过Internet进行 AD FS 的客户端身份验证凭据采集的接口，它会将获取到的凭据传递给联合身份验证服务器进行验证处理。</p>
@@ -341,7 +341,7 @@
 </tr>
 </tbody></table>
 <p>下图对相关的领域结构进行了划分。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g28146w9dhj30zi0kqq44.jpg" alt="image-20190419163615984"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/538ef2f4cccf4415bda632a28a3c8616.jpg" alt="image-20190419163615984"></p>
 <h3 id="设计意图"><a href="#设计意图" class="headerlink" title="设计意图"></a>设计意图</h3><h4 id="登录模块概述"><a href="#登录模块概述" class="headerlink" title="登录模块概述"></a>登录模块概述</h4><p>基于注册用户的账户管理方式并不能很好地适用于商业系统的使用场景。例如，当系统相关管理人员离开组织后，仍需其他的管理者对系统内相关联的账户信息进行进一步的维护。对于组织账户的信息应该交由组织的域服务器进行统一的管理及验证。因此，我们需要为系统添加独立的基于AD FS的联合身份验证。从而使系统既支持传统的注册用户，又支持域用户的使用。当用户登录时，系统会检查用户账户的后缀名，如果账户名称以<a href="mailto:someone@nap7.com" rel="external nofollow noreferrer">someone@nap7.com</a>形式输入，或者采用nap7\someone的形式，则认定为域用户，系统将会自动跳转到AD FS联合身份验证服务器，进行用户身份的验证，如果验证通过，其使用方式与正常的注册用户完全一致。</p>
 <h4 id="联合身份验证的好处"><a href="#联合身份验证的好处" class="headerlink" title="联合身份验证的好处"></a>联合身份验证的好处</h4><p>联合身份验证的主要优势是：<br>（1）互联网现有的服务提供商不计其数，如果用户需要在每个服务提供商处都申请账户，那对于用户自身来讲无疑是一个巨大的负担，用户可能有几十个需要维护的身份验证信息，为了访问不同的服务提供商，用户就必须记住每一个ID和对应口令。如果用户在不同的服务提供商处使用相同的身份验证信息，那么一旦有一个站点发生安全信息的泄露，则可能直接导致用户在所有服务提供商处的信息收到严重威胁；<br>（2）如果用户以企业员工的身份访问服务提供商，则会涉及到诸如批量用户导入、身份授权、删除授权及用户信息等问题。例如，当一个属于组织O的用户A以组织员工身份在服务提供商S处注册了一个账户后，该员工A离开了之前的组织O，这时，这个用户A就不应该继续在服务S处代表该组织O。此时需要在服务提供商S处将该用户的访问权限清除，而这一操作本应由组织O来完成，对于未使用联合身份验证的系统来说，这是很难实现的；<br>（3）可以实现单点登录（SSO）。</p>
 <h4 id="扩展：如何支持多个AD域"><a href="#扩展：如何支持多个AD域" class="headerlink" title="扩展：如何支持多个AD域"></a>扩展：如何支持多个AD域</h4><p>如果我们的项目只是针对公司内部的成员使用，继承单个ADFS是足够的，但是，当项目作为云端服务，针对的用户群体可能是很多个企业级的用户。因此，就产生了对于多AD FS域独立验证的需求。基于已有的单AD FS的实现，本文稍后会提供一个支持多个AD域AD FS的联合身份验证服务的实现示例。<br>如果需要实现多个域的域用户登录，首先需要将相关域的AD FS配置信息保存在系统的数据库中，并提供相应方法，可以解析出用户所对应的域。这可以通过在用户信息表中保存用户对应的域配置，也可以通过用户的名称来获取对应配置。在获取相应的AD FS配置后，我们需要通过WIF所提供的API及相关事件，对当前用户的AD FS配置信息及完成验证后所需要的证书指纹信息进行设置。设置完成后，系统将会跳转到对应的AD FS登录页面，从而对用户的身份进行验证。验证成功后，跳转回系统，完成Security Token的验证。完成这些操作后，系统将生成用户的Cookie，完成登陆流程。</p>
@@ -898,7 +898,7 @@
 
     
 
-    <span title="站点总字数">364k</span>
+    <span title="站点总字数">355k</span>
 
 
 

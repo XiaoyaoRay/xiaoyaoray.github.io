@@ -29,14 +29,14 @@
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
 <meta property="og:description" content="转载： Python中的字符串与字符编码本节内容：  前言  相关概念  Python中的默认编码  Python2与Python3中对字符串的支持  字符编码转换">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://images2015.cnblogs.com/blog/1063221/201612/1063221-20161213112530354-979116962.png">
-<meta property="og:image" content="https://images2015.cnblogs.com/blog/1063221/201612/1063221-20161214091246808-580868392.png">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/1af60d235116825b1f08d524874cc0f2.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/cb7ac858a5e9f0496fd499e638666182.jpg">
 <meta property="article:published_time" content="2018-11-21T06:52:21.000Z">
 <meta property="article:modified_time" content="2018-11-21T06:52:21.000Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/1063221/201612/1063221-20161213112530354-979116962.png">
+<meta name="twitter:image" content="https://image.ritboy.com/markdown/202004/1af60d235116825b1f08d524874cc0f2.jpg">
 
 <link rel="canonical" href="https://blog.ritboy.com/articles/2264741891.html">
 
@@ -167,7 +167,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -352,7 +352,7 @@
 <p>上面已经解释过，这个转换过程（decode，解码）需要我们指定文件中保存的字节使用的字符编码是什么，才能知道这些字节在UNICODE这张万国码和统一码中找到其对应的代码点是什么。这里指定字符编码的方式大家都很熟悉，如下所示：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;# -*- coding:utf-8 -*-&#96;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://images2015.cnblogs.com/blog/1063221/201612/1063221-20161213112530354-979116962.png" alt="img"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/1af60d235116825b1f08d524874cc0f2.jpg" alt="img"></p>
 <h3 id="2-默认编码"><a href="#2-默认编码" class="headerlink" title="2. 默认编码"></a>2. 默认编码</h3><p>那么，如果我们没有在代码文件开始的部分指定字符编码，Python解释器就会使用哪种字符编码把从代码文件中读取到的字节转换为UNICODE代码点呢？就像我们配置某些软件时，有很多默认选项一样，需要在Python解释器内部设置默认的字符编码来解决这个问题，这就是文章开头所说的“默认编码”。因此大家所说的Python中文字符问题就可以总结为一句话：<strong>当无法通过默认的字符编码对字节进行转换时，就会出现解码错误(UnicodeEncodeError)</strong>。</p>
 <p>Python2和Python3的解释器使用的默认编码是不一样的，我们可以通过sys.getdefaultencoding()来获取默认编码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;&gt;&gt;&gt; &#96;&#96;# Python2&#96;&#96;&gt;&gt;&gt; &#96;&#96;import&#96; &#96;sys&#96;&#96;&gt;&gt;&gt; sys.getdefaultencoding()&#96;&#96;&#39;ascii&#39;&#96; &#96;&gt;&gt;&gt; &#96;&#96;# Python3&#96;&#96;&gt;&gt;&gt; &#96;&#96;import&#96; &#96;sys&#96;&#96;&gt;&gt;&gt; sys.getdefaultencoding()&#96;&#96;&#39;utf-8&#39;&#96;</span><br></pre></td></tr></table></figure>
@@ -383,7 +383,7 @@
 
 <h2 id="五、字符编码转换"><a href="#五、字符编码转换" class="headerlink" title="五、字符编码转换"></a>五、字符编码转换</h2><hr>
 <p>上面提到，UNICODE字符串可以与任意字符编码的字节进行相互转换，如图：</p>
-<p><img src="https://images2015.cnblogs.com/blog/1063221/201612/1063221-20161214091246808-580868392.png" alt="img"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/cb7ac858a5e9f0496fd499e638666182.jpg" alt="img"></p>
 <p>那么大家很容易想到一个问题，就是不同的字符编码的字节可以通过Unicode相互转换吗？答案是肯定的。</p>
 <h5 id="Python2中的字符串进行字符编码转换过程是："><a href="#Python2中的字符串进行字符编码转换过程是：" class="headerlink" title="Python2中的字符串进行字符编码转换过程是："></a>Python2中的字符串进行字符编码转换过程是：</h5><p>字节串–&gt;decode(‘原来的字符编码’)–&gt;Unicode字符串–&gt;encode(‘新的字符编码’)–&gt;字节串</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;#!&#x2F;usr&#x2F;bin&#x2F;env python&#96;&#96;# -*- coding:utf-8 -*-&#96;  &#96;utf_8_a &#96;&#96;&#x3D;&#96; &#96;&#39;我爱中国&#39;&#96;&#96;gbk_a &#96;&#96;&#x3D;&#96; &#96;utf_8_a.decode(&#96;&#96;&#39;utf-8&#39;&#96;&#96;).encode(&#96;&#96;&#39;gbk&#39;&#96;&#96;)&#96;&#96;print&#96;&#96;(gbk_a.decode(&#96;&#96;&#39;gbk&#39;&#96;&#96;))&#96; &#96;输出结果：&#96; &#96;我爱中国&#96;</span><br></pre></td></tr></table></figure>
@@ -957,7 +957,7 @@
 
     
 
-    <span title="站点总字数">364k</span>
+    <span title="站点总字数">355k</span>
 
 
 

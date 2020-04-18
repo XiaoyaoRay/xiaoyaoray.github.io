@@ -29,19 +29,19 @@
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
 <meta property="og:description" content="From Multiple Remote Desktop (RDP) ConnectionsThis guide will explain how to allow multiple sessions in a Windows VPS. A common usage case for this would be to allow the usage of a developed applicati">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g3nzm6ti1aj30hq0iydj5.jpg">
-<meta property="og:image" content="http://ww4.sinaimg.cn/large/006tNc79gy1g3nzvbm5zjj30ay0iyq3e.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79gy1g3nzv0r940j30r80h23zq.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79gy1g3nzuubrp0j30r80h2jsl.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79gy1g3nzu4nsttj30s30e3dgl.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/large/006tNc79gy1g3nzt95kqvj30j40hqgm3.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g3nzmazghaj30j40hqmxp.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/cdcae3d6732a52f3e197f50507aad31d.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/e27e5b1083373d6f652a2ea2470f8449.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/ea48f572fb532d2eb2b06a6ab04cc19a.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/594baaf86a55da2742f21d4e038ba6c8.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/1fb9cd145332470b3d38f713a16fe059.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/9409dc9719d4e29fc1d27bff173c3720.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/0d6e2393235ad280891ab6ca7409df0c.jpg">
 <meta property="article:published_time" content="2019-06-03T07:11:45.000Z">
 <meta property="article:modified_time" content="2019-06-03T07:11:45.000Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="Windows Server">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006tNc79ly1g3nzm6ti1aj30hq0iydj5.jpg">
+<meta name="twitter:image" content="https://image.ritboy.com/markdown/202004/cdcae3d6732a52f3e197f50507aad31d.jpg">
 
 <link rel="canonical" href="https://blog.ritboy.com/articles/2845749437.html">
 
@@ -172,7 +172,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -310,20 +310,20 @@
 
 <h2 id="How-To-Enable-Multiple-Remote-Desktop-RDP-Sessions"><a href="#How-To-Enable-Multiple-Remote-Desktop-RDP-Sessions" class="headerlink" title="How To Enable Multiple Remote Desktop (RDP) Sessions"></a>How To Enable Multiple Remote Desktop (RDP) Sessions</h2><p><strong>Step 1.</strong> Connect to the Windows Server session by RDP.</p>
 <p><strong>Step 2.</strong> Click The Search button next to the start menu (Windows 2016) or typing into the start menu (Windows Server 2012)</p>
-<p> <img src="http://ww1.sinaimg.cn/large/006tNc79ly1g3nzm6ti1aj30hq0iydj5.jpg" alt="The Start Menu where you can type into to search."></p>
+<p> <img src="https://image.ritboy.com/markdown/202004/cdcae3d6732a52f3e197f50507aad31d.jpg" alt="The Start Menu where you can type into to search."></p>
 <p><strong>Step 3.</strong> Enter in <strong>gpedit.msc</strong></p>
-<p> <img src="http://ww4.sinaimg.cn/large/006tNc79gy1g3nzvbm5zjj30ay0iyq3e.jpg" alt="The Search Menu with gpedit.msc/Edit Group Policy highlighted."></p>
+<p> <img src="https://image.ritboy.com/markdown/202004/e27e5b1083373d6f652a2ea2470f8449.jpg" alt="The Search Menu with gpedit.msc/Edit Group Policy highlighted."></p>
 <p><strong>Step 4.</strong> Once Group Policy Editor had loaded navigate to <strong>Computer Configuration</strong>, next <strong>Administrative Templates</strong>, then <strong>Windows Components</strong>, then <strong>Remote Desktop Services</strong>, then <strong>Remote Desktop Session host</strong>.</p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79gy1g3nzv0r940j30r80h23zq.jpg" alt="The Group Policy Editor with the first half of the path marked."></p>
-<p><img src="http://ww1.sinaimg.cn/large/006tNc79gy1g3nzuubrp0j30r80h2jsl.jpg" alt="The Group Policy Editor with the second half of the path edited."></p>
+<p><img src="https://image.ritboy.com/markdown/202004/ea48f572fb532d2eb2b06a6ab04cc19a.jpg" alt="The Group Policy Editor with the first half of the path marked."></p>
+<p><img src="https://image.ritboy.com/markdown/202004/594baaf86a55da2742f21d4e038ba6c8.jpg" alt="The Group Policy Editor with the second half of the path edited."></p>
 <p><strong>Step 5.</strong> From there, you should see a folder marked as <strong><em>Connections</em></strong>, click into it.</p>
 <p><strong>Step 6.</strong> Next right click with your mouse on <strong>Limit Number of Connections</strong> and click <strong><em>Edit</em></strong>.</p>
-<p><img src="http://ww3.sinaimg.cn/large/006tNc79gy1g3nzu4nsttj30s30e3dgl.jpg" alt="The particular policies after the changes. Before changes, it will say &quot;Not Configured&quot;"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/1fb9cd145332470b3d38f713a16fe059.jpg" alt="The particular policies after the changes. Before changes, it will say &quot;Not Configured&quot;"></p>
 <p><strong>Step 7.</strong> From there, you can set the number to the limit you wish to have, or turn it off.</p>
-<p> <img src="http://ww3.sinaimg.cn/large/006tNc79gy1g3nzt95kqvj30j40hqgm3.jpg" alt="Here you can change it from disabled, enabled, or Not Configured. "></p>
+<p> <img src="https://image.ritboy.com/markdown/202004/9409dc9719d4e29fc1d27bff173c3720.jpg" alt="Here you can change it from disabled, enabled, or Not Configured. "></p>
 <p><em>For access to more than two sessions at a time, you will want to purchase a RDS Cal license from a certified provider. You can purchase a Remote Desktop Service Client Access License from Microsoft.</em></p>
 <p><strong>Step 8.</strong> Next, click Next Setting until you are at the <strong>Restrict Remote Desktop Services users to a single Remote Desktop Services session</strong> screen so you can Edit this setting.</p>
-<p> <img src="http://ww1.sinaimg.cn/large/006tNc79ly1g3nzmazghaj30j40hqmxp.jpg" alt="This window is simpler, and requests for you to enable, disable, or leave unconfigured. To allow more than once user, you can set it to enabled."></p>
+<p> <img src="https://image.ritboy.com/markdown/202004/0d6e2393235ad280891ab6ca7409df0c.jpg" alt="This window is simpler, and requests for you to enable, disable, or leave unconfigured. To allow more than once user, you can set it to enabled."></p>
 <p><strong>Step 9.</strong> In this window, you can click <strong><em>Disabled</em></strong> to turn off the user restrictions.</p>
 <p><strong>Step 10.</strong> Finally, <a href="https://www.hostwinds.com/guide/server-management-panel-overview/" target="_blank" rel="noopener external nofollow noreferrer">reboot the server</a> from your Cloud Control Overview page and the group policy changes should automatically apply.</p>
 <h2 id="Reversing-These-Changes"><a href="#Reversing-These-Changes" class="headerlink" title="Reversing These Changes"></a>Reversing These Changes</h2><p>The process to reverse the changes is easy. You would follow the same steps above, and set the desired Group Policies to Not Configured and select <strong>Enabled</strong> or <strong>Disabled</strong>.</p>
@@ -886,7 +886,7 @@
 
     
 
-    <span title="站点总字数">364k</span>
+    <span title="站点总字数">355k</span>
 
 
 

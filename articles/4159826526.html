@@ -29,15 +29,15 @@
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
 <meta property="og:description" content="转载：SAML Web SSO学习SAML名称解释SAML即安全声明标记语言，英文全称是Security Assertion Markup Language. 它是一个基于XML的标准，用于在不同的安全域(SecurityDomain)之间认证和授权数据。在SAML标准定义了身份提供者(IdentityProvider)和服务提供商(ServiceProvider)，这两者构成了前面所说的不同的安">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2bhmchxxnj30nb0ea0ub.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2cb862xpvj30mq0iigq8.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g2cb7r1chmj30kn0fpjuf.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/deaa9ca404f0119af4b4d773621dd5a4.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/2c1ed1b4e1a476f2ae4a7689ab45c19c.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/9e17fb499a37138c25e3c157154eb513.jpg">
 <meta property="article:published_time" content="2019-04-22T05:50:13.000Z">
 <meta property="article:modified_time" content="2019-04-22T05:50:13.000Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="SAML">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g2bhmchxxnj30nb0ea0ub.jpg">
+<meta name="twitter:image" content="https://image.ritboy.com/markdown/202004/deaa9ca404f0119af4b4d773621dd5a4.jpg">
 
 <link rel="canonical" href="https://blog.ritboy.com/articles/4159826526.html">
 
@@ -168,7 +168,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -298,7 +298,7 @@
 <a id="more"></a>
 
 <h2 id="SAML组成"><a href="#SAML组成" class="headerlink" title="SAML组成"></a>SAML组成</h2><p>SAML2.0由断言(Assertions)、协议(Protocols)、绑定(Bindings)、配置(Profiles)、Metadata组成。</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g2bhmchxxnj30nb0ea0ub.jpg" alt="image-20190422162402835"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/deaa9ca404f0119af4b4d773621dd5a4.jpg" alt="image-20190422162402835"></p>
 <h3 id="断言-Assertions-：认证，属性和授权信息。"><a href="#断言-Assertions-：认证，属性和授权信息。" class="headerlink" title="断言(Assertions)：认证，属性和授权信息。"></a>断言(Assertions)：认证，属性和授权信息。</h3><p>SAML定义了可以在断言中携带的三种语句：</p>
 <ul>
 <li><p>认证语句（Authenticationstatements）：这些由成功认证用户的一方创建。至少，它们描述了用于认证用户的特定方式以及认证发生的具体时间。</p>
@@ -335,7 +335,7 @@
 <li><p>&lt;ds：Signature&gt; [可选] 用于验证包含元素及其内容的XML签名</p>
 </li>
 <li><p>XML签名[XMLSig]定义了&lt;ds：KeyInfo&gt;元素的用法。 SAML不要求使用&lt;ds：KeyInfo&gt;，也不对其使用施加任何限制。 因此，&lt;ds：KeyInfo&gt;可能不存在。</p>
-<h2 id="SAML-SSO流程"><a href="#SAML-SSO流程" class="headerlink" title="SAML SSO流程"></a>SAML SSO流程</h2><h3 id="SP-Initiated-SSO-Redirect-POST-Bindings"><a href="#SP-Initiated-SSO-Redirect-POST-Bindings" class="headerlink" title="SP-Initiated SSO: Redirect/POST Bindings"></a>SP-Initiated SSO: Redirect/POST Bindings</h3><p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2cb862xpvj30mq0iigq8.jpg" alt="image-20190423090452128"></p>
+<h2 id="SAML-SSO流程"><a href="#SAML-SSO流程" class="headerlink" title="SAML SSO流程"></a>SAML SSO流程</h2><h3 id="SP-Initiated-SSO-Redirect-POST-Bindings"><a href="#SP-Initiated-SSO-Redirect-POST-Bindings" class="headerlink" title="SP-Initiated SSO: Redirect/POST Bindings"></a>SP-Initiated SSO: Redirect/POST Bindings</h3><p><img src="https://image.ritboy.com/markdown/202004/2c1ed1b4e1a476f2ae4a7689ab45c19c.jpg" alt="image-20190423090452128"></p>
 </li>
 </ul>
 <pre><code> 第一步：
@@ -428,7 +428,7 @@
 <li>如果用于建立主体的安全上下文的&lt; AuthnStatement &gt;包含一个SessionNotOnOrAfter属性，</li>
 <li>获取&lt; AttributeStatement &gt;中的权限信息。</li>
 </ul>
-<h2 id="SAML-Single-Logout流程"><a href="#SAML-Single-Logout流程" class="headerlink" title="SAML Single Logout流程"></a>SAML Single Logout流程</h2><p>本用例讨论一个代表性流程选项：在一个SP处发起的单个注销，并且导致从多个SP注销。<br><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g2cb7r1chmj30kn0fpjuf.jpg" alt="image-20190423092804342"></p>
+<h2 id="SAML-Single-Logout流程"><a href="#SAML-Single-Logout流程" class="headerlink" title="SAML Single Logout流程"></a>SAML Single Logout流程</h2><p>本用例讨论一个代表性流程选项：在一个SP处发起的单个注销，并且导致从多个SP注销。<br><img src="https://image.ritboy.com/markdown/202004/9e17fb499a37138c25e3c157154eb513.jpg" alt="image-20190423092804342"></p>
 <h3 id="LogoutRequest"><a href="#LogoutRequest" class="headerlink" title="LogoutRequest"></a>LogoutRequest</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;samlp:LogoutRequest</span><br><span class="line"> xmlns:samlp&#x3D;&quot;urn:oasis:names:tc:SAML:2.0:protocol&quot;</span><br><span class="line"> xmlns:saml&#x3D;&quot;urn:oasis:names:tc:SAML:2.0:assertion&quot; ID&#x3D;&quot;ONELOGIN_21df91a89767879fc0f7df6a1490c6000c81644d&quot;</span><br><span class="line"> Version&#x3D;&quot;2.0&quot; </span><br><span class="line">IssueInstant&#x3D;&quot;2014-07-18T01:13:06Z&quot; Destination&#x3D;&quot;http:&#x2F;&#x2F;idp.example.com&#x2F;SingleLogoutService.php&quot;&gt;</span><br><span class="line"> &lt;saml:Issuer&gt;http:&#x2F;&#x2F;sp.example.com&#x2F;demo1&#x2F;metadata.php&lt;&#x2F;saml:Issuer&gt;</span><br><span class="line"> &lt;saml:NameID</span><br><span class="line"> SPNameQualifier&#x3D;&quot;http:&#x2F;&#x2F;sp.example.com&#x2F;demo1&#x2F;metadata.php&quot; Format&#x3D;&quot;urn:oasis:names:tc:SAML:2.0:nameid-format:transient&quot;&gt;ONELOGIN_f92cc1834efc0f73e9c09f482fce80037a6251e7</span><br><span class="line">&lt;&#x2F;saml:NameID&gt;</span><br><span class="line">&lt;&#x2F;samlp:LogoutRequest&gt;</span><br></pre></td></tr></table></figure>
 
 <h3 id="LogoutResponse"><a href="#LogoutResponse" class="headerlink" title="LogoutResponse"></a>LogoutResponse</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">xmlns:samlp&#x3D;&quot;urn:oasis:names:tc:SAML:2.0:protocol&quot; </span><br><span class="line">xmlns:saml&#x3D;&quot;urn:oasis:names:tc:SAML:2.0:assertion&quot; </span><br><span class="line">ID&#x3D;&quot;_6c3737282f007720e736f0f4028feed8cb9b40291c&quot; </span><br><span class="line">Version&#x3D;&quot;2.0&quot; </span><br><span class="line">IssueInstant&#x3D;&quot;2014-07-18T01:13:06Z&quot; </span><br><span class="line">Destination&#x3D;&quot;http:&#x2F;&#x2F;sp.example.com&#x2F;demo1&#x2F;index.php?acs&quot; InResponseTo&#x3D;&quot;ONELOGIN_21df91a89767879fc0f7df6a1490c6000c81644d&quot;&gt;</span><br><span class="line">  &lt;saml:Issuer&gt;http:&#x2F;&#x2F;idp.example.com&#x2F;metadata.php&lt;&#x2F;saml:Issuer&gt;</span><br><span class="line">  &lt;samlp:Status&gt;</span><br><span class="line">    &lt;samlp:StatusCode Value&#x3D;&quot;urn:oasis:names:tc:SAML:2.0:status:Success&quot;&#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;samlp:Status&gt;</span><br><span class="line">&lt;&#x2F;samlp:LogoutResponse&gt;</span><br></pre></td></tr></table></figure>
@@ -991,7 +991,7 @@
 
     
 
-    <span title="站点总字数">364k</span>
+    <span title="站点总字数">355k</span>
 
 
 

@@ -29,18 +29,18 @@
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
 <meta property="og:description" content="背  景在 Kubernetes 中，我们可以管理限制计算资源，如 CPU， memeory，通过 quota 和 limitrange ，可以限制在一个 namespace 中，pod 和 container 可以使用多少的 cpu 和 memory，通过 downward api，可以把这个计算资源通过环境变量的方式注入到 container 中，供容器使用。但是，release 1.7 中还">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415538560.jpeg">
-<meta property="og:image" content="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415592486.png">
-<meta property="og:image" content="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415625164.png">
-<meta property="og:image" content="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415659430.png">
-<meta property="og:image" content="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415674161.png">
-<meta property="og:image" content="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415695807.jpeg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg">
 <meta property="article:published_time" content="2018-04-12T10:06:42.000Z">
 <meta property="article:modified_time" content="2018-04-12T10:06:42.000Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415538560.jpeg">
+<meta name="twitter:image" content="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg">
 
 <link rel="canonical" href="https://blog.ritboy.com/articles/1048089720.html">
 
@@ -171,7 +171,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -309,7 +309,7 @@
 <li>Pod 对本地临时存储总的使用量（所有 emptydir 和 container）超过了 pod 中所有container 的 limit 之和，则 pod 被驱逐。</li>
 </ol>
 <p><strong>示例</strong>：</p>
-<p><img src="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415538560.jpeg" alt="img"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg" alt="img"></p>
 <p>上面这个例子是 pod 使用本地临时存储实例，pod 中分别有两个容器，fooa 和 foob，他们对本地临时存储的需求分别是 10Gi 和 20Gi（request 和 limit 一样）， 然后，pod 还挂载了一个 EmptyDir volume，这个 volume 的 sizelimit 是 5Gi。</p>
 <p><strong>下面三种情况下，pod 将会被系统驱逐：</strong></p>
 <ol>
@@ -318,16 +318,16 @@
 <li>pod 总的使用量超过 30Gi ；</li>
 </ol>
 <h3 id="2-scheduling"><a href="#2-scheduling" class="headerlink" title="2 scheduling"></a>2 scheduling</h3><p>这部分改动不大，只是把 1.7 版本中关于 overlay 的逻辑去掉，最终的逻辑和 cpu，memory 类似，找到满足 pod 需求的节点，调度过去。<br><strong>示例：</strong></p>
-<p><img src="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415592486.png" alt="img"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg" alt="img"></p>
 <p>Node 节点关于本地临时存储的定义：<br>在 node 的 allocatable 资源能够满足 pod 对本地临时存储需求的前提下，pod 才可能被调度到该 node 节点。</p>
 <h3 id="3-quota"><a href="#3-quota" class="headerlink" title="3. quota"></a>3. quota</h3><p>在 quota 里面加入了对本地临时资源的管理限制，同一个 namespace 中，所有 pod 的本地临时存储总量不能超过 quota 的限额。<br><strong>示例：</strong></p>
-<p><img src="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415625164.png" alt="img"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg" alt="img"></p>
 <h3 id="4-limitrange"><a href="#4-limitrange" class="headerlink" title="4.limitrange"></a>4.limitrange</h3><p>同样的，加入了本地临时存储，可以对 pod 中 container 的本地临时存储设置限制以及默认值等，和 memory 类似。<br><strong>示例：</strong></p>
-<p><img src="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415659430.png" alt="img"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg" alt="img"></p>
 <p>如果在该 namespace 中，pod 没有对本地存储进行 request/limit 定义，limitrange 会对 pod 进行默认赋值，结果类似下面：</p>
-<p><img src="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415674161.png" alt="img"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg" alt="img"></p>
 <h3 id="5downward-api"><a href="#5downward-api" class="headerlink" title="5downward api"></a>5downward api</h3><p>同样的，实现了本地存储的这个功能，可以通过环境变量的方式，把 pod 中某个 container 的本地临时存储需求 注入到特定的容器中。<br><strong>示例：</strong></p>
-<p><img src="http://oj6ydypm2.bkt.clouddn.com/upfile_1509415695807.jpeg" alt="img"></p>
+<p><img src="https://image.ritboy.com/markdown/202004/49cd8bda76741c79165e12d68bcef9fe.jpg" alt="img"></p>
 <h3 id="将-来"><a href="#将-来" class="headerlink" title="将  来"></a>将  来</h3><p>本地临时存储还处于初级（alpha）阶段。后面，Caicloud 和 Google 将继续合作，在 1.9 版本中完善一些功能，把它推进到 beta 版本，之后越来越完善。<br>其他的示例都类似，可以参考下面链接<a href="https://github.com/kubernetes/community/pull/991https://github.com/kubernetes/community/pull/306" target="_blank" rel="noopener external nofollow noreferrer">https://github.com/kubernetes/community/pull/991https://github.com/kubernetes/community/pull/306</a></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.k8smeetup.com/article/VyEncpgA7" target="_blank" rel="noopener external nofollow noreferrer">Kubernetes 1.8 新进展！将实现本地临时存储管理</a></p>
 
@@ -892,7 +892,7 @@
 
     
 
-    <span title="站点总字数">364k</span>
+    <span title="站点总字数">355k</span>
 
 
 
