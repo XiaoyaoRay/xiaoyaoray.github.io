@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
+  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Dockerfile 安装Git和运行RobotFramework测试用例需要的库 unic.py文件主要添加了RobotFramework运行输出中文乱码的问题 send_robot_result_email.py文件是解析RobotFramework运行结果中output.xml文件，然后把解析的结果整理成html格式通过邮件发送出来 run_robotframework.sh文件是运行Rob">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RobotFramework-Docker制作">
+<meta property="og:url" content="https://blog.ritboy.com/articles/1592056819.html">
+<meta property="og:site_name" content="Ritboy&#39;s Blog">
+<meta property="og:description" content="Dockerfile 安装Git和运行RobotFramework测试用例需要的库 unic.py文件主要添加了RobotFramework运行输出中文乱码的问题 send_robot_result_email.py文件是解析RobotFramework运行结果中output.xml文件，然后把解析的结果整理成html格式通过邮件发送出来 run_robotframework.sh文件是运行Rob">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-27T06:29:52.000Z">
+<meta property="article:modified_time" content="2018-04-27T06:29:52.000Z">
+<meta property="article:author" content="Ritboy">
+<meta property="article:tag" content="Wise2c">
+<meta property="article:tag" content="RobotFramework">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.ritboy.com/articles/1592056819.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RobotFramework-Docker制作 | Ritboy's Blog</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-163895731-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a2c1e7007a525ab8670b72d6edb333af";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ritboy's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">或许能编程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ritboylei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener external nofollow noreferrer" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/1592056819.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，或许能编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RobotFramework-Docker制作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-27 14:29:52" itemprop="dateCreated datePublished" datetime="2018-04-27T14:29:52+08:00">2018-04-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">测试</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><ul>
+<li>安装<code>Git</code>和运行RobotFramework测试用例需要的库</li>
+<li><code>unic.py</code>文件主要添加了RobotFramework运行输出中文乱码的问题</li>
+<li><code>send_robot_result_email.py</code>文件是解析RobotFramework运行结果中<code>output.xml</code>文件，然后把解析的结果整理成<code>html</code>格式通过邮件发送出来</li>
+<li><code>run_robotframework.sh</code>文件是运行RobotFramework测试用例，然后运行<code>send_robot_result_email.py</code>脚本</li>
+<li>配置定时执行脚本<code>send_robot_result_email.py</code>任务<a id="more"></a>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">2.7</span>-alpine</span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> maintainer=<span class="string">"leicj &lt;leicj@wise2c.com&gt;"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="comment"># 安装git，配置git的name和email</span></span><br><span class="line"><span class="comment"># 配置时区：Asia/Shanghai</span></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk --update add git tzdata &amp;&amp; \</span></span><br><span class="line"><span class="bash">    git config --global user.email <span class="string">"leicj@wise2c.com"</span> &amp;&amp; \</span></span><br><span class="line"><span class="bash">    git config --global user.name <span class="string">"TestGroup"</span> &amp;&amp; \</span></span><br><span class="line"><span class="bash">    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span></span><br><span class="line"><span class="bash">    apk del tzdata</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="comment"># 安装wise2c需要的robotframework库：selenium2library</span></span><br><span class="line"><span class="comment">#    requests,databaselibrary</span></span><br><span class="line"><span class="comment"># 其中pymysql是databaselibrary需要的插件</span></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> pip install -U \</span></span><br><span class="line"><span class="bash">    pip \</span></span><br><span class="line"><span class="bash">    pymysql \</span></span><br><span class="line"><span class="bash">    robotframework \</span></span><br><span class="line"><span class="bash">    robotframework-requests \</span></span><br><span class="line"><span class="bash">    robotframework-selenium2library \</span></span><br><span class="line"><span class="bash">    robotframework-databaselibrary</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="comment"># 拷贝unic.py，解决输出结果又中文乱码，添加utf-8编码</span></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> unic.py	/usr/<span class="built_in">local</span>/lib/python2.7/site-packages/robot/utils/unic.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="comment"># 拷贝send_robot_result_email.py，主要用于解析运行结果并发送邮件</span></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> robotframework.py /send_robot_result_email.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="comment"># 拷贝run_robotframework.sh，运行wise2c UI自动化case，然后发出邮件</span></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> robot.sh   /run_robotframework.sh</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> chmod +x /run_robotframework.sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="comment"># 配置定时执行运行脚本run_robotframework.sh</span></span><br><span class="line"><span class="comment">#================================================</span></span><br><span class="line"><span class="keyword">ENV</span> CRONJOB=<span class="string">"0	3	*	*	*"</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;CRONJOB&#125;</span>	sh /run_robotframework.sh"</span> &gt;&gt; /etc/crontabs/root</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> EMAIL_TO_LIST=leicj@wise2c.com,liaoxb@wise2c.com,weiht@wise2c.com,leji.chen@wise2c.com</span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/automationtest"</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"crond -f"</span>]</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="Docker运行"><a href="#Docker运行" class="headerlink" title="Docker运行"></a>Docker运行</h3><ul>
+<li>运行以下<code>shell</code>命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name chrome-browser -v &#x2F;dev&#x2F;shm:&#x2F;dev&#x2F;shm selenium&#x2F;standalone-chrome</span><br><span class="line">docker run -d --name wise2c-auto --link chrome-browser:web registry.cn-hangzhou.aliyuncs.com&#x2F;xiaoyaoray&#x2F;robotframework-wise2c # 可以加上 -v xxxx:&#x2F;automationtest automationtest主要存放RobotFramework需要运行的Case</span><br><span class="line">sh &#x2F;run_robotframework.sh #进入到容器wise2c-auto中执行该脚本</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>robotframework-wise2c</code>镜像中映射卷<code>/automationtest</code>存放RobotFramework需要运行的Case，执行脚本<code>/run_robotframework.sh</code>就是执行<code>/automationtest</code>目录下的测试用例</li>
+<li>环境变量<code>CRONJOB</code>定时执行脚本<code>/run_robotframework.sh</code>表达式</li>
+<li>环境变量<code>EMAIL_TO_LIST</code>收到邮件的人信息，不同邮箱间用<code>逗号</code>分开</li>
+<li><strong>PS:</strong>默认情况下每天凌晨3点会执行脚本<code>/run_robotframework.sh</code></li>
+</ul>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><ul>
+<li><p><code>run_robotframework.sh</code>脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;wise2c_leicj:qwer1234@gitee.com&#x2F;wisecloud&#x2F;automationtest.git &#x2F;home&#x2F;wise2c</span><br><span class="line">cp -r &#x2F;home&#x2F;wise2c&#x2F;* &#x2F;automationtest</span><br><span class="line">cd &#x2F;home&#x2F;wise2c</span><br><span class="line">git checkout log</span><br><span class="line">outputdir&#x3D;&#96;date +%Y%m%d-%H:%M:%S&#96;</span><br><span class="line">web_ip&#x3D;&#96;env | grep &quot;PORT_4444_TCP_ADDR&quot; | awk -F &#x3D; &#39;&#123;print $2&#125;&#39;&#96;</span><br><span class="line">robot -v REMOTE_URL:http:&#x2F;&#x2F;$web_ip:4444&#x2F;wd&#x2F;hub -s ui -d &#x2F;home&#x2F;wise2c&#x2F;$outputdir &#x2F;automationtest</span><br><span class="line">cd &#x2F;home&#x2F;wise2c</span><br><span class="line">dirs&#x3D;&#96;ls -l &#x2F;home&#x2F;wise2c | grep &quot;^d&quot; | awk &#39;&#123;print $9&#125;&#39;| sort -r&#96;</span><br><span class="line">i&#x3D;0</span><br><span class="line">for name in $dirs</span><br><span class="line">do</span><br><span class="line">    let i&#x3D;i+1</span><br><span class="line">    if [ i -ge 30];then</span><br><span class="line">        rm -rf $name</span><br><span class="line">    fi</span><br><span class="line">done</span><br><span class="line">git add .</span><br><span class="line">git commit -m $outputdir</span><br><span class="line">git push origin log</span><br><span class="line">python &#x2F;send_robot_result_email.py &#x2F;home&#x2F;wise2c&#x2F;$outputdir $EMAIL_TO_LIST</span><br><span class="line">rm -rf &#x2F;home&#x2F;wise2c</span><br><span class="line">rm -rf &#x2F;automationtest&#x2F;*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>send_robot_result_email.py</code>脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> smtplib, datetime, sys</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">send_test_result_mail</span><span class="params">(receiver, robot_result, sender=None, password=None)</span>:</span></span><br><span class="line">    <span class="string">"""发送测试结果到邮箱</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sender:</span><br><span class="line">        sender = <span class="string">"leicj@wise2c.com"</span></span><br><span class="line">        password = <span class="string">"N5SEnQz39AgHFibr"</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> password:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">"密码为空，请重试！"</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    mail_subject = <span class="string">"Automation Test Report"</span></span><br><span class="line">    mail_smtpserver = <span class="string">"smtp.exmail.qq.com"</span></span><br><span class="line">    mail_username = <span class="string">"leicj@wise2c.com"</span></span><br><span class="line">    mail_password = <span class="string">"N5SEnQz39AgHFibr"</span></span><br><span class="line">    mail_to_addrs = receiver.split(<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line">    msg = MIMEText(robot_result, _subtype=<span class="string">"html"</span>, _charset=<span class="string">"utf-8"</span>)</span><br><span class="line">    msg[<span class="string">"Subject"</span>] = Header(mail_subject, <span class="string">"utf-8"</span>)</span><br><span class="line">    msg[<span class="string">"From"</span>] = <span class="string">"Wise2c-TestGroup"</span></span><br><span class="line">    msg[<span class="string">"To"</span>] = msg[<span class="string">"To"</span>] = <span class="string">","</span>.join(mail_to_addrs)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        smtp = smtplib.SMTP_SSL()</span><br><span class="line">        smtp.connect(mail_smtpserver, port=<span class="number">465</span>)</span><br><span class="line">        smtp.login(mail_username, mail_password)</span><br><span class="line">        smtp.sendmail(mail_username, mail_to_addrs, msg.as_string())</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"邮件发送失败！请检查配置，然后重试！"</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"邮件发送成功！注意查收！"</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        smtp.quit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_to_str</span><span class="params">(unicode_or_str)</span>:</span></span><br><span class="line">    <span class="string">"""将unicode字符串转换为str类型</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(unicode_or_str, unicode):</span><br><span class="line">        value = unicode_or_str.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        value = unicode_or_str</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_get_excdate</span><span class="params">(elment)</span>:</span></span><br><span class="line">    start = elment.attrib.get(<span class="string">"starttime"</span>)</span><br><span class="line">    end = elment.attrib.get(<span class="string">"endtime"</span>)</span><br><span class="line">    start = datetime.datetime.strptime(start, <span class="string">"%Y%m%d %H:%M:%S.%f"</span>)</span><br><span class="line">    end = datetime.datetime.strptime(end, <span class="string">"%Y%m%d %H:%M:%S.%f"</span>)</span><br><span class="line">    m, s = divmod((end - start).seconds, <span class="number">60</span>)</span><br><span class="line">    <span class="keyword">if</span> int(m) == <span class="number">0</span>:</span><br><span class="line">        excdate = <span class="string">"%s秒"</span> % s</span><br><span class="line">    <span class="keyword">elif</span> int(s) == <span class="number">0</span>:</span><br><span class="line">        excdate = <span class="string">"%s分"</span> % m</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        excdate = <span class="string">"%s分%s秒"</span> % (m, s)</span><br><span class="line">    <span class="keyword">return</span> excdate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_parse_results_xml</span><span class="params">(xml_path)</span>:</span></span><br><span class="line">    <span class="string">"""RobotFramework运行自动化测试用例结果解析</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    tree = ElementTree.parse(xml_path)</span><br><span class="line">    results = &#123;&#125;</span><br><span class="line">    fail_cases = []</span><br><span class="line"></span><br><span class="line">    root = tree.getroot().attrib[<span class="string">"generated"</span>]</span><br><span class="line">    run_date = datetime.datetime.strptime(root, <span class="string">"%Y%m%d %H:%M:%S.%f"</span>)</span><br><span class="line">    run_date = datetime.datetime.strftime(run_date, <span class="string">"%Y-%m-%d %H:%M:%S"</span>)</span><br><span class="line">    results[<span class="string">"run_date"</span>] = run_date</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> tree.findall(<span class="string">"suite"</span>):</span><br><span class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> n.findall(<span class="string">"status"</span>):</span><br><span class="line">            results[<span class="string">"suite_date"</span>] = _get_excdate(y)</span><br><span class="line">            <span class="keyword">if</span> y.attrib[<span class="string">"status"</span>] == <span class="string">"pass"</span>:</span><br><span class="line">                results[<span class="string">"status"</span>] = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                results[<span class="string">"status"</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> tree.getiterator(<span class="string">"total"</span>):</span><br><span class="line">        results[<span class="string">"fail_num"</span>] = int(i.find(<span class="string">"stat"</span>).attrib.get(<span class="string">"fail"</span>))</span><br><span class="line">        results[<span class="string">"pass_num"</span>] = int(i.find(<span class="string">"stat"</span>).attrib.get(<span class="string">"pass"</span>))</span><br><span class="line">        results[<span class="string">"total_num"</span>] = results[<span class="string">"fail_num"</span>] + results[<span class="string">"pass_num"</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> results[<span class="string">"status"</span>]:</span><br><span class="line">        <span class="keyword">for</span> test <span class="keyword">in</span> tree.getiterator(<span class="string">"test"</span>):</span><br><span class="line">            <span class="keyword">if</span> test.find(<span class="string">"status"</span>).attrib.get(<span class="string">"status"</span>) == <span class="string">"FAIL"</span>:</span><br><span class="line">                test_info = test.attrib</span><br><span class="line">                test_info[<span class="string">"excDate"</span>] = _get_excdate(test.find(<span class="string">"status"</span>))</span><br><span class="line">                fail_cases.append(test_info)</span><br><span class="line">        results[<span class="string">"fail_cases"</span>] = fail_cases</span><br><span class="line">    <span class="keyword">return</span> results</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">output_xml = sys.argv[<span class="number">1</span>]</span><br><span class="line">url = <span class="string">"http://wisecloud.gitee.io/automationtest/"</span> + output_xml[<span class="number">13</span>:]</span><br><span class="line">res = _parse_results_xml(output_xml + <span class="string">"/output.xml"</span>)</span><br><span class="line"></span><br><span class="line">base_styles = <span class="string">"""</span></span><br><span class="line"><span class="string">/*base css*/</span></span><br><span class="line"><span class="string">a&#123;color:#4a72af&#125;</span></span><br><span class="line"><span class="string">body&#123;background-color:#e4e4e4&#125;</span></span><br><span class="line"><span class="string">body,p&#123;margin:0;padding:0&#125;</span></span><br><span class="line"><span class="string">img&#123;display:block&#125;</span></span><br><span class="line"><span class="string">h1,h2,h3,h4,h5,h6&#123;margin:0 0 .8em 0&#125;</span></span><br><span class="line"><span class="string">h3&#123;font-size:28px;color:#444!important;font-family:Arial,Helvetica,sans-serif&#125;</span></span><br><span class="line"><span class="string">h4&#123;font-size:22px;color:#4a72af!important;font-family:Arial,Helvetica,sans-serif&#125;</span></span><br><span class="line"><span class="string">h5&#123;font-size:18px;color:#444!important;font-family:Arial,Helvetica,sans-serif&#125;</span></span><br><span class="line"><span class="string">p&#123;font-size:12px;color:#444!important;font-family:"Lucida Grande","Lucida Sans","Lucida Sans Unicode",sans-serif;line-height:1.5&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">table.robotstat &#123;</span></span><br><span class="line"><span class="string">  border: 1px solid black;</span></span><br><span class="line"><span class="string">  border-collapse: collapse;</span></span><br><span class="line"><span class="string">  empty-cells: show;</span></span><br><span class="line"><span class="string">  margin: 0px 1px;</span></span><br><span class="line"><span class="string">  table-layout: fixed;</span></span><br><span class="line"><span class="string">  word-wrap: break-word;</span></span><br><span class="line"><span class="string">  font-size: 1em;</span></span><br><span class="line"><span class="string">  width:100%;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">table.robotstat td&#123;</span></span><br><span class="line"><span class="string">    border: 1px solid #ddd;</span></span><br><span class="line"><span class="string">    padding: 4px;</span></span><br><span class="line"><span class="string">    line-height: 1.42857143;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">tr.test_column_robot &#123;</span></span><br><span class="line"><span class="string">  background-color：#C6C6C6;</span></span><br><span class="line"><span class="string">  border: 1px solid black;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ol li img&#123;display:inline;height:20px&#125;"""</span></span><br><span class="line"></span><br><span class="line">div_styles = <span class="string">"""</span></span><br><span class="line"><span class="string">/*div styles*/</span></span><br><span class="line"><span class="string">.news&#123;text-align:center;padding-top:15px;&#125;</span></span><br><span class="line"><span class="string">.content&#123;width:720px;margin:0 auto;background-color:white&#125;</span></span><br><span class="line"><span class="string">.round_border&#123;margin-bottom:5px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;margin-top:0;font-size:14px;padding:6px;border:1px solid #ccc&#125;</span></span><br><span class="line"><span class="string">.status .info&#123;color:white!important;text-shadow:0 -1px 0 rgba(0,0,0,0.3);font-size:32px;line-height:36px;padding:8px 0&#125;</span></span><br><span class="line"><span class="string">.main img&#123;width:38px;margin-right:16px;height:38px&#125;</span></span><br><span class="line"><span class="string">.main table&#123;font-size:14px;&#125;</span></span><br><span class="line"><span class="string">.main table th&#123;text-align:right;&#125;</span></span><br><span class="line"><span class="string">.bottom-message&#123;width:720px;cellpadding:5px;cellspacing:0px&#125;</span></span><br><span class="line"><span class="string">.bottom-message .message&#123;font-size:13px;color:#aaa;line-height:18px;text-align:center&#125;</span></span><br><span class="line"><span class="string">.bottom-message .designed&#123;font-size:13px;color:#aaa;line-height:18px;font-style: italic;text-align:right&#125;</span></span><br><span class="line"><span class="string">img.cartoon &#123;width: 36px; display:inline&#125;</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">if</span> res[<span class="string">"status"</span>]:</span><br><span class="line">    build_status_color = <span class="string">"green"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    build_status_color = <span class="string">"red"</span></span><br><span class="line">div_styles += <span class="string">".status&#123;background-color:%s;font-size:28px;font-weight:bold;color:white;width:720px;height:52px;margin-bottom:18px;text-align:center;vertical-align:middle;border-collapse:collapse;background-repeat:no-repeat&#125;"</span> % build_status_color</span><br><span class="line"></span><br><span class="line">msg_styles = <span class="string">"&lt;STYLE&gt;"</span> + base_styles + div_styles + <span class="string">"&lt;/STYLE&gt;"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msg_body = <span class="string">"""&lt;DIV class="content round_border"&gt;</span></span><br><span class="line"><span class="string">&lt;DIV class="status"&gt;"""</span></span><br><span class="line"><span class="keyword">if</span> res[<span class="string">"status"</span>]:</span><br><span class="line">    test_res = <span class="string">"成功"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    test_res = <span class="string">"失败"</span></span><br><span class="line">msg_body += <span class="string">"""&lt;h4 class="info"&gt;测试结果:%s&lt;/h4&gt;"""</span> % test_res</span><br><span class="line"></span><br><span class="line">msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">&lt;/DIV&gt;</span></span><br><span class="line"><span class="string">&lt;TABLE&gt;</span></span><br><span class="line"><span class="string">  &lt;TR&gt;&lt;TD&gt;Project:&lt;/TD&gt;&lt;TD&gt;WiseCloud自动化测试&lt;/TD&gt;&lt;/TR&gt;"""</span></span><br><span class="line">msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">  &lt;TR&gt;&lt;TD&gt;Date of run:&lt;/TD&gt;&lt;TD&gt;%s&lt;/TD&gt;&lt;/TR&gt;"""</span> % res[<span class="string">"run_date"</span>]</span><br><span class="line">msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">  &lt;TR&gt;&lt;TD&gt;Test duration:&lt;/TD&gt;&lt;TD&gt;%s&lt;/TD&gt;&lt;/TR&gt; """</span> % res[<span class="string">"suite_date"</span>]</span><br><span class="line">msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">  &lt;TR&gt;&lt;TD&gt;Test report:&lt;/TD&gt;&lt;TD&gt;&lt;A href="%s/report.html"&gt;Open report.html&lt;/A&gt;&lt;/TD&gt;&lt;/TR&gt;"""</span> % url</span><br><span class="line">msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">  &lt;TR&gt;&lt;TD&gt;Test log:&lt;/TD&gt;&lt;TD&gt;&lt;A href="%s/log.html"&gt;Open log.html&lt;/A&gt;&lt;/TD&gt;&lt;/TR&gt;"""</span> % url</span><br><span class="line">msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">&lt;/TABLE&gt;</span></span><br><span class="line"><span class="string">&lt;/DIV&gt;</span></span><br><span class="line"><span class="string">&lt;BR/&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">&lt;!-- Robot Framework Results --&gt;</span></span><br><span class="line"><span class="string">&lt;DIV class="content round_border"&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;&lt;h4&gt;Robot Framework Results&lt;/h4&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;table class="robotstat"&gt;</span></span><br><span class="line"><span class="string">        &lt;thead&gt;</span></span><br><span class="line"><span class="string">          &lt;tr class="test_column_robot"&gt;</span></span><br><span class="line"><span class="string">            &lt;td&gt;&lt;b&gt;Total&lt;/b&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">            &lt;td&gt;&lt;b&gt;Passed&lt;/b&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">            &lt;td&gt;&lt;b&gt;Failed&lt;/b&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">            &lt;td&gt;&lt;b&gt;Pass %&lt;/b&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">          &lt;/tr&gt;</span></span><br><span class="line"><span class="string">        &lt;/thead&gt;</span></span><br><span class="line"><span class="string">        &lt;tbody&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line">msg_body += <span class="string">"&lt;td&gt;%s&lt;/td&gt;"</span> % res[<span class="string">"total_num"</span>]</span><br><span class="line">msg_body += <span class="string">"&lt;td&gt;%s&lt;/td&gt;"</span> % res[<span class="string">"pass_num"</span>]</span><br><span class="line">msg_body += <span class="string">"&lt;td&gt;%s&lt;/td&gt;"</span> % res[<span class="string">"fail_num"</span>]</span><br><span class="line">percent = float(res[<span class="string">"pass_num"</span>]) * <span class="number">100</span> / float(res[<span class="string">"total_num"</span>])</span><br><span class="line">msg_body += <span class="string">"&lt;td&gt;%0.2f&lt;/td&gt;"</span> % percent</span><br><span class="line"></span><br><span class="line">msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">          &lt;/tr&gt;</span></span><br><span class="line"><span class="string">        &lt;/tbody&gt;</span></span><br><span class="line"><span class="string">      &lt;/table&gt;</span></span><br><span class="line"><span class="string">&lt;/DIV&gt;</span></span><br><span class="line"><span class="string">&lt;BR/&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">if</span> res[<span class="string">"status"</span>]:</span><br><span class="line">    msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">    &lt;DIV class="content round_border"&gt;</span></span><br><span class="line"><span class="string">    &lt;h4&gt;No Robot Framework test results found.&lt;/h4&gt;</span></span><br><span class="line"><span class="string">    &lt;/DIV&gt;</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> res[<span class="string">"status"</span>]:</span><br><span class="line">    msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">    &lt;DIV class="content round_border"&gt;</span></span><br><span class="line"><span class="string">    &lt;p&gt;&lt;h4&gt;Robot Framework Error Cases&lt;/h4&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">    &lt;table class="robotstat"&gt;</span></span><br><span class="line"><span class="string">    &lt;thead&gt;</span></span><br><span class="line"><span class="string">    &lt;tr class="test_column_robot"&gt;</span></span><br><span class="line"><span class="string">    &lt;td&gt;&lt;b&gt;Test Name&lt;/b&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">    &lt;td&gt;&lt;b&gt;Status&lt;/b&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">    &lt;td&gt;&lt;b&gt;Execution Datetime&lt;/b&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">    &lt;/tr&gt;</span></span><br><span class="line"><span class="string">    &lt;/thead&gt;</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">    &lt;tbody&gt;"""</span></span><br><span class="line">    <span class="keyword">for</span> case <span class="keyword">in</span> res[<span class="string">"fail_cases"</span>]:</span><br><span class="line">        case_name = _to_str(case[<span class="string">"name"</span>])</span><br><span class="line">        <span class="comment"># msg_body += """</span></span><br><span class="line">        <span class="comment"># &lt;tr&gt;&lt;td colspan="3"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;""" % case_name</span></span><br><span class="line">        msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">        &lt;tr&gt;"""</span></span><br><span class="line">        msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">        &lt;td&gt;&lt;a href="%s/log.html#%s"&gt;%s&lt;/a&gt;&lt;/td&gt;"""</span> % (url, case[<span class="string">"id"</span>], case_name)</span><br><span class="line">        msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">        &lt;td style="color: #FF3333"&gt;Fail&lt;/td&gt;</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">        &lt;td&gt;%s&lt;/td&gt;"""</span> % case[<span class="string">"excDate"</span>]</span><br><span class="line">        msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">        &lt;/tr&gt;"""</span></span><br><span class="line">    msg_body += <span class="string">"""</span></span><br><span class="line"><span class="string">    &lt;/tbody&gt;&lt;/table&gt;</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">msg_body = <span class="string">"&lt;BODY&gt;"</span> + msg_body + <span class="string">"&lt;/BODY&gt;"</span></span><br><span class="line">msg_head = <span class="string">"""&lt;head&gt;</span></span><br><span class="line"><span class="string">        &lt;meta charset="utf-8"&gt;</span></span><br><span class="line"><span class="string">        &lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">    &lt;/head&gt;"""</span></span><br><span class="line"></span><br><span class="line">msg = <span class="string">"""&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="string">&lt;html&gt;"""</span></span><br><span class="line">msg = msg + msg_head + msg_styles + msg_body + <span class="string">"&lt;/html&gt;"</span></span><br><span class="line"></span><br><span class="line">send_test_result_mail(sys.argv[<span class="number">2</span>], msg)</span><br><span class="line"><span class="comment"># with open("~/Desktop/robot_result.html", "w") as f:</span></span><br><span class="line"><span class="comment">#     f.write(msg)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#send_robotframework_mail("leicj@wise2c.com", msg)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>unic.py</code>脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  Copyright 2008-2015 Nokia Networks</span></span><br><span class="line"><span class="comment">#  Copyright 2016-     Robot Framework Foundation</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#  Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment">#  you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment">#  You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#      http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#  Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment">#  distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment">#  See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment">#  limitations under the License.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> PrettyPrinter</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> .platform <span class="keyword">import</span> IRONPYTHON, JYTHON, PY2</span><br><span class="line"><span class="keyword">from</span> .robottypes <span class="keyword">import</span> is_bytes, is_unicode</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> PY2:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">unic</span><span class="params">(item)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(item, unicode):</span><br><span class="line">            <span class="keyword">return</span> item</span><br><span class="line">        <span class="keyword">if</span> isinstance(item, (bytes, bytearray)):</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="comment">#return item.decode('ASCII')</span></span><br><span class="line">                <span class="keyword">return</span> item.decode(<span class="string">'utf-8'</span>)</span><br><span class="line">            <span class="keyword">except</span> UnicodeError:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">u''</span>.join(chr(b) <span class="keyword">if</span> b &lt; <span class="number">128</span> <span class="keyword">else</span> <span class="string">'\\x%x'</span> % b</span><br><span class="line">                                <span class="keyword">for</span> b <span class="keyword">in</span> bytearray(item))</span><br><span class="line">	<span class="keyword">if</span> isinstance(item, (list, dict, tuple)):</span><br><span class="line">	     <span class="keyword">try</span>:</span><br><span class="line">		item = json.dumps(item, ensure_ascii=<span class="literal">False</span>, encoding=<span class="string">'cp936'</span>)</span><br><span class="line">             <span class="keyword">except</span> UnicodeDecodeError:</span><br><span class="line">	         <span class="keyword">try</span>:</span><br><span class="line">		     item = json.dumps(item, ensure_ascii=<span class="literal">False</span>, encoding=<span class="string">'cp936'</span>)</span><br><span class="line">	         <span class="keyword">except</span>:</span><br><span class="line">		     	<span class="keyword">pass</span></span><br><span class="line">	     <span class="keyword">except</span>:</span><br><span class="line">		 	<span class="keyword">pass</span></span><br><span class="line">        <span class="comment"># 添加部分</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="keyword">return</span> unicode(item)</span><br><span class="line">            <span class="keyword">except</span> UnicodeError:</span><br><span class="line">                <span class="keyword">return</span> unic(str(item))</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> _unrepresentable_object(item)</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">unic</span><span class="params">(item)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(item, str):</span><br><span class="line">            <span class="keyword">return</span> item</span><br><span class="line">        <span class="keyword">if</span> isinstance(item, (bytes, bytearray)):</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="comment">#return item.decode('ASCII')</span></span><br><span class="line">                <span class="keyword">return</span> item.decode(<span class="string">'utf-8'</span>)</span><br><span class="line">            <span class="keyword">except</span> UnicodeError:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">''</span>.join(chr(b) <span class="keyword">if</span> b &lt; <span class="number">128</span> <span class="keyword">else</span> <span class="string">'\\x%x'</span> % b</span><br><span class="line">                               <span class="keyword">for</span> b <span class="keyword">in</span> item)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> str(item)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> _unrepresentable_object(item)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># JVM and .NET seem to handle Unicode normalization automatically. Importing</span></span><br><span class="line"><span class="comment"># unicodedata on Jython also takes some time so it's better to avoid it.</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> (JYTHON <span class="keyword">or</span> IRONPYTHON):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">from</span> unicodedata <span class="keyword">import</span> normalize</span><br><span class="line">    _unic = unic</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">unic</span><span class="params">(item)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> normalize(<span class="string">'NFC'</span>, _unic(item))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">prepr</span><span class="params">(item, width=<span class="number">400</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> unic(PrettyRepr(width=width).pformat(item))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrettyRepr</span><span class="params">(PrettyPrinter)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">format</span><span class="params">(self, object, context, maxlevels, level)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> is_unicode(object):</span><br><span class="line">                <span class="keyword">return</span> repr(object).lstrip(<span class="string">'u'</span>), <span class="literal">True</span>, <span class="literal">False</span></span><br><span class="line">            <span class="keyword">if</span> is_bytes(object):</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'b'</span> + repr(object).lstrip(<span class="string">'b'</span>), <span class="literal">True</span>, <span class="literal">False</span></span><br><span class="line">            <span class="keyword">return</span> PrettyPrinter.format(self, object, context, maxlevels, level)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> _unrepresentable_object(object), <span class="literal">True</span>, <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_unrepresentable_object</span><span class="params">(item)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> .error <span class="keyword">import</span> get_error_message</span><br><span class="line">    <span class="keyword">return</span> <span class="string">u"&lt;Unrepresentable object %s. Error: %s&gt;"</span> \</span><br><span class="line">           % (item.__class__.__name__, get_error_message())</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/1792073630.html" rel="bookmark">API自动化测试Docker版使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/3637687526.html" rel="bookmark">Kubernetes没有拉取镜像权限</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/3648725050.html" rel="bookmark">WiseCloud中调试Ingress</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/1027612251.html" rel="bookmark">WiseCloud部署安装</a></div>
+    </li>
+  </ul>
+
+        
+
+<div class="post-copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径TODO: 这两个js好像可以不要-->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p>
+    <span>本文标题：</span>
+    <a href="/articles/1592056819.html">RobotFramework-Docker制作</a>
+  </p>
+  <p>
+    <span>本文作者：</span>
+    <a href="/" title="访问 Ritboy 的个人博客">Ritboy</a>
+  </p>
+  <p>
+    <span>发布时间：</span>
+    2018年04月27日 - 14:29:52
+  </p>
+  <p>
+    <span>最后更新：</span>
+    2018年04月27日 - 14:29:52
+  </p>
+  <p><span>本文链接：</span>
+    <a href="/articles/1592056819.html" title="RobotFramework-Docker制作">https://blog.ritboy.com/articles/1592056819.html</a>
+    <span class="copy-path"  title="点击复制文章链接">
+      <i class="fa fa-clipboard" data-clipboard-text="https://blog.ritboy.com/articles/1592056819.html"  aria-label="复制成功！"></i>
+    </span>
+  </p>
+  <p>
+    <span>版权声明：</span>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请保留原文链接及作者。
+  </p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          icon: "success",
+          showConfirmButton: true
+          });
+    });
+    });
+</script>
+
+        
+    <div class="read-over">
+        -------------------本文结束
+        <i class="fa fa-paw"></i>
+        感谢您的阅读-------------------
+    </div>
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Ritboy 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ritboy 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Wise2c/" rel="tag">
+                  <i class="fa fa-tag"></i>
+                
+                  Wise2c
+              </a>
+              <a href="/tags/RobotFramework/" rel="tag">
+                  <i class="fa fa-tag"></i>
+                
+                  RobotFramework
+              </a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/articles/152481912.html" rel="prev" title="Linux命令小结">
+      <i class="fa fa-chevron-left"></i> Linux命令小结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/articles/2528224593.html" rel="next" title="PostMan自动化测试">
+      PostMan自动化测试 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dockerfile"><span class="nav-number">1.</span> <span class="nav-text">Dockerfile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker运行"><span class="nav-number">2.</span> <span class="nav-text">Docker运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附录"><span class="nav-number">3.</span> <span class="nav-text">附录</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ritboy"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Ritboy</p>
+  <div class="site-description" itemprop="description">鲲鹏万里，能躺否，或许能编程</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ritboylei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ritboylei" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ritboylei@gmail.com" title="E-Mail → mailto:ritboylei@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener external nofollow noreferrer" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ritboy</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+
+    
+
+    <span title="站点总字数">364k</span>
+
+
+
+
+  <div class="beian">
+      <img src="/images/beian.png" style="display: inline-block;"><a href="http://www.beian.miit.gov.cn/" rel="noopener external nofollow noreferrer" target="_blank"> 蜀ICP备 19038127号-2 </a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+  
+  
+    <script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>

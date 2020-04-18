@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
+  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="locale介绍 locale这个单词中文翻译成地区或者地域，其实这个单词包含的意义要宽泛很多。Locale是根据计算机用户所使用的语言，所在国家或者地区，以及当地的文化传统所定义的一个软件运行时的语言环境。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="locale的设定及LANG、LC_CTYPE、LC_ALL环境变量">
+<meta property="og:url" content="https://blog.ritboy.com/articles/929099485.html">
+<meta property="og:site_name" content="Ritboy&#39;s Blog">
+<meta property="og:description" content="locale介绍 locale这个单词中文翻译成地区或者地域，其实这个单词包含的意义要宽泛很多。Locale是根据计算机用户所使用的语言，所在国家或者地区，以及当地的文化传统所定义的一个软件运行时的语言环境。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-06-12T06:31:03.000Z">
+<meta property="article:modified_time" content="2018-06-12T06:31:03.000Z">
+<meta property="article:author" content="Ritboy">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="MacOS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.ritboy.com/articles/929099485.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>locale的设定及LANG、LC_CTYPE、LC_ALL环境变量 | Ritboy's Blog</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-163895731-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a2c1e7007a525ab8670b72d6edb333af";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ritboy's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">或许能编程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ritboylei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener external nofollow noreferrer" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/929099485.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，或许能编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          locale的设定及LANG、LC_CTYPE、LC_ALL环境变量
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-12 14:31:03" itemprop="dateCreated datePublished" datetime="2018-06-12T14:31:03+08:00">2018-06-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="locale介绍"><a href="#locale介绍" class="headerlink" title="locale介绍"></a>locale介绍</h3><ul>
+<li><p>locale这个单词中文翻译成地区或者地域，其实这个单词包含的意义要宽泛很多。Locale是根据计算机用户所使用的语言，所在国家或者地区，以及当地的文化传统所定义的一个软件运行时的语言环境。</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[oracle@game ~]$ locale</span><br><span class="line">LANG&#x3D;en_US.UTF-8</span><br><span class="line">LC_CTYPE&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_NUMERIC&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_TIME&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_COLLATE&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_MONETARY&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_MESSAGES&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_PAPER&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_NAME&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_ADDRESS&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_TELEPHONE&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_MEASUREMENT&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_IDENTIFICATION&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_ALL&#x3D;en_US.UTF-8</span><br><span class="line">[oracle@game ~]$</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>locale把按照所涉及到的文化传统的各个方面分成12个大类，这12个大类分别是： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、语言符号及其分类(LC_CTYPE) </span><br><span class="line">2、数字(LC_NUMERIC) </span><br><span class="line">3、比较和排序习惯(LC_COLLATE) </span><br><span class="line">4、时间显示格式(LC_TIME) </span><br><span class="line">5、货币单位(LC_MONETARY) </span><br><span class="line">6、信息主要是提示信息,错误信息,状态信息,标题,标签,按钮和菜单等(LC_MESSAGES) </span><br><span class="line">7、姓名书写方式(LC_NAME) </span><br><span class="line">8、地址书写方式(LC_ADDRESS) </span><br><span class="line">9、电话号码书写方式(LC_TELEPHONE) </span><br><span class="line">10、度量衡表达方式 (LC_MEASUREMENT) </span><br><span class="line">11、默认纸张尺寸大小(LC_PAPER) </span><br><span class="line">12、对locale自身包含信息的概述(LC_IDENTIFICATION)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>所以说，locale就是某一个地域内的人们的语言习惯和文化传统和生活习惯。一个地区的locale就是根据这几大类的习惯定义的，这些locale定 义文件放在/usr/share/i18n/locales目录下面，例如en_US, zh_CN and de_DE@euro都是locale的定义文件，这些文件都是用文本格式书写的，你可以用写字板打开，看看里边的内容，当然出了有限的注释以外，大部分 东西可能你都看不懂，因为是用的Unicode的字符索引方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[oracle@game ~]$ cd &#x2F;usr&#x2F;share&#x2F;i18n&#x2F;locales</span><br><span class="line">[oracle@game locales]$ ls</span><br><span class="line">aa_DJ        ar_YE       el_GR       es_ES       fr_CH           iso14651_t1 ne_NP       so_ET                  translit_hangul</span><br><span class="line">aa_ER        az_AZ       el_GR@euro es_ES@euro fr_FR           it_CH        nl_BE       so_KE                  translit_narrow</span><br><span class="line">aa_ER@saaho be_BY       en_AU       es_GT       fr_FR@euro      it_IT        nl_BE@euro so_SO                  translit_neutral</span><br><span class="line">aa_ET        bg_BG       en_BW       es_HN       fr_LU           it_IT@euro   nl_NL       sq_AL                  translit_small</span><br><span class="line">af_ZA        bn_BD       en_CA       es_MX       fr_LU@euro      iw_IL        nl_NL@euro sr_CS                  translit_wide</span><br><span class="line">am_ET        bn_IN       en_DK       es_NI       ga_IE           ja_JP        nn_NO       st_ZA                  tr_TR</span><br><span class="line">an_ES        br_FR       en_GB       es_PA       ga_IE@euro      ka_GE        no_NO       sv_FI                  tt_RU</span><br><span class="line">ar_AE        br_FR@euro en_HK       es_PE       gd_GB           kk_KZ        oc_FR       sv_FI@euro             uk_UA</span><br><span class="line">ar_BH        bs_BA       en_IE       es_PR       gez_ER          kl_GL        om_ET       sv_SE                  ur_PK</span><br><span class="line">ar_DZ        byn_ER      en_IE@euro es_PY       gez_ER@abegede kn_IN        om_KE       ta_IN                  uz_UZ</span><br><span class="line">ar_EG        ca_ES       en_IN       es_SV       gez_ET          ko_KR        pa_IN       te_IN                  uz_UZ@cyrillic</span><br><span class="line">ar_IN        ca_ES@euro en_NZ       es_US       gez_ET@abegede kw_GB        pl_PL       tg_TJ                  vi_VN</span><br><span class="line">ar_IQ        cs_CZ       en_PH       es_UY       gl_ES           lg_UG        POSIX       th_TH                  wa_BE</span><br><span class="line">ar_JO        cy_GB       en_SG       es_VE       gl_ES@euro      lo_LA        pt_BR       ti_ER                  wa_BE@euro</span><br><span class="line">ar_KW        da_DK       en_US       et_EE       gu_IN           lt_LT        pt_PT       ti_ET                  wal_ET</span><br><span class="line">ar_LB        de_AT       en_ZA       eu_ES       gv_GB           lv_LV        pt_PT@euro tig_ER                 xh_ZA</span><br><span class="line">ar_LY        de_AT@euro en_ZW       eu_ES@euro he_IL           mi_NZ        ro_RO       tl_PH                  yi_US</span><br><span class="line">ar_MA        de_BE       es_AR       fa_IR       hi_IN           mk_MK        ru_RU       translit_circle        zh_CN</span><br><span class="line">ar_OM        de_BE@euro es_BO       fi_FI       hr_HR           ml_IN        ru_UA       translit_cjk_compat    zh_HK</span><br><span class="line">ar_QA        de_CH       es_CL       fi_FI@euro hu_HU           mn_MN        se_NO       translit_cjk_variants zh_SG</span><br><span class="line">ar_SA        de_DE       es_CO       fo_FO       hy_AM           mr_IN        sid_ET      translit_combining     zh_TW</span><br><span class="line">ar_SD        de_DE@euro es_CR       fr_BE       i18n            ms_MY        sk_SK       translit_compat        zu_ZA</span><br><span class="line">ar_SY        de_LU       es_DO       fr_BE@euro id_ID           mt_MT        sl_SI       translit_font</span><br><span class="line">ar_TN        de_LU@euro es_EC       fr_CA       is_IS           nb_NO        so_DJ       translit_fraction</span><br><span class="line">[oracle@game locales]$</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于de_DE@euro的一点说明，@后边是修正项，也就是说你可以看到两个德国的locale：/usr/share/i18n/locales /de_DE@euro和/usr/share/i18n/locales/de_DE。打开这两个locale定义，你就会知道它们的差别在于 de_DE@euro使用的是欧洲的排序、比较和缩进习惯，而de_DE用的是德国的标准习惯。 </p>
+</li>
+<li><p>上面我们说到了zh_CN.GB18030的前半部分，后半部分是什么呢？大部分Linux用户都知道是系统采用的字符集。 </p>
+</li>
+<li><p>zh_CN.GB2312到底是在说什么？ Locale是软件在运行时的语言环境, 它包括语言(Language), 地域 (Territory) 和字符集(Codeset)。一个locale的书写格式为: 语言[_地域[.字符集]]。所以说呢，locale总是和一定的字符集相联系的。下面举几个例子： </p>
+<p>1、我说中文，身处中华人民共和国，使用国标2312字符集来表达字符。zh_CN.GB2312＝中文_中华人民共和国＋国标2312字符集。 </p>
+<p>2、我说中文，身处中华人民共和国，使用国标18030字符集来表达字符。zh_CN.GB18030＝中文_中华人民共和国＋国标18030字符集。 </p>
+<p>3、我说中文，身处中华人民共和国台湾省，使用国标Big5字符集来表达字符。zh_TW.BIG5=中文_台湾.大五码字符集 </p>
+<p>4、我说英文，身处大不列颠，使用ISO-8859-1字符集来表达字符。 en_GB.ISO-8859-1=英文_大不列颠.ISO-8859-1字符集 </p>
+<p>5、我说德语，身处德国，使用UTF-8字符集，习惯了欧洲风格。de_DE.UTF-8@euro＝德语_德国.UTF-8字符集@按照欧洲习惯加以修正，注意不是<a href="mailto:de_DE@euro.UTF-8" rel="external nofollow noreferrer">de_DE@euro.UTF-8</a>，所以完全的locale表达方式是 [语言[_地域][.字符集][@修正值]。 </p>
+</li>
+<li><p>其中，与中文输入关系最密切的就是LC_CTYPE，LC_CTYPE规定了系统内有效的字符以及这些字符的分类， 诸如什么是大写字母，小写字母，大小写转换，标点符号、可打印字符和其他的字符属性等方面。而locale定 义zh_CN中最最重要的一项就是定义了汉字(Class“hanzi”)这一个大类，当然也是用Unicode描述的，这就让中文字符在Linux系统 中成为合法的有效字符，而且不论它们是用什么字符集编码的。 </p>
+</li>
+</ul>
+<h3 id="设定locale"><a href="#设定locale" class="headerlink" title="设定locale"></a>设定locale</h3><ul>
+<li><p>设定locale就是设定12大类的locale分类属性，即12个LC_*。除了这12个变量可以设定以外，为了简便起见，还有两个变量：<code>LC_ALL和LANG</code>。它们之间有一个优先级的关系：<code>LC_ALL &gt; LC_XXX &gt;LANG</code>。可以这么说，LC_ALL是最上级设定或者强制设定，而LANG是默认设定值。 </p>
+<ul>
+<li>1、如果你设定了LC_ALL＝zh_CN.UTF-8，那么不管LC_*和LANG设定成什么值，它们都会被强制服从LC_ALL的设定，成为 zh_CN.UTF-8。 </li>
+<li>2、假如你设定了LANG＝zh_CN.UTF-8，而其他的LC_*=en_US.UTF-8，并且没有设定LC_ALL的话，那么系统的locale设定以LC_xxx=en_US.UTF-8。 </li>
+<li>3、假如你设定了LANG＝zh_CN.UTF-8，而其他的LC_*，和LC_ALL均未设定的话，系统会将LC_xxx设定成默认值，也就是LANG的值zh_CN.UTF-8。 </li>
+<li>4、假如你设定了LANG＝zh_CN.UTF-8，而其他的LC_CTYPE=en_US.UTF-8，其他的LC_*，和LC_ALL均未设定的话， 那么系统的locale设定将是：LC_CTYPE=en_US.UTF-8，其余的 LC_COLLATE，LC_MESSAGES等等均会采用默认值，也就是 LANG的值，也就是LC_COLLATE＝LC_MESSAGES＝……＝ LC_PAPER＝LANG＝zh_CN.UTF-8。 </li>
+</ul>
+</li>
+<li><p>所以，locale是这样设定的： </p>
+<ul>
+<li>1、如果你需要一个纯中文的系统的话，设定LC_ALL= zh_CN.XXXX，或者LANG=zh_CN.XXXX都可以，当然你可以两个都设定，但正如上面所讲，LC_ALL的值将覆盖所有其他的locale设定，不要作无用功。 </li>
+<li>2、如果你只想要一个可以输入中文的环境，而保持菜单、标题，系统信息等等为英文界面，那么只需要设定 LC_CTYPE＝zh_CN.XXXX，LANG=en_US.XXXX就可以了。这样LC_CTYPE＝zh_CN.XXXX，而LC_COLLATE＝LC_MESSAGES＝……＝ LC_PAPER＝LANG＝en_US.XXXX。 </li>
+<li>3、假如你高兴的话，可以把12个LC_*一一设定成你需要的值，打造一个古灵精怪的系统： LC_CTYPE＝zh_CN.GBK/GBK(使用中文编码内码GBK字符集)； LC_NUMERIC=en_GB.ISO-8859-1(使用大不列颠的数字系统) LC_MEASUREMEN=de_DE@euro.ISO-8859-15(德国的度量衡使用ISO-8859-15字符集) 罗马的地址书写方式，美国的纸张设定……。估计没人这么干吧。 </li>
+<li>4、假如你什么也不做的话，也就是LC_ALL，LANG和LC_*均不指定特定值的话，系统将采用POSIX作为lcoale，也就是C locale。</li>
+</ul>
+</li>
+<li><p>另外LANG和LANGUAGE有什么区别呢？</p>
+<p>LANG - Specifies the default locale for all unset locale variables<br>LANGUAGE - Most programs use this for the language of its interface<br>LANGUAGE是设置应用程序的界面语言。而LANG是优先级很低的一个变量，它指定所有与locale有关的变量的默认值，</p>
+</li>
+</ul>
+<h3 id="MAC-中设定locale"><a href="#MAC-中设定locale" class="headerlink" title="MAC 中设定locale"></a>MAC 中设定locale</h3><ul>
+<li><p>在终端下输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
+
+<p>或者使用其他你喜欢的编辑器编辑~/.zshrc文件</p>
+</li>
+<li><p>在文件内容末端添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export LC_ALL&#x3D;en_US.UTF-8</span><br><span class="line">export LANG&#x3D;en_US.UTF-8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接着重启一下终端，或者输入source ~/.zshrc使设置生效。</p>
+<p>设置成功的话，在本地和登录到服务器输入locale回车会显示下面内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LANG&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_COLLATE&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_CTYPE&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_MESSAGES&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_MONETARY&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_NUMERIC&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_TIME&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">LC_ALL&#x3D;&quot;en_US.UTF-8&quot;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="设定locale可解决问题小结"><a href="#设定locale可解决问题小结" class="headerlink" title="设定locale可解决问题小结"></a>设定locale可解决问题小结</h3><ul>
+<li><p>用Mac的iterm2 ssh连上去，终端显示中文乱码，也不能输入中文，然而本地终端可以显示和输入</p>
+<blockquote>
+<p>这种情况一般是终端和服务器的字符集不匹配，MacOSX下默认的是utf8字符集。<br>输入locale可以查看字符编码设置情况，而我的对应值是空的。<br>因为我在本地和服务器都用zsh替代了bash，而且使用了oh-my-zsh，而默认的.zshrc没有设置为utf-8编码，所以本地和服务器端都要在.zshrc设置</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>ssh登录提示警告<code>-bash: warning: setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory</code></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html" target="_blank" rel="noopener external nofollow noreferrer">http://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html</a></p>
+<p><a href="https://gist.github.com/slow-is-fast/1b0e9e8bbcb7e8b8966d177730c46ba4" target="_blank" rel="noopener external nofollow noreferrer">https://gist.github.com/slow-is-fast/1b0e9e8bbcb7e8b8966d177730c46ba4</a></p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/1634017428.html" rel="bookmark">Apline Linux 系统简介</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/555453948.html" rel="bookmark">修改使用Alpine Linux的Docker容器的时区</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/292711784.html" rel="bookmark">CentOS7 添加或删除用户</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/484813477.html" rel="bookmark">配置 Securing OpenSSH</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/2324945889.html" rel="bookmark">堪称神器的Linux命令行软件</a></div>
+    </li>
+  </ul>
+
+        
+
+<div class="post-copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径TODO: 这两个js好像可以不要-->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p>
+    <span>本文标题：</span>
+    <a href="/articles/929099485.html">locale的设定及LANG、LC_CTYPE、LC_ALL环境变量</a>
+  </p>
+  <p>
+    <span>本文作者：</span>
+    <a href="/" title="访问 Ritboy 的个人博客">Ritboy</a>
+  </p>
+  <p>
+    <span>发布时间：</span>
+    2018年06月12日 - 14:31:03
+  </p>
+  <p>
+    <span>最后更新：</span>
+    2018年06月12日 - 14:31:03
+  </p>
+  <p><span>本文链接：</span>
+    <a href="/articles/929099485.html" title="locale的设定及LANG、LC_CTYPE、LC_ALL环境变量">https://blog.ritboy.com/articles/929099485.html</a>
+    <span class="copy-path"  title="点击复制文章链接">
+      <i class="fa fa-clipboard" data-clipboard-text="https://blog.ritboy.com/articles/929099485.html"  aria-label="复制成功！"></i>
+    </span>
+  </p>
+  <p>
+    <span>版权声明：</span>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请保留原文链接及作者。
+  </p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          icon: "success",
+          showConfirmButton: true
+          });
+    });
+    });
+</script>
+
+        
+    <div class="read-over">
+        -------------------本文结束
+        <i class="fa fa-paw"></i>
+        感谢您的阅读-------------------
+    </div>
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Ritboy 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ritboy 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag">
+                  <i class="fa fa-tag"></i>
+                
+                  Linux
+              </a>
+              <a href="/tags/MacOS/" rel="tag">
+                  <i class="fa fa-tag"></i>
+                
+                  MacOS
+              </a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/articles/3637687526.html" rel="prev" title="Kubernetes没有拉取镜像权限">
+      <i class="fa fa-chevron-left"></i> Kubernetes没有拉取镜像权限
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/articles/1132432202.html" rel="next" title="使用Docker安装Testlink">
+      使用Docker安装Testlink <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#locale介绍"><span class="nav-number">1.</span> <span class="nav-text">locale介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设定locale"><span class="nav-number">2.</span> <span class="nav-text">设定locale</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC-中设定locale"><span class="nav-number">3.</span> <span class="nav-text">MAC 中设定locale</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设定locale可解决问题小结"><span class="nav-number">4.</span> <span class="nav-text">设定locale可解决问题小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ritboy"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Ritboy</p>
+  <div class="site-description" itemprop="description">鲲鹏万里，能躺否，或许能编程</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ritboylei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ritboylei" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ritboylei@gmail.com" title="E-Mail → mailto:ritboylei@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener external nofollow noreferrer" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ritboy</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+
+    
+
+    <span title="站点总字数">364k</span>
+
+
+
+
+  <div class="beian">
+      <img src="/images/beian.png" style="display: inline-block;"><a href="http://www.beian.miit.gov.cn/" rel="noopener external nofollow noreferrer" target="_blank"> 蜀ICP备 19038127号-2 </a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+  
+  
+    <script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>

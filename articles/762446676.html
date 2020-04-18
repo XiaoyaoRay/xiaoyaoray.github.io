@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
+  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="转载：漫画：什么是蓝绿部署？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漫画：什么是蓝绿部署？">
+<meta property="og:url" content="https://blog.ritboy.com/articles/762446676.html">
+<meta property="og:site_name" content="Ritboy&#39;s Blog">
+<meta property="og:description" content="转载：漫画：什么是蓝绿部署？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://t11.baidu.com/it/u=1185119041,3482267185&fm=173&app=25&f=JPEG?w=639&h=295&s=F53429731B004C43085171C80000B030">
+<meta property="og:image" content="http://t10.baidu.com/it/u=3309501702,233977789&fm=173&app=25&f=JPG?w=542&h=386&s=BC28F65A6AEEA44D4C2BCA16020040FF">
+<meta property="og:image" content="http://t11.baidu.com/it/u=140670631,2526599508&fm=173&app=25&f=JPEG?w=639&h=295&s=8414E9330B407C434A7151D800009030">
+<meta property="og:image" content="http://t10.baidu.com/it/u=111965334,4212604057&fm=173&app=25&f=JPEG?w=639&h=295&s=B534693303C04D4B085171C80000B030">
+<meta property="og:image" content="http://t11.baidu.com/it/u=2714158267,1400865281&fm=173&app=25&f=JPEG?w=639&h=295&s=BC047C330B405C47087971D0000090B0">
+<meta property="og:image" content="http://t11.baidu.com/it/u=3563417635,2717878358&fm=173&app=25&f=JPEG?w=639&h=295&s=B57469330B004843085171C80000B030">
+<meta property="og:image" content="http://t11.baidu.com/it/u=2290253758,2614107270&fm=173&app=25&f=JPEG?w=639&h=295&s=9414E9331B1058450A5151D8000090B0">
+<meta property="og:image" content="http://t12.baidu.com/it/u=4097920061,1281282431&fm=173&app=25&f=JPEG?w=639&h=295&s=553429730B804943085171C80000B0B0">
+<meta property="og:image" content="http://t11.baidu.com/it/u=4014025507,4080207635&fm=173&app=25&f=JPEG?w=640&h=425&s=C9E3924660B3E26760366400030070EA">
+<meta property="og:image" content="http://t12.baidu.com/it/u=2015436383,1208745932&fm=173&app=25&f=JPG?w=299&h=224&s=91D3A36651BF663F1B0E72400200B0F8">
+<meta property="og:image" content="http://t10.baidu.com/it/u=3184823406,2179256142&fm=173&app=25&f=JPG?w=310&h=284&s=1BE1F70656260719118E5242020030F8">
+<meta property="og:image" content="http://t10.baidu.com/it/u=3965703561,4285226803&fm=173&app=25&f=JPG?w=310&h=284&s=5BA1A54654260719118E5242020030F8">
+<meta property="og:image" content="http://t12.baidu.com/it/u=2624951534,300235967&fm=173&app=25&f=JPG?w=310&h=284&s=1BE1F70654260719118E5242020030F8">
+<meta property="og:image" content="http://t12.baidu.com/it/u=401383742,4012854581&fm=173&app=25&f=JPEG?w=639&h=295&s=9494E9331B4078430A7111D800009030">
+<meta property="og:image" content="http://t12.baidu.com/it/u=281091857,928013284&fm=173&app=25&f=JPEG?w=639&h=295&s=B53469330BC049430A5131C80000B030">
+<meta property="og:image" content="http://t11.baidu.com/it/u=2581885402,718326796&fm=173&app=25&f=JPG?w=299&h=224&s=99DBA3464BFF661F1B0E72400200B0F8">
+<meta property="og:image" content="http://t11.baidu.com/it/u=451588777,585650147&fm=173&app=25&f=JPG?w=313&h=376&s=0B80F5066C667E8C33225B52030070FC">
+<meta property="og:image" content="http://t10.baidu.com/it/u=674256450,2530732864&fm=173&app=25&f=JPG?w=308&h=376&s=0BC2E5064C765A8C33423B42030030FC">
+<meta property="og:image" content="http://t12.baidu.com/it/u=4220945057,1363255956&fm=173&app=25&f=JPG?w=308&h=376&s=0B82F40648776E8C31625B52030030FC">
+<meta property="og:image" content="http://t11.baidu.com/it/u=948049810,2225178196&fm=173&app=25&f=JPG?w=313&h=376&s=0B80F5066C667E8C33225B52030070FC">
+<meta property="og:image" content="http://t10.baidu.com/it/u=2383547481,479382296&fm=173&app=25&f=JPEG?w=639&h=295&s=1C34E1131F4068410A7111D800009030">
+<meta property="og:image" content="http://t12.baidu.com/it/u=1854722465,4125849737&fm=173&app=25&f=JPEG?w=639&h=295&s=B53469331BC0494B085171C80000B0B0">
+<meta property="og:image" content="http://t11.baidu.com/it/u=1075546150,1033097315&fm=173&app=25&f=JPG?w=436&h=420&s=0BC6E702E20E4CE96CE85B54030050F4">
+<meta property="og:image" content="http://t11.baidu.com/it/u=2682496597,3429502720&fm=173&app=25&f=JPG?w=436&h=420&s=0B86E702E20E4CE84CE85B54030050F4">
+<meta property="og:image" content="http://t12.baidu.com/it/u=2314143929,1947231498&fm=173&app=25&f=JPG?w=436&h=420&s=0B87E702C20E4CE86CE85B54030050F5">
+<meta property="og:image" content="http://t12.baidu.com/it/u=3281628245,1801032511&fm=173&app=25&f=JPG?w=436&h=420&s=0B87E702C20E4CE86CE85B54030050F4">
+<meta property="og:image" content="http://t11.baidu.com/it/u=3294521521,3217467686&fm=173&app=25&f=JPEG?w=639&h=295&s=9414E9331F406D43087151D8000090B0">
+<meta property="og:image" content="http://t10.baidu.com/it/u=3268939599,1217115754&fm=173&app=25&f=JPEG?w=639&h=295&s=B57469331BC04D43085171C80000B030">
+<meta property="og:image" content="http://t11.baidu.com/it/u=57521935,987360313&fm=173&app=25&f=JPEG?w=640&h=322&s=A935CF1005D87DCC1049CDD80300A0B9">
+<meta property="og:image" content="http://t12.baidu.com/it/u=2043248036,3282720952&fm=173&app=25&f=JPEG?w=639&h=295&s=9414E93307407D4B487151D8000090B0">
+<meta property="og:image" content="http://t10.baidu.com/it/u=2466558006,3450998029&fm=173&app=25&f=JPEG?w=640&h=853&s=353060332B0372CC3DA410E50300F0A3">
+<meta property="og:image" content="http://t12.baidu.com/it/u=1715810096,1296892583&fm=173&app=25&f=JPEG?w=429&h=242&s=F02BB1545A323E94593AFF9E0300109C">
+<meta property="og:image" content="http://t11.baidu.com/it/u=680958868,4177061429&fm=173&app=25&f=JPEG?w=639&h=295&s=F534297311D049CA085131C80000B030">
+<meta property="article:published_time" content="2019-02-11T07:34:31.000Z">
+<meta property="article:modified_time" content="2019-02-11T07:34:31.000Z">
+<meta property="article:author" content="Ritboy">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://t11.baidu.com/it/u=1185119041,3482267185&fm=173&app=25&f=JPEG?w=639&h=295&s=F53429731B004C43085171C80000B030">
+
+<link rel="canonical" href="https://blog.ritboy.com/articles/762446676.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>漫画：什么是蓝绿部署？ | Ritboy's Blog</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-163895731-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a2c1e7007a525ab8670b72d6edb333af";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ritboy's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">或许能编程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ritboylei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener external nofollow noreferrer" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/762446676.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，或许能编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          漫画：什么是蓝绿部署？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-11 15:34:31" itemprop="dateCreated datePublished" datetime="2019-02-11T15:34:31+08:00">2019-02-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Kubernetes</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="转载：漫画：什么是蓝绿部署？"><a href="#转载：漫画：什么是蓝绿部署？" class="headerlink" title="转载：漫画：什么是蓝绿部署？"></a>转载：<a href="http://baijiahao.baidu.com/s?id=1600328572885444668&wfr=spider&for=pc" target="_blank" rel="noopener external nofollow noreferrer">漫画：什么是蓝绿部署？</a></h2><p><img src="http://t11.baidu.com/it/u=1185119041,3482267185&fm=173&app=25&f=JPEG?w=639&h=295&s=F53429731B004C43085171C80000B030" alt="img"></p>
+<a id="more"></a>
+
+<p><img src="http://t10.baidu.com/it/u=3309501702,233977789&fm=173&app=25&f=JPG?w=542&h=386&s=BC28F65A6AEEA44D4C2BCA16020040FF" alt="img"></p>
+<p><img src="http://t11.baidu.com/it/u=140670631,2526599508&fm=173&app=25&f=JPEG?w=639&h=295&s=8414E9330B407C434A7151D800009030" alt="img"></p>
+<p><img src="http://t10.baidu.com/it/u=111965334,4212604057&fm=173&app=25&f=JPEG?w=639&h=295&s=B534693303C04D4B085171C80000B030" alt="img"></p>
+<p><img src="http://t11.baidu.com/it/u=2714158267,1400865281&fm=173&app=25&f=JPEG?w=639&h=295&s=BC047C330B405C47087971D0000090B0" alt="img"></p>
+<p><img src="http://t11.baidu.com/it/u=3563417635,2717878358&fm=173&app=25&f=JPEG?w=639&h=295&s=B57469330B004843085171C80000B030" alt="img"></p>
+<p><img src="http://t11.baidu.com/it/u=2290253758,2614107270&fm=173&app=25&f=JPEG?w=639&h=295&s=9414E9331B1058450A5151D8000090B0" alt="img"></p>
+<p><img src="http://t12.baidu.com/it/u=4097920061,1281282431&fm=173&app=25&f=JPEG?w=639&h=295&s=553429730B804943085171C80000B0B0" alt="img"></p>
+<p><strong>海豚的秘密</strong></p>
+<p><img src="http://t11.baidu.com/it/u=4014025507,4080207635&fm=173&app=25&f=JPEG?w=640&h=425&s=C9E3924660B3E26760366400030070EA" alt="img"></p>
+<p>大家都知道海豚这种可爱的海洋动物。但又有多少人知道，海豚可以<strong>永远不睡觉</strong>。</p>
+<p>是什么样的能力，使得海豚可以永远保持清醒呢？依靠的是海豚大脑特殊的运作方式。</p>
+<p><img src="http://t12.baidu.com/it/u=2015436383,1208745932&fm=173&app=25&f=JPG?w=299&h=224&s=91D3A36651BF663F1B0E72400200B0F8" alt="img"></p>
+<p>像人一样，海豚的大脑也分为左脑和右脑两个部分。在海豚活跃的状态下，左脑和右脑都是清醒的：</p>
+<p><img src="http://t10.baidu.com/it/u=3184823406,2179256142&fm=173&app=25&f=JPG?w=310&h=284&s=1BE1F70656260719118E5242020030F8" alt="img"></p>
+<p>当然，海豚也是血肉之躯，也是需要休息的。在海豚休息的状态下，其中一半大脑会进入睡眠，另一半大脑仍然保持清醒，以面对各种外界情况。</p>
+<p><img src="http://t10.baidu.com/it/u=3965703561,4285226803&fm=173&app=25&f=JPG?w=310&h=284&s=5BA1A54654260719118E5242020030F8" alt="img"></p>
+<p>每隔两个小时，这种一半睡眠一半清醒的状态会进行交替，比如这一刻左脑睡眠右脑清醒，下一刻左脑清醒右脑睡眠。</p>
+<p><img src="http://t12.baidu.com/it/u=2624951534,300235967&fm=173&app=25&f=JPG?w=310&h=284&s=1BE1F70654260719118E5242020030F8" alt="img"></p>
+<p>这就是海豚永远不会真正睡觉的秘密。</p>
+<p><img src="http://t12.baidu.com/it/u=401383742,4012854581&fm=173&app=25&f=JPEG?w=639&h=295&s=9494E9331B4078430A7111D800009030" alt="img"></p>
+<p><img src="http://t12.baidu.com/it/u=281091857,928013284&fm=173&app=25&f=JPEG?w=639&h=295&s=B53469330BC049430A5131C80000B030" alt="img"></p>
+<p><strong>什么是蓝绿部署？</strong></p>
+<p>蓝绿部署，英文名<strong>Blue Green Deployment</strong>，是一种可以保证系统在<strong>不间断提供服务</strong>的情况下上线的部署方式。</p>
+<p>如何保证系统不间断提供服务呢？</p>
+<p>蓝绿部署的模型中包含两个集群，就好比海豚的左脑和右脑。</p>
+<p><img src="http://t11.baidu.com/it/u=2581885402,718326796&fm=173&app=25&f=JPG?w=299&h=224&s=99DBA3464BFF661F1B0E72400200B0F8" alt="img"></p>
+<p>在没有上线的正常情况下，集群A和集群B的代码版本是一致的，并且同时对外提供服务。</p>
+<p><img src="http://t11.baidu.com/it/u=451588777,585650147&fm=173&app=25&f=JPG?w=313&h=376&s=0B80F5066C667E8C33225B52030070FC" alt="img"></p>
+<p>在系统升级的时候下，我们首先把一个集群（比如集群A）从负载列表中摘除，进行新版本的部署。集群B仍然继续提供服务。</p>
+<p><img src="http://t10.baidu.com/it/u=674256450,2530732864&fm=173&app=25&f=JPG?w=308&h=376&s=0BC2E5064C765A8C33423B42030030FC" alt="img"></p>
+<p>当集群A升级完毕，我们把负载均衡重新指向集群A，再把集群B从负载列表中摘除，进行新版本的部署。集群A重新提供服务。</p>
+<p><img src="http://t12.baidu.com/it/u=4220945057,1363255956&fm=173&app=25&f=JPG?w=308&h=376&s=0B82F40648776E8C31625B52030030FC" alt="img"></p>
+<p>最后，当集群B也升级完成，我们把集群B也恢复到负载列表当中。这个时候，两个集群的版本都已经升级，并且对外的服务几乎没有间断过。</p>
+<p><img src="http://t11.baidu.com/it/u=948049810,2225178196&fm=173&app=25&f=JPG?w=313&h=376&s=0B80F5066C667E8C33225B52030070FC" alt="img"></p>
+<p><img src="http://t10.baidu.com/it/u=2383547481,479382296&fm=173&app=25&f=JPEG?w=639&h=295&s=1C34E1131F4068410A7111D800009030" alt="img"></p>
+<p><img src="http://t12.baidu.com/it/u=1854722465,4125849737&fm=173&app=25&f=JPEG?w=639&h=295&s=B53469331BC0494B085171C80000B0B0" alt="img"></p>
+<p><strong>什么是滚动部署？</strong></p>
+<p>滚动部署，英文<strong>Rolling update</strong>，同样是一种可以保证系统在<strong>不间断提供服务</strong>的情况下上线的部署方式。</p>
+<p>和蓝绿部署不同的是，滚动部署对外提供服务的版本并不是非此即彼，而是在<strong>更细的粒度下平滑完成版本的升级</strong>。</p>
+<p>如何做到细粒度平滑升级版本呢？</p>
+<p>滚动部署只需要一个集群，集群下的不同节点可以独立进行版本升级。比如在一个16节点的集群中，我们选择每次升级4个节点：</p>
+<p><img src="http://t11.baidu.com/it/u=1075546150,1033097315&fm=173&app=25&f=JPG?w=436&h=420&s=0BC6E702E20E4CE96CE85B54030050F4" alt="img"></p>
+<p><img src="http://t11.baidu.com/it/u=2682496597,3429502720&fm=173&app=25&f=JPG?w=436&h=420&s=0B86E702E20E4CE84CE85B54030050F4" alt="img"></p>
+<p><img src="http://t12.baidu.com/it/u=2314143929,1947231498&fm=173&app=25&f=JPG?w=436&h=420&s=0B87E702C20E4CE86CE85B54030050F5" alt="img"></p>
+<p><img src="http://t12.baidu.com/it/u=3281628245,1801032511&fm=173&app=25&f=JPG?w=436&h=420&s=0B87E702C20E4CE86CE85B54030050F4" alt="img"></p>
+<p>以此类推，最终所有的节点都升级了版本。</p>
+<p><img src="http://t11.baidu.com/it/u=3294521521,3217467686&fm=173&app=25&f=JPEG?w=639&h=295&s=9414E9331F406D43087151D8000090B0" alt="img"></p>
+<p><img src="http://t10.baidu.com/it/u=3268939599,1217115754&fm=173&app=25&f=JPEG?w=639&h=295&s=B57469331BC04D43085171C80000B030" alt="img"></p>
+<p><img src="http://t11.baidu.com/it/u=57521935,987360313&fm=173&app=25&f=JPEG?w=640&h=322&s=A935CF1005D87DCC1049CDD80300A0B9" alt="img"></p>
+<p><strong>永生的可能性</strong></p>
+<p><img src="http://t12.baidu.com/it/u=2043248036,3282720952&fm=173&app=25&f=JPEG?w=639&h=295&s=9414E93307407D4B487151D8000090B0" alt="img"></p>
+<p>我们的身体，就仿佛是一个庞大而又复杂的计算机集群，每一个器官相当于集群当中的一个节点，器官和器官之间由无数的神经与血管相连。</p>
+<p><img src="http://t10.baidu.com/it/u=2466558006,3450998029&fm=173&app=25&f=JPEG?w=640&h=853&s=353060332B0372CC3DA410E50300F0A3" alt="img"></p>
+<p>对于计算机集群来说，不间断提供服务就是在“活着”。而对于人类来说，<strong>各个器官不间断地运作，维持生命体征</strong>就是在“活着”。</p>
+<p>人类的各个器官终究会衰老，那时候也就是人类寿命的终点。如果我们在器官衰老之前，依次把每一个器官都替换成年轻的器官，无论是肝脏还是肾脏，肌肉还是骨骼，这个人能不能永远保持青春呢？</p>
+<p><img src="http://t12.baidu.com/it/u=1715810096,1296892583&fm=173&app=25&f=JPEG?w=429&h=242&s=F02BB1545A323E94593AFF9E0300109C" alt="img"></p>
+<p>或许有人会说，人的大脑也是会衰老的，我总不能把大脑也替换掉把？那样我就不再是我了。</p>
+<p>但是，人的大脑也并不是独立不可分割的。如果我们把大脑想象成1000个甚至更多个基本单元的集合，每次仅仅替换大脑的千分之一，那么这个人还是这个人，或许连思想意识都几乎不会间断。</p>
+<p><img src="http://t11.baidu.com/it/u=680958868,4177061429&fm=173&app=25&f=JPEG?w=639&h=295&s=F534297311D049CA085131C80000B030" alt="img"></p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/830826630.html" rel="bookmark">Kubernetes安装之Kubespray</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/1404418947.html" rel="bookmark">K8S对node添加label，并根据label筛选节点</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/902416913.html" rel="bookmark">kubernetes-helm部署及本地repo搭建</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/3827057181.html" rel="bookmark">CentOS7中用kubeadm安装Kubernetes</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/3055683843.html" rel="bookmark">K8s Yaml编写小技巧</a></div>
+    </li>
+  </ul>
+
+        
+
+<div class="post-copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径TODO: 这两个js好像可以不要-->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p>
+    <span>本文标题：</span>
+    <a href="/articles/762446676.html">漫画：什么是蓝绿部署？</a>
+  </p>
+  <p>
+    <span>本文作者：</span>
+    <a href="/" title="访问 Ritboy 的个人博客">Ritboy</a>
+  </p>
+  <p>
+    <span>发布时间：</span>
+    2019年02月11日 - 15:34:31
+  </p>
+  <p>
+    <span>最后更新：</span>
+    2019年02月11日 - 15:34:31
+  </p>
+  <p><span>本文链接：</span>
+    <a href="/articles/762446676.html" title="漫画：什么是蓝绿部署？">https://blog.ritboy.com/articles/762446676.html</a>
+    <span class="copy-path"  title="点击复制文章链接">
+      <i class="fa fa-clipboard" data-clipboard-text="https://blog.ritboy.com/articles/762446676.html"  aria-label="复制成功！"></i>
+    </span>
+  </p>
+  <p>
+    <span>版权声明：</span>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请保留原文链接及作者。
+  </p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          icon: "success",
+          showConfirmButton: true
+          });
+    });
+    });
+</script>
+
+        
+    <div class="read-over">
+        -------------------本文结束
+        <i class="fa fa-paw"></i>
+        感谢您的阅读-------------------
+    </div>
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Ritboy 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ritboy 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Kubernetes/" rel="tag">
+                  <i class="fa fa-tag"></i>
+                
+                  Kubernetes
+              </a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/articles/2232509576.html" rel="prev" title="Get Return Time Statistics With the Linux Time Command">
+      <i class="fa fa-chevron-left"></i> Get Return Time Statistics With the Linux Time Command
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/articles/299853131.html" rel="next" title="Docker列出镜像用法">
+      Docker列出镜像用法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#转载：漫画：什么是蓝绿部署？"><span class="nav-number">1.</span> <span class="nav-text">转载：漫画：什么是蓝绿部署？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ritboy"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Ritboy</p>
+  <div class="site-description" itemprop="description">鲲鹏万里，能躺否，或许能编程</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ritboylei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ritboylei" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ritboylei@gmail.com" title="E-Mail → mailto:ritboylei@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener external nofollow noreferrer" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ritboy</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+
+    
+
+    <span title="站点总字数">364k</span>
+
+
+
+
+  <div class="beian">
+      <img src="/images/beian.png" style="display: inline-block;"><a href="http://www.beian.miit.gov.cn/" rel="noopener external nofollow noreferrer" target="_blank"> 蜀ICP备 19038127号-2 </a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+  
+  
+    <script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>

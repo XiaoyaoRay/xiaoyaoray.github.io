@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
+  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="转载：Python用prettytable输出漂亮的表格一、前言最近在用python写一个小工具，这个工具主要就是用来管理各种资源的信息，比如阿里云的ECS等信息，因为我工作的电脑使用的是LINUX，所以就想着用python写一个命令行的管理工具，基本的功能就是同步阿里云的资源的信息到数据库，然后可以使用命令行查询。 因为信息是展现在命令行中的，众所周知，命令行展现复杂的文本看起来着实累人，于是就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python用prettytable输出漂亮的表格">
+<meta property="og:url" content="https://blog.ritboy.com/articles/3577808246.html">
+<meta property="og:site_name" content="Ritboy&#39;s Blog">
+<meta property="og:description" content="转载：Python用prettytable输出漂亮的表格一、前言最近在用python写一个小工具，这个工具主要就是用来管理各种资源的信息，比如阿里云的ECS等信息，因为我工作的电脑使用的是LINUX，所以就想着用python写一个命令行的管理工具，基本的功能就是同步阿里云的资源的信息到数据库，然后可以使用命令行查询。 因为信息是展现在命令行中的，众所周知，命令行展现复杂的文本看起来着实累人，于是就">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-10T07:50:12.000Z">
+<meta property="article:modified_time" content="2018-12-10T07:50:12.000Z">
+<meta property="article:author" content="Ritboy">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.ritboy.com/articles/3577808246.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python用prettytable输出漂亮的表格 | Ritboy's Blog</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-163895731-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a2c1e7007a525ab8670b72d6edb333af";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ritboy's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">或许能编程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ritboylei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener external nofollow noreferrer" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/3577808246.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，或许能编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python用prettytable输出漂亮的表格
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-10 15:50:12" itemprop="dateCreated datePublished" datetime="2018-12-10T15:50:12+08:00">2018-12-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="转载：Python用prettytable输出漂亮的表格"><a href="#转载：Python用prettytable输出漂亮的表格" class="headerlink" title="转载：Python用prettytable输出漂亮的表格"></a>转载：<a href="https://linuxops.org/blog/python/prettytable.html" target="_blank" rel="noopener external nofollow noreferrer">Python用prettytable输出漂亮的表格</a></h1><h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>最近在用python写一个小工具，这个工具主要就是用来管理各种资源的信息，比如阿里云的ECS等信息，因为我工作的电脑使用的是LINUX，所以就想着用python写一个命令行的管理工具，基本的功能就是同步阿里云的资源的信息到数据库，然后可以使用命令行查询。</p>
+<p>因为信息是展现在命令行中的，众所周知，命令行展现复杂的文本看起来着实累人，于是就想着能像表格那样展示，那看起来就舒服多了。</p>
+<p>prettytable库就是这么一个工具，prettytable可以打印出美观的表格，并且对中文支持相当好（如果有试图自己实现打印表格，你就应该知道处理中文是多么的麻烦）</p>
+<blockquote>
+<p>说明：本文使用Markdown语法编写，为了展示方便，以及复制方便，所以本文中没有使用截图，因为格式控制的问题，文章中的运行结果会出现一些分割线的偏移，在终端中呈现并此问题，请各位手动去操作验证。</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h2><p>prettytable并非python的内置库，通过 <code>pip install prettytable</code>即可安装。</p>
+<h2 id="三、一个小示例"><a href="#三、一个小示例" class="headerlink" title="三、一个小示例"></a>三、一个小示例</h2><p>我们先来看一个示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#**coding:utf-8**</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> PrettyTable</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">table = PrettyTable([<span class="string">'编号'</span>,<span class="string">'云编号'</span>,<span class="string">'名称'</span>,<span class="string">'IP地址'</span>])</span><br><span class="line">table.add_row([<span class="string">'1'</span>,<span class="string">'server01'</span>,<span class="string">'服务器01'</span>,<span class="string">'172.16.0.1'</span>])</span><br><span class="line">table.add_row([<span class="string">'2'</span>,<span class="string">'server02'</span>,<span class="string">'服务器02'</span>,<span class="string">'172.16.0.2'</span>])</span><br><span class="line">table.add_row([<span class="string">'3'</span>,<span class="string">'server03'</span>,<span class="string">'服务器03'</span>,<span class="string">'172.16.0.3'</span>])</span><br><span class="line">table.add_row([<span class="string">'4'</span>,<span class="string">'server04'</span>,<span class="string">'服务器04'</span>,<span class="string">'172.16.0.4'</span>])</span><br><span class="line">table.add_row([<span class="string">'5'</span>,<span class="string">'server05'</span>,<span class="string">'服务器05'</span>,<span class="string">'172.16.0.5'</span>])</span><br><span class="line">table.add_row([<span class="string">'6'</span>,<span class="string">'server06'</span>,<span class="string">'服务器06'</span>,<span class="string">'172.16.0.6'</span>])</span><br><span class="line">table.add_row([<span class="string">'7'</span>,<span class="string">'server07'</span>,<span class="string">'服务器07'</span>,<span class="string">'172.16.0.7'</span>])</span><br><span class="line">table.add_row([<span class="string">'8'</span>,<span class="string">'server08'</span>,<span class="string">'服务器08'</span>,<span class="string">'172.16.0.8'</span>])</span><br><span class="line">table.add_row([<span class="string">'9'</span>,<span class="string">'server09'</span>,<span class="string">'服务器09'</span>,<span class="string">'172.16.0.9'</span>])</span><br><span class="line">print(table)</span><br></pre></td></tr></table></figure>
+
+<p>以上示例运行结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">linuxops@deepin:~$ python p.py </span><br><span class="line">+------+----------+----------+------------+</span><br><span class="line">| 编号 |  云编号  |   名称   |   IP地址   |</span><br><span class="line">+------+----------+----------+------------+</span><br><span class="line">|  1   | server01 | 服务器01 | 172.16.0.1 |</span><br><span class="line">|  2   | server02 | 服务器02 | 172.16.0.2 |</span><br><span class="line">|  3   | server03 | 服务器03 | 172.16.0.3 |</span><br><span class="line">|  4   | server04 | 服务器04 | 172.16.0.4 |</span><br><span class="line">|  5   | server05 | 服务器05 | 172.16.0.5 |</span><br><span class="line">|  6   | server06 | 服务器06 | 172.16.0.6 |</span><br><span class="line">|  7   | server07 | 服务器07 | 172.16.0.7 |</span><br><span class="line">|  8   | server08 | 服务器08 | 172.16.0.8 |</span><br><span class="line">|  9   | server09 | 服务器09 | 172.16.0.9 |</span><br><span class="line">+------+----------+----------+------------+</span><br></pre></td></tr></table></figure>
+
+<p>在以上的示例中，我们通过<code>form</code>导入了表格库。 <code>table</code>实例化了一个表格库，并且添加了<code>[&#39;编号&#39;,&#39;云编号&#39;,&#39;名称&#39;,&#39;IP地址&#39;]</code>为表头，如果没有添加表头，那么会以默认的Field+编号显示，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+---------+----------+----------+------------+</span><br><span class="line">| Field 1 | Field 2  | Field 3  |  Field 4   |</span><br><span class="line">+---------+----------+----------+------------+</span><br></pre></td></tr></table></figure>
+
+<p>所以为更直观看出每一列的意义，还是要添加表头的。</p>
+<h2 id="四、添加数据"><a href="#四、添加数据" class="headerlink" title="四、添加数据"></a>四、添加数据</h2><p>prettytable提供了多种的添加数据的方式，最常用的应该就是按行按列添加数据了。</p>
+<h3 id="A、按行添加数据-table-add-row"><a href="#A、按行添加数据-table-add-row" class="headerlink" title="A、按行添加数据 table.add_row"></a>A、按行添加数据 table.add_row</h3><p>在上面简单的示例中，我们就是按行添加数据的。</p>
+<p>添加的数据必须要是列表的形式，而且数据的列表长度要和表头的长度一样。在实际的使用中，我们应该要关注到添加的数据是否和表头对应，这一点很重要。</p>
+<h3 id="B、按列添加数据-table-add-column"><a href="#B、按列添加数据-table-add-column" class="headerlink" title="B、按列添加数据 table.add_column()"></a>B、按列添加数据 table.add_column()</h3><p>看下面的示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#**coding:utf-8**</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> PrettyTable</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">table = PrettyTable()</span><br><span class="line">table.add_column(<span class="string">'项目'</span>, [<span class="string">'编号'</span>,<span class="string">'云编号'</span>,<span class="string">'名称'</span>,<span class="string">'IP地址'</span>])</span><br><span class="line">table.add_column(<span class="string">'值'</span>, [<span class="string">'1'</span>,<span class="string">'server01'</span>,<span class="string">'服务器01'</span>,<span class="string">'172.16.0.1'</span>])</span><br><span class="line">print(table)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+-------+--------+------------+</span><br><span class="line">| index | 项目 |    值     |</span><br><span class="line">+-------+--------+------------+</span><br><span class="line">|   1   |  编号  |     1      |</span><br><span class="line">|   2   | 云编号 |  server01  |</span><br><span class="line">|   3   |  名称  |  服务器01   |</span><br><span class="line">|   4   | IP地址 | 172.16.0.1 |</span><br><span class="line">+-------+--------+------------+</span><br></pre></td></tr></table></figure>
+
+<p>以上示例中，我们通过<code>add_column</code>来按列添加数据，按列添加数据不需要在实例化表格的时候制定表头，它的表头是在添加列的时候指定的。</p>
+<p><code>table.add_column(&#39;项目&#39;, [&#39;编号&#39;,&#39;云编号&#39;,&#39;名称&#39;,&#39;IP地址&#39;])</code> 这一行代码为例，<code>项目</code>指定了这个列的表头名为”项目”，<code>[&#39;编号&#39;,&#39;云编号&#39;,&#39;名称&#39;,&#39;IP地址&#39;]</code>为列的值，同样为列表。</p>
+<h3 id="C、从csv文件添加数据"><a href="#C、从csv文件添加数据" class="headerlink" title="C、从csv文件添加数据"></a>C、从csv文件添加数据</h3><p>PrettyTable不仅提供了手动按行按列添加数据，也支持直接从csv文件中读取数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#**coding:utf-8**</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> PrettyTable</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> from_csv </span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">table = PrettyTable()</span><br><span class="line">fp = open(<span class="string">"res.csv"</span>, <span class="string">"r"</span>) </span><br><span class="line">table = from_csv(fp) </span><br><span class="line">print(table)</span><br><span class="line">fp.close()</span><br></pre></td></tr></table></figure>
+
+<p>如果要读取cvs文件数据，必须要先导入<code>from_csv</code>，否则无法运行。上面的示例运行结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+------+----------+----------+------------+</span><br><span class="line">| 编号 |  云编号  |   名称   |   IP地址   |</span><br><span class="line">+------+----------+----------+------------+</span><br><span class="line">|  1   | server01 | 服务器01 | 172.16.0.1 |</span><br><span class="line">|  2   | server02 | 服务器02 | 172.16.0.2 |</span><br><span class="line">|  3   | server03 | 服务器03 | 172.16.0.3 |</span><br><span class="line">|  4   | server04 | 服务器04 | 172.16.0.4 |</span><br><span class="line">|  5   | server05 | 服务器05 | 172.16.0.5 |</span><br><span class="line">|  6   | server06 | 服务器06 | 172.16.0.6 |</span><br><span class="line">|  7   | server07 | 服务器07 | 172.16.0.7 |</span><br><span class="line">|  8   | server08 | 服务器08 | 172.16.0.8 |</span><br><span class="line">|  9   | server09 | 服务器09 | 172.16.0.9 |</span><br><span class="line">+------+----------+----------+------------+</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>csv文件不能通过xls直接重命名得到，会报错。如果是xls文件，请用另存为csv获得csv文件</p>
+</blockquote>
+<h3 id="D、从sql查询值添加"><a href="#D、从sql查询值添加" class="headerlink" title="D、从sql查询值添加"></a>D、从sql查询值添加</h3><p>从数据库查询出来的数据可以直接导入到表格打印，下面的例子使用了<code>sqlite3</code>,如果使用的是mysql也是一样的，只要能查询到数据就能导入到表格中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#**coding:utf-8**</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> PrettyTable</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> from_db_cursor </span><br><span class="line"><span class="keyword">import</span> sqlite3</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">conn = sqlite3.connect(<span class="string">"/tmp/aliyun.db"</span>)</span><br><span class="line">cur = conn.cursor()</span><br><span class="line">cur.execute(<span class="string">"SELECT * FROM res"</span>) </span><br><span class="line">table = from_db_cursor(cur)</span><br><span class="line">print(table)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+------+----------+----------+------------+</span><br><span class="line">| 编号 |  云编号  |   名称   |   IP地址   |</span><br><span class="line">+------+----------+----------+------------+</span><br><span class="line">|  1   | server01 | 服务器01 | 172.16.0.1 |</span><br><span class="line">|  2   | server02 | 服务器02 | 172.16.0.2 |</span><br><span class="line">|  3   | server03 | 服务器03 | 172.16.0.3 |</span><br><span class="line">|  4   | server04 | 服务器04 | 172.16.0.4 |</span><br><span class="line">|  5   | server05 | 服务器05 | 172.16.0.5 |</span><br><span class="line">|  6   | server06 | 服务器06 | 172.16.0.6 |</span><br><span class="line">|  7   | server07 | 服务器07 | 172.16.0.7 |</span><br><span class="line">|  8   | server08 | 服务器08 | 172.16.0.8 |</span><br><span class="line">|  9   | server09 | 服务器09 | 172.16.0.9 |</span><br><span class="line">+------+----------+----------+------------+</span><br></pre></td></tr></table></figure>
+
+<h3 id="E、从HTML导入数据"><a href="#E、从HTML导入数据" class="headerlink" title="E、从HTML导入数据"></a>E、从HTML导入数据</h3><p>支持从html的表格中导入，请看下面这个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#**coding:utf-8**</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> PrettyTable</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> from_html </span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">html_string=<span class="string">'''&lt;table&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">&lt;th&gt;编号&lt;/th&gt;</span></span><br><span class="line"><span class="string">&lt;th&gt;云编号&lt;/th&gt;</span></span><br><span class="line"><span class="string">&lt;th&gt;名称&lt;/th&gt;</span></span><br><span class="line"><span class="string">&lt;th&gt;IP地址&lt;/th&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">&lt;td&gt;1&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;td&gt;server01&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;td&gt;服务器01&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;td&gt;172.16.0.1&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">&lt;td&gt;2&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;td&gt;server02&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;td&gt;服务器02&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;td&gt;172.16.0.2&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;/table&gt;'''</span></span><br><span class="line"></span><br><span class="line">table = from_html(html_string)</span><br><span class="line"></span><br><span class="line">print(table[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+------+----------+----------+------------+</span><br><span class="line">| 编号 |  云编号  |   名称   |   IP地址   |</span><br><span class="line">+------+----------+----------+------------+</span><br><span class="line">|  1   | server01 | 服务器01 | 172.16.0.1 |</span><br><span class="line">|  2   | server02 | 服务器02 | 172.16.0.2 |</span><br><span class="line">+------+----------+----------+------------+</span><br></pre></td></tr></table></figure>
+
+<p>如上示例中，我们可以导入html的表格，但是不一样的地方是<code>print</code>语句，使用html表格导入数据的时候print的必须是列表中的第一个元素，否则有可能会报<code>[&lt;prettytable.PrettyTable object at 0x7fa87feba590&gt;]</code>这样的错误。</p>
+<p>这是因为<code>table</code>并不是PrettyTable对象，而是包含单个PrettyTable对象的列表，它通过解析html而来，所以无法直接打印<code>table</code>，而需要打印<code>table[0]</code></p>
+<h2 id="五、表格输出格式"><a href="#五、表格输出格式" class="headerlink" title="五、表格输出格式"></a>五、表格输出格式</h2><p>正如支持多种输入一样，表格的输出也支持多种格式，我们在上面中的例子中已经使用了print的方式输出，这是一种常用的输出方式。</p>
+<h3 id="A、print"><a href="#A、print" class="headerlink" title="A、print"></a>A、print</h3><p>直接通过<code>print</code>打印出表格。这种方式打印出的表格会带边框。</p>
+<h3 id="B、输出HTML格式的表格"><a href="#B、输出HTML格式的表格" class="headerlink" title="B、输出HTML格式的表格"></a>B、输出HTML格式的表格</h3><p><code>print(table.get_html_string())</code>可以打印出html标签的表格。</p>
+<p>在上面的例子中，使用<code>print(table.get_html_string())</code>会打印出如下结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;th&gt;编号&lt;/th&gt;</span><br><span class="line">        &lt;th&gt;云编号&lt;/th&gt;</span><br><span class="line">        &lt;th&gt;名称&lt;/th&gt;</span><br><span class="line">        &lt;th&gt;IP地址&lt;/th&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;td&gt;1&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;server01&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;服务器01&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;172.16.0.1&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;td&gt;2&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;server02&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;服务器02&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;172.16.0.2&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、选择性输出"><a href="#六、选择性输出" class="headerlink" title="六、选择性输出"></a>六、选择性输出</h2><p>prettytable在创建表格之后，你依然可以有选择的输出某些特定的行.</p>
+<h3 id="A、输出指定的列"><a href="#A、输出指定的列" class="headerlink" title="A、输出指定的列"></a>A、输出指定的列</h3><p><code>print table.get_string(fields=[&quot;编号&quot;, &quot;IP地址&quot;])</code>可以输出指定的列</p>
+<h3 id="B、输出前两行"><a href="#B、输出前两行" class="headerlink" title="B、输出前两行"></a>B、输出前两行</h3><p>通过<code>print(table.get_string(start = 0, end = 2))</code>的可以打印出指定的列，当然<code>start</code>和<code>end</code>参数让我可以自由控制显示区间。当然区间中包含<code>start</code>不包含<code>end</code>，是不是很熟悉这样的用法？</p>
+<blockquote>
+<p>根据输出指定行列的功能，我们可以同时指定行和列来输出，这里就不说明了。</p>
+</blockquote>
+<h3 id="C、将表格切片"><a href="#C、将表格切片" class="headerlink" title="C、将表格切片"></a>C、将表格切片</h3><p>从上面的输出区间，我们做一个大胆的假设，既然区间包含<code>start</code>不包含<code>end</code>这种规则和切片的一样，我们可以不可通过切片来生成一个新的表格然后将其打印。</p>
+<p>事实上是可以的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">new_table = table[<span class="number">0</span>:<span class="number">2</span>]</span><br><span class="line">print(new_table)</span><br></pre></td></tr></table></figure>
+
+<p>如上代码段中，我们就可以打印出0到1行共2行的表格，python的切片功能异常强大，配合切片我们可以自由的输入任意的行。</p>
+<h3 id="D、输出排序"><a href="#D、输出排序" class="headerlink" title="D、输出排序"></a>D、输出排序</h3><p>有时候我们需要对输出的表格进行排序，使用<code>print table.get_string(sortby=&quot;编号&quot;, reversesort=True)</code>就可以对表格进行排序，其中<code>reversesort</code>指定了是否倒序排序,默认为<code>False</code>，即默认正序列排序。</p>
+<p><code>sortby</code>指定了排序的字段。</p>
+<h2 id="七、表格的样式"><a href="#七、表格的样式" class="headerlink" title="七、表格的样式"></a>七、表格的样式</h2><h3 id="A、内置样式"><a href="#A、内置样式" class="headerlink" title="A、内置样式"></a>A、内置样式</h3><p>通过<code>set_style()</code>可以设置表格样式，prettytable内置了多种的样式个人觉得<code>MSWORD_FRIENDLY</code>，<code>PLAIN_COLUMNS</code>，<code>DEFAULT</code> 这三种样式看起来比较清爽，在终端下显示表格本来看起就很累，再加上一下花里胡哨的东西看起来就更累。</p>
+<p>除了以上推荐的三种样式以外，还有一种样式不得不说，那就是<code>RANDOM</code>，这是一种随机的样式，每一次打印都会在内置的样式中随机选择一个，比较好玩。</p>
+<p>具体内置了几种样式，请各位参考官网完整自己尝试输出看看。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#**coding:utf-8**</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> PrettyTable</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> MSWORD_FRIENDLY</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> PLAIN_COLUMNS</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> RANDOM</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> DEFAULT</span><br><span class="line"></span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">table = PrettyTable([<span class="string">'编号'</span>,<span class="string">'云编号'</span>,<span class="string">'名称'</span>,<span class="string">'IP地址'</span>])</span><br><span class="line">table.add_row([<span class="string">'1'</span>,<span class="string">'server01'</span>,<span class="string">'服务器01'</span>,<span class="string">'172.16.0.1'</span>])</span><br><span class="line">table.add_row([<span class="string">'3'</span>,<span class="string">'server03'</span>,<span class="string">'服务器03'</span>,<span class="string">'172.16.0.3'</span>])</span><br><span class="line">table.add_row([<span class="string">'2'</span>,<span class="string">'server02'</span>,<span class="string">'服务器02'</span>,<span class="string">'172.16.0.2'</span>])</span><br><span class="line">table.add_row([<span class="string">'9'</span>,<span class="string">'server09'</span>,<span class="string">'服务器09'</span>,<span class="string">'172.16.0.9'</span>])</span><br><span class="line">table.add_row([<span class="string">'4'</span>,<span class="string">'server04'</span>,<span class="string">'服务器04'</span>,<span class="string">'172.16.0.4'</span>])</span><br><span class="line">table.add_row([<span class="string">'5'</span>,<span class="string">'server05'</span>,<span class="string">'服务器05'</span>,<span class="string">'172.16.0.5'</span>])</span><br><span class="line">table.add_row([<span class="string">'6'</span>,<span class="string">'server06'</span>,<span class="string">'服务器06'</span>,<span class="string">'172.16.0.6'</span>])</span><br><span class="line">table.add_row([<span class="string">'8'</span>,<span class="string">'server08'</span>,<span class="string">'服务器08'</span>,<span class="string">'172.16.0.8'</span>])</span><br><span class="line">table.add_row([<span class="string">'7'</span>,<span class="string">'server07'</span>,<span class="string">'服务器07'</span>,<span class="string">'172.16.0.7'</span>])</span><br><span class="line">table.set_style(DEFAULT)</span><br><span class="line"></span><br><span class="line">print(table)</span><br></pre></td></tr></table></figure>
+
+<h3 id="B、自定义样式"><a href="#B、自定义样式" class="headerlink" title="B、自定义样式"></a>B、自定义样式</h3><p>除了内置的样式以外，PrettyTable也提供了用户自定义，例如对齐方式，数字输出格式，边框连接符等等</p>
+<h3 id="C、设置对齐方式"><a href="#C、设置对齐方式" class="headerlink" title="C、设置对齐方式"></a>C、设置对齐方式</h3><p><code>align</code>提供了用户设置对齐的方式，值有<code>l</code>，<code>r</code>，<code>c</code>方便代表左对齐，右对齐和居中 如果不设置，默认居中对齐。</p>
+<h3 id="D、控制边框样式"><a href="#D、控制边框样式" class="headerlink" title="D、控制边框样式"></a>D、控制边框样式</h3><p>在PrettyTable中，边框由三个部分组成，横边框，竖边框，和边框连接符（横竖交叉的链接符号）</p>
+<p>如下示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#**coding:utf-8**</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> prettytable <span class="keyword">import</span> PrettyTable</span><br><span class="line"></span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">table = PrettyTable([<span class="string">'编号'</span>,<span class="string">'云编号'</span>,<span class="string">'名称'</span>,<span class="string">'IP地址'</span>])</span><br><span class="line">table.add_row([<span class="string">'1'</span>,<span class="string">'server01'</span>,<span class="string">'服务器01'</span>,<span class="string">'172.16.0.1'</span>])</span><br><span class="line">table.add_row([<span class="string">'3'</span>,<span class="string">'server03'</span>,<span class="string">'服务器03'</span>,<span class="string">'172.16.0.3'</span>])</span><br><span class="line">table.add_row([<span class="string">'2'</span>,<span class="string">'server02'</span>,<span class="string">'服务器02'</span>,<span class="string">'172.16.0.2'</span>])</span><br><span class="line">table.add_row([<span class="string">'9'</span>,<span class="string">'server09'</span>,<span class="string">'服务器09'</span>,<span class="string">'172.16.0.9'</span>])</span><br><span class="line">table.add_row([<span class="string">'4'</span>,<span class="string">'server04'</span>,<span class="string">'服务器04'</span>,<span class="string">'172.16.0.4'</span>])</span><br><span class="line">table.add_row([<span class="string">'5'</span>,<span class="string">'server05'</span>,<span class="string">'服务器05'</span>,<span class="string">'172.16.0.5'</span>])</span><br><span class="line">table.add_row([<span class="string">'6'</span>,<span class="string">'server06'</span>,<span class="string">'服务器06'</span>,<span class="string">'172.16.0.6'</span>])</span><br><span class="line">table.add_row([<span class="string">'8'</span>,<span class="string">'server08'</span>,<span class="string">'服务器08'</span>,<span class="string">'172.16.0.8'</span>])</span><br><span class="line">table.add_row([<span class="string">'7'</span>,<span class="string">'server07'</span>,<span class="string">'服务器07'</span>,<span class="string">'172.16.0.7'</span>])</span><br><span class="line">table.align[<span class="number">1</span>] = <span class="string">'l'</span></span><br><span class="line"></span><br><span class="line">table.border = <span class="literal">True</span></span><br><span class="line">table.junction_char=<span class="string">'$'</span></span><br><span class="line">table.horizontal_char = <span class="string">'+'</span></span><br><span class="line">table.vertical_char = <span class="string">'%'</span></span><br><span class="line"></span><br><span class="line">print(table)</span><br><span class="line">table.border`控制是否显示边框，默认是`<span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<p><code>table.junction_char</code>控制边框连接符</p>
+<p><code>table.horizontal_char</code>控制横边框符号</p>
+<p><code>table.vertical_char</code>控制竖边框符号</p>
+<p>上例运行如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$++++++$++++++++++$++++++++++$++++++++++++$</span><br><span class="line">% 编号 %  云编号  %   名称   %   IP地址   %</span><br><span class="line">$++++++$++++++++++$++++++++++$++++++++++++$</span><br><span class="line">%  1   % server01 % 服务器01 % 172.16.0.1 %</span><br><span class="line">%  3   % server03 % 服务器03 % 172.16.0.3 %</span><br><span class="line">%  2   % server02 % 服务器02 % 172.16.0.2 %</span><br><span class="line">%  9   % server09 % 服务器09 % 172.16.0.9 %</span><br><span class="line">%  4   % server04 % 服务器04 % 172.16.0.4 %</span><br><span class="line">%  5   % server05 % 服务器05 % 172.16.0.5 %</span><br><span class="line">%  6   % server06 % 服务器06 % 172.16.0.6 %</span><br><span class="line">%  8   % server08 % 服务器08 % 172.16.0.8 %</span><br><span class="line">%  7   % server07 % 服务器07 % 172.16.0.7 %</span><br><span class="line">$++++++$++++++++++$++++++++++$++++++++++++$</span><br></pre></td></tr></table></figure>
+
+<p>以上简单介绍了表格常用的一些样式设置，具体的请参考官方网站。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/3426993658.html" rel="bookmark">解决Centos7开启Django服务不能远程访问的问题</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/2139646571.html" rel="bookmark">CentOS7安装python虚拟运行环境</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/2185007545.html" rel="bookmark">Python代码获取系统环境变量的值</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/2439534387.html" rel="bookmark">深入理解Python中的复制、引用、拷贝、作用域</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/422075899.html" rel="bookmark">Python中环境变量的查看与添加</a></div>
+    </li>
+  </ul>
+
+        
+
+<div class="post-copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径TODO: 这两个js好像可以不要-->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p>
+    <span>本文标题：</span>
+    <a href="/articles/3577808246.html">Python用prettytable输出漂亮的表格</a>
+  </p>
+  <p>
+    <span>本文作者：</span>
+    <a href="/" title="访问 Ritboy 的个人博客">Ritboy</a>
+  </p>
+  <p>
+    <span>发布时间：</span>
+    2018年12月10日 - 15:50:12
+  </p>
+  <p>
+    <span>最后更新：</span>
+    2018年12月10日 - 15:50:12
+  </p>
+  <p><span>本文链接：</span>
+    <a href="/articles/3577808246.html" title="Python用prettytable输出漂亮的表格">https://blog.ritboy.com/articles/3577808246.html</a>
+    <span class="copy-path"  title="点击复制文章链接">
+      <i class="fa fa-clipboard" data-clipboard-text="https://blog.ritboy.com/articles/3577808246.html"  aria-label="复制成功！"></i>
+    </span>
+  </p>
+  <p>
+    <span>版权声明：</span>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请保留原文链接及作者。
+  </p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          icon: "success",
+          showConfirmButton: true
+          });
+    });
+    });
+</script>
+
+        
+    <div class="read-over">
+        -------------------本文结束
+        <i class="fa fa-paw"></i>
+        感谢您的阅读-------------------
+    </div>
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Ritboy 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ritboy 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag">
+                  <i class="fa fa-tag"></i>
+                
+                  Python
+              </a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/articles/2053796735.html" rel="prev" title="Shell比较语法">
+      <i class="fa fa-chevron-left"></i> Shell比较语法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/articles/131134043.html" rel="next" title="Python 调用堆栈信息">
+      Python 调用堆栈信息 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#转载：Python用prettytable输出漂亮的表格"><span class="nav-number">1.</span> <span class="nav-text">转载：Python用prettytable输出漂亮的表格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、前言"><span class="nav-number">1.1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、安装"><span class="nav-number">1.2.</span> <span class="nav-text">二、安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、一个小示例"><span class="nav-number">1.3.</span> <span class="nav-text">三、一个小示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、添加数据"><span class="nav-number">1.4.</span> <span class="nav-text">四、添加数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A、按行添加数据-table-add-row"><span class="nav-number">1.4.1.</span> <span class="nav-text">A、按行添加数据 table.add_row</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B、按列添加数据-table-add-column"><span class="nav-number">1.4.2.</span> <span class="nav-text">B、按列添加数据 table.add_column()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C、从csv文件添加数据"><span class="nav-number">1.4.3.</span> <span class="nav-text">C、从csv文件添加数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D、从sql查询值添加"><span class="nav-number">1.4.4.</span> <span class="nav-text">D、从sql查询值添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#E、从HTML导入数据"><span class="nav-number">1.4.5.</span> <span class="nav-text">E、从HTML导入数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、表格输出格式"><span class="nav-number">1.5.</span> <span class="nav-text">五、表格输出格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A、print"><span class="nav-number">1.5.1.</span> <span class="nav-text">A、print</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B、输出HTML格式的表格"><span class="nav-number">1.5.2.</span> <span class="nav-text">B、输出HTML格式的表格</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、选择性输出"><span class="nav-number">1.6.</span> <span class="nav-text">六、选择性输出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A、输出指定的列"><span class="nav-number">1.6.1.</span> <span class="nav-text">A、输出指定的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B、输出前两行"><span class="nav-number">1.6.2.</span> <span class="nav-text">B、输出前两行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C、将表格切片"><span class="nav-number">1.6.3.</span> <span class="nav-text">C、将表格切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D、输出排序"><span class="nav-number">1.6.4.</span> <span class="nav-text">D、输出排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、表格的样式"><span class="nav-number">1.7.</span> <span class="nav-text">七、表格的样式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A、内置样式"><span class="nav-number">1.7.1.</span> <span class="nav-text">A、内置样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B、自定义样式"><span class="nav-number">1.7.2.</span> <span class="nav-text">B、自定义样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C、设置对齐方式"><span class="nav-number">1.7.3.</span> <span class="nav-text">C、设置对齐方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D、控制边框样式"><span class="nav-number">1.7.4.</span> <span class="nav-text">D、控制边框样式</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ritboy"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Ritboy</p>
+  <div class="site-description" itemprop="description">鲲鹏万里，能躺否，或许能编程</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ritboylei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ritboylei" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ritboylei@gmail.com" title="E-Mail → mailto:ritboylei@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener external nofollow noreferrer" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ritboy</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+
+    
+
+    <span title="站点总字数">364k</span>
+
+
+
+
+  <div class="beian">
+      <img src="/images/beian.png" style="display: inline-block;"><a href="http://www.beian.miit.gov.cn/" rel="noopener external nofollow noreferrer" target="_blank"> 蜀ICP备 19038127号-2 </a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+  
+  
+    <script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
+  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="WiseCloud部署安装部署UI搭建 新建目录deploy-ui，在该目录下新建文件docker-compose.yml，内容如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WiseCloud部署安装">
+<meta property="og:url" content="https://blog.ritboy.com/articles/1027612251.html">
+<meta property="og:site_name" content="Ritboy&#39;s Blog">
+<meta property="og:description" content="WiseCloud部署安装部署UI搭建 新建目录deploy-ui，在该目录下新建文件docker-compose.yml，内容如下：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1frl3x76gf2j30po08o74y.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1frl3x4050vj31kw0srn17.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1frl3wzqrarj31ai0nnq6m.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1frl3wvfv9mj30kj0ayq3o.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1frl8l5yzv9j311k0x8jvx.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1frl8pz7ed1j30gt0imtdd.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1frl8pi9ww5j313b0hhdko.jpg">
+<meta property="article:published_time" content="2018-05-23T06:26:35.000Z">
+<meta property="article:modified_time" content="2018-05-23T06:26:35.000Z">
+<meta property="article:author" content="Ritboy">
+<meta property="article:tag" content="Wise2c">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1frl3x76gf2j30po08o74y.jpg">
+
+<link rel="canonical" href="https://blog.ritboy.com/articles/1027612251.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WiseCloud部署安装 | Ritboy's Blog</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-163895731-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a2c1e7007a525ab8670b72d6edb333af";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ritboy's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">或许能编程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ritboylei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener external nofollow noreferrer" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/1027612251.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，或许能编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WiseCloud部署安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-23 14:26:35" itemprop="dateCreated datePublished" datetime="2018-05-23T14:26:35+08:00">2018-05-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Wise2c/" itemprop="url" rel="index"><span itemprop="name">Wise2c</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>19k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="WiseCloud部署安装"><a href="#WiseCloud部署安装" class="headerlink" title="WiseCloud部署安装"></a>WiseCloud部署安装</h3><h4 id="部署UI搭建"><a href="#部署UI搭建" class="headerlink" title="部署UI搭建"></a>部署UI搭建</h4><ul>
+<li><p>新建目录<code>deploy-ui</code>，在该目录下新建文件<code>docker-compose.yml</code>，内容如下：</p>
+<a id="more"></a>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">wise2c/pagoda:v0.4.1</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">entrypoint:</span> <span class="string">sh</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-c</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">"/root/pagoda -logtostderr -v 4 -w /workspace"</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">88</span><span class="string">:80</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">8088</span><span class="string">:8080</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/root/.ssh:/root/.ssh</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">$PWD/deploy:/deploy</span></span><br><span class="line">    <span class="attr">volumes_from:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">wise2c-playbook</span></span><br><span class="line">  <span class="attr">ui:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">registry.cn-hangzhou.aliyuncs.com/wise2c-dev/deploy-ui:v0.4</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">network_mode:</span> <span class="string">"service:deploy"</span></span><br><span class="line">  <span class="attr">wise2c-playbook:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">registry.cn-hangzhou.aliyuncs.com/wise2c-dev/playbook:v1.4.10-rc1</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">wise2c-playbook:/workspace</span></span><br><span class="line">  <span class="attr">yum-repo:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">wise2c/yum-repo:7.4</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">2009</span><span class="string">:2009</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">wise2c-playbook:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在目录<code>deploy-ui</code>目录下运行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 清理已存在volume</span><br><span class="line">[root@test--0005 deploy-ui]# docker volume list | grep wise2c-playbook</span><br><span class="line">local               deployui_wise2c-playbook</span><br><span class="line">[root@test--0005 deploy-ui]# docker volume rm deployui_wise2c-playbook</span><br><span class="line"></span><br><span class="line"># 启动部署UI的docker-compose</span><br><span class="line">[root@test--0005 deploy-ui]# docker-compose up -d</span><br><span class="line">Creating network &quot;deployui_default&quot; with the default driver</span><br><span class="line">Creating deployui_wise2c-playbook_1 ...</span><br><span class="line">Creating deployui_yum-repo_1 ...</span><br><span class="line">Creating deployui_yum-repo_1</span><br><span class="line">Creating deployui_wise2c-playbook_1 ... done</span><br><span class="line">Creating deployui_deploy_1 ...</span><br><span class="line">Creating deployui_deploy_1 ... done</span><br><span class="line">Creating deployui_ui_1 ...</span><br><span class="line">Creating deployui_ui_1 ... done</span><br><span class="line"></span><br><span class="line"># 查看是否启动成功</span><br><span class="line">[root@test--0005 deploy-ui]# docker-compose ps</span><br><span class="line">           Name                         Command               State                      Ports</span><br><span class="line">-----------------------------------------------------------------------------------------------------------------</span><br><span class="line">deployui_deploy_1            sh -c &#x2F;root&#x2F;pagoda -logtos ...   Up       0.0.0.0:88-&gt;80&#x2F;tcp, 0.0.0.0:8088-&gt;8080&#x2F;tcp</span><br><span class="line">deployui_ui_1                &#x2F;root&#x2F;entrypoint.sh              Up</span><br><span class="line">deployui_wise2c-playbook_1   sh                               Exit 0</span><br><span class="line">deployui_yum-repo_1          nginx -g daemon off;             Up       0.0.0.0:2009-&gt;2009&#x2F;tcp, 80&#x2F;tcp</span><br><span class="line">[root@test--0005 deploy-ui]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>部署<code>playbook</code>存放目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 查看playbook的映射到宿主机的目录名称</span><br><span class="line">[root@test--0005 deploy-ui]# docker volume list | grep wise2c-playbook</span><br><span class="line">local               deployui_wise2c-playbook</span><br><span class="line">[root@test--0005 deploy-ui]#</span><br><span class="line"></span><br><span class="line"># 宿主机上playbook的路径</span><br><span class="line">[root@test--0005 deploy-ui]# ls &#x2F;var&#x2F;lib&#x2F;docker&#x2F;volumes&#x2F;deployui_wise2c-playbook&#x2F;_data&#x2F;</span><br><span class="line">callback_plugins  components_order.conf  consul-playbook  docker-playbook  etcd-playbook  kubernetes-playbook  loadbalancer-playbook  mysql-playbook  rabbitmq-playbook  redis-playbook  registry-playbook  wisecloud-playbook</span><br><span class="line">[root@test--0005 deploy-ui]#</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="部署UI安装各个组件"><a href="#部署UI安装各个组件" class="headerlink" title="部署UI安装各个组件"></a>部署UI安装各个组件</h4><ul>
+<li><p>访问地址<code>http://&lt;docker-compose宿主机IP&gt;:88</code>，端口可以在docker-compose.yml文件中配置</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1frl3x76gf2j30po08o74y.jpg" alt="image-20180523111531540"></p>
+</li>
+<li><p>页面主机配置</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1frl3x4050vj31kw0srn17.jpg" alt="image-20180523111601694"></p>
+</li>
+<li><p>页面服务组件配置</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1frl3wzqrarj31ai0nnq6m.jpg" alt="image-20180523111850381"></p>
+</li>
+<li><p>勾选需要安装组件后，在服务组件点击<code>开始安装</code>按钮镜像部署</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1frl3wvfv9mj30kj0ayq3o.jpg" alt="image-20180523112119274"></p>
+</li>
+<li><p>安装时用命令查看日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#查看部署日志</span><br><span class="line">[root@test--0005 deploy-ui]# docker-compose logs -f deploy</span><br><span class="line">Attaching to deployui_ui_1, deployui_deploy_1, deployui_wise2c-playbook_1, deployui_yum-repo_1</span><br><span class="line">deploy_1           | [GIN-debug] [WARNING] Running in &quot;debug&quot; mode. Switch to &quot;release&quot; mode in production.</span><br><span class="line">deploy_1           |  - using env:	export GIN_MODE&#x3D;release</span><br><span class="line">deploy_1           |  - using code:	gin.SetMode(gin.ReleaseMode)</span><br><span class="line">deploy_1           |</span><br><span class="line">ui_1               | Activating privacy features... done.</span><br><span class="line">deploy_1           | [GIN-debug] GET    &#x2F;favicon.ico              --&gt; github.com&#x2F;wise2c-devops&#x2F;pagoda&#x2F;vendor&#x2F;github.com&#x2F;gin-gonic&#x2F;gin.(*RouterGroup).StaticFile.func1 (4 handlers)</span><br><span class="line">ui_1               | http:&#x2F;&#x2F;0.0.0.0</span><br><span class="line">deploy_1           | [GIN-debug] HEAD   &#x2F;favicon.ico              --&gt; github.com&#x2F;wise2c-devops&#x2F;pagoda&#x2F;vendor&#x2F;github.com&#x2F;gin-gonic&#x2F;gin.(*RouterGroup).StaticFile.func1 (4 handlers)</span><br><span class="line">ui_1               | http:&#x2F;&#x2F;0.0.0.0&#x2F;v1</span><br><span class="line">deploy_1           | [GIN-debug] GET    &#x2F;v1&#x2F;components            --&gt; main.components (4 handlers)</span><br><span class="line">ui_1               | 171.221.145.40 - - [23&#x2F;May&#x2F;2018:03:11:57 +0000] &quot;GET &#x2F;v1&#x2F;clusters HTTP&#x2F;1.1&quot; 200 113</span><br><span class="line">deploy_1           | [GIN-debug] GET    &#x2F;v1&#x2F;components&#x2F;:component_name&#x2F;versions --&gt; main.versions (4 handlers)</span><br><span class="line">ui_1               | 171.221.145.40 - - [23&#x2F;May&#x2F;2018:03:11:59 +0000] &quot;GET &#x2F;v1&#x2F;clusters&#x2F;ee1477ca-e751-45f6-96f2-44708ded91f8&#x2F;hosts HTTP&#x2F;1.1&quot; 200 305</span><br><span class="line">deploy_1           | [GIN-debug] GET    &#x2F;v1&#x2F;components&#x2F;:component_name&#x2F;properties&#x2F;:version --&gt; main.properties (4 handlers)</span><br><span class="line">deploy_1           | [GIN-debug] GET    &#x2F;v1&#x2F;clusters              --&gt; main.retrieveClusters (4 handlers)</span><br><span class="line">ui_1               | 171.221.145.40 - - [23&#x2F;May&#x2F;2018:03:11:59 +0000] &quot;GET &#x2F;v1&#x2F;clusters&#x2F;ee1477ca-e751-45f6-96f2-44708ded91f8 HTTP&#x2F;1.1&quot; 200 981</span><br><span class="line">deploy_1           | [GIN-debug] POST   &#x2F;v1&#x2F;clusters              --&gt; main.createCluster (4 handlers)</span><br><span class="line">deploy_1           | [GIN-debug] DELETE &#x2F;v1&#x2F;clusters&#x2F;:cluster_id  --&gt; main.deleteCluster (4 handlers)</span><br><span class="line">deploy_1           | [GIN-debug] PUT    &#x2F;v1&#x2F;clusters&#x2F;:cluster_id  --&gt; main.updateCluster (4 handlers)</span><br><span class="line">ui_1               | 171.221.145.40 - - [23&#x2F;May&#x2F;2018:03:17:49 +0000] &quot;GET &#x2F;v1&#x2F;clusters&#x2F;ee1477ca-e751-45f6-96f2-44708ded91f8&#x2F;components HTTP&#x2F;1.1&quot; 200 926</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接在docker容器中运行playbook可以看到更具体的信息，在容器内找到playbook的<code>install.ansible</code>文件，运行命令<code>ansible-playbook install.ansible</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 查看部署UI的docker容器</span><br><span class="line">[root@test--0005 deploy-ui]# docker ps | grep deploy</span><br><span class="line">9f3927ba11b5        registry.cn-hangzhou.aliyuncs.com&#x2F;wise2c-dev&#x2F;deploy-ui:v0.4                                                                  &quot;&#x2F;root&#x2F;entrypoint.sh&quot;    31 minutes ago      Up 31 minutes                                                                                                                                                deployui_ui_1</span><br><span class="line">6064cfd73cc5        wise2c&#x2F;pagoda:v0.4.1                                                                                                         &quot;sh -c &#39;&#x2F;root&#x2F;pagoda &quot;   31 minutes ago      Up 31 minutes           0.0.0.0:88-&gt;80&#x2F;tcp, 0.0.0.0:8088-&gt;8080&#x2F;tcp                                                                                           deployui_deploy_1</span><br><span class="line">1c153575e397        wise2c&#x2F;yum-repo:7.4                                                                                                          &quot;nginx -g &#39;daemon off&quot;   31 minutes ago      Up 31 minutes           80&#x2F;tcp, 0.0.0.0:2009-&gt;2009&#x2F;tcp                                                                                                       deployui_yum-repo_1</span><br><span class="line"></span><br><span class="line"># 进入到docker容器中</span><br><span class="line">[root@test--0005 deploy-ui]# docker exec -it deployui_deploy_1 sh</span><br><span class="line">&#x2F;deploy # cd &#x2F;workspace&#x2F;</span><br><span class="line">&#x2F;workspace # ls</span><br><span class="line">callback_plugins       consul-playbook        etcd-playbook          loadbalancer-playbook  rabbitmq-playbook      registry-playbook</span><br><span class="line">components_order.conf  docker-playbook        kubernetes-playbook    mysql-playbook         redis-playbook         wisecloud-playbook</span><br><span class="line"></span><br><span class="line"># 进入到某个playbook目录中</span><br><span class="line">&#x2F;workspace # cd kubernetes-playbook&#x2F;</span><br><span class="line">&#x2F;workspace&#x2F;kubernetes-playbook # ls</span><br><span class="line">v1.8.6</span><br><span class="line">&#x2F;workspace&#x2F;kubernetes-playbook # cd v1.8.6&#x2F;</span><br><span class="line">&#x2F;workspace&#x2F;kubernetes-playbook&#x2F;v1.8.6 #</span><br><span class="line">&#x2F;workspace&#x2F;kubernetes-playbook&#x2F;v1.8.6 # ls</span><br><span class="line">ansible.cfg      group_vars       inherent.yaml    install.ansible  node.ansible     reset.ansible    template</span><br><span class="line">file             hosts            init.sh          master.ansible   properties.json  scripts          yat</span><br><span class="line">&#x2F;workspace&#x2F;kubernetes-playbook&#x2F;v1.8.6 #</span><br><span class="line"></span><br><span class="line"># 运行playbook</span><br><span class="line">&#x2F;workspace&#x2F;kubernetes-playbook&#x2F;v1.8.6 # ansible-playbook install.ansible</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h4 id="部署WiseCloud"><a href="#部署WiseCloud" class="headerlink" title="部署WiseCloud"></a>部署WiseCloud</h4><ul>
+<li><p>新建<code>img-list.txt</code>,<code>pull-img.sh</code>,<code>push-img.sh</code></p>
+<ul>
+<li><p><code>img-list.txt</code>内容</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/conf_agent:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/wise-logger:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/metrics:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/build-biz:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/ingress-controller:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/confcenter:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/wisecloud-orchestration:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/tosca-api:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/ingress-agent:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/ingress-gateway:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/ingress-gateway:stable</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/tosca-translator:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/wisebuild-fronted:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/fluentd:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/build-worker:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/prometheus-rest:latest</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/wisecloud-autoscaling:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/resource-manager:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/host-agent:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/monitor-api:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/catalog:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/user-manual:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/service-register:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/conf_init:stable</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/build-schedule:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/apigateway:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/metadata:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/backup-restore:v1.4.10</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/nfs-provisioner:v0.8.1</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/kibana:cloud-6.1.1</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/curator:latest</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com/wise2c-test/cdflow:v1.4.10</span><br><span class="line">docker.io/wisecity/kubernetes-exporter:latest</span><br><span class="line">docker.io/wisecity/artifactory-oss:5.2.0</span><br><span class="line">docker.io/wisecity/docker-metrics-exporter:latest</span><br><span class="line">prom/node-exporter:latest</span><br><span class="line">prom/alertmanager:v0.7.1</span><br><span class="line">prom/prometheus:v1.7.1</span><br><span class="line">wisecity/prometheus-adaptor</span><br><span class="line">docker.io/influxdb:1.3.5</span><br><span class="line">google/cadvisor</span><br><span class="line">docker.elastic.co/elasticsearch/elasticsearch:6.1.1</span><br><span class="line">antillion/slanger:latest</span><br><span class="line">docker.io/progrium/consul:latest</span><br><span class="line">docker.io/redis:4.0.8-alpine</span><br><span class="line">docker.io/rabbitmq:3.7</span><br><span class="line">kuberstack/kubernetes-rabbitmq-autocluster:latest</span><br><span class="line">docker.io/library/busybox:latest</span><br><span class="line">docker.io/centos:7</span><br><span class="line">docker.io/nginx:latest</span><br><span class="line">docker.io/byrnedo/alpine-curl:latest</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>pull-img.sh</code>内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">function pull_img()&#123;</span><br><span class="line">    imgNumPerTar&#x3D;3</span><br><span class="line">    i&#x3D;1</span><br><span class="line">    pkg_idx&#x3D;1</span><br><span class="line">    images&#x3D;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    while read line</span><br><span class="line">    do</span><br><span class="line">  if [[ $(echo $&#123;line&#125; | wc -L) &#x3D;&#x3D; 0 ]]; then</span><br><span class="line">    echo &quot;+++++++++++ Note: found space line, skip it! +++++++++++&quot;</span><br><span class="line">    continue</span><br><span class="line">    echo &quot;hahah&quot;</span><br><span class="line">  fi</span><br><span class="line">        new_label&#x3D;$&#123;registry_url&#125;&quot;&#x2F;&quot;$&#123;registry_project&#125;&quot;&#x2F;&quot;$&#123;line##*&#x2F;&#125;</span><br><span class="line">        docker pull $new_label</span><br><span class="line">        if [ $? -ne 0 ]; then</span><br><span class="line">            echo &quot;[NOTE]: pull image $new_label failed!&quot;</span><br><span class="line">        fi</span><br><span class="line">        i&#x3D;$(($i+1))</span><br><span class="line">    done &lt; .&#x2F;img-list.txt</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function docker_login()&#123;</span><br><span class="line">    docker login -u&#x3D;$registry_user_name -p&#x3D;$registry_password $registry_url</span><br><span class="line">    if [ $? -ne 0 ]; then</span><br><span class="line">        echo &quot;[NOTE]: docker login $registry_url failed!&quot;</span><br><span class="line">        return 2</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">registry_url&#x3D;&quot;registry.cn-hangzhou.aliyuncs.com&quot;</span><br><span class="line">registry_project&#x3D;&quot;wise2c-test&quot;</span><br><span class="line">registry_user_name&#x3D;&quot;wise2cdev&quot;</span><br><span class="line">registry_password&#x3D;&quot;Wise2c2017&quot;</span><br><span class="line">registry_email&#x3D;&quot;wise2c@aliyun.com&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;args: &quot; $registry_url $registry_project $registry_user_name $registry_password $registry_email</span><br><span class="line"></span><br><span class="line">docker_login</span><br><span class="line">pull_img</span><br><span class="line">[root@test--</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>push-img.sh</code>内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function push_img()&#123;</span><br><span class="line">    all_images&#x3D;$(while read line;do echo $line;done &lt;.&#x2F;img-list.txt)</span><br><span class="line">    images&#x3D;$(echo $all_images | tr &quot; &quot; &quot;\n&quot;)</span><br><span class="line">    for img in $images</span><br><span class="line">    do</span><br><span class="line">            echo $img</span><br><span class="line">	    old_label&#x3D;$&#123;source_registry_url&#125;&quot;&#x2F;&quot;$&#123;source_registry_project&#125;&quot;&#x2F;&quot;$&#123;img##*&#x2F;&#125;</span><br><span class="line">            new_label&#x3D;$&#123;registry_url&#125;&quot;&#x2F;&quot;$&#123;registry_project&#125;&quot;&#x2F;&quot;$&#123;img##*&#x2F;&#125;</span><br><span class="line">            echo &quot;old_label:&quot; $old_label</span><br><span class="line">            echo &quot;new_label:&quot; $new_label</span><br><span class="line">            docker tag $old_label $new_label</span><br><span class="line">            docker push $new_label</span><br><span class="line">    done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function docker_login()&#123;</span><br><span class="line">    docker login -u&#x3D;$registry_user_name -p&#x3D;$registry_password $registry_url</span><br><span class="line">    if [ $? -ne 0 ]; then</span><br><span class="line">        echo &quot;[NOTE]: docker login $registry_url failed!&quot;</span><br><span class="line">        return 2</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">source_registry_url&#x3D;&quot;registry.cn-hangzhou.aliyuncs.com&quot;</span><br><span class="line">source_registry_project&#x3D;&quot;wise2c-test&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">registry_url&#x3D;&quot;192.168.1.251&quot;</span><br><span class="line">registry_project&#x3D;&quot;wise2c&quot;</span><br><span class="line">registry_user_name&#x3D;&quot;admin&quot;</span><br><span class="line">registry_password&#x3D;&quot;Harbor12345&quot;</span><br><span class="line">registry_email&#x3D;&quot;wise2c@aliyun.com&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;args: &quot; $registry_url $registry_project $registry_user_name $registry_password</span><br><span class="line"></span><br><span class="line">docker_login</span><br><span class="line">push_img</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>把需要的镜像push到对应的registry(Harbor)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># 需要的文件列表</span><br><span class="line">[root@test--0004 v1.4.10]# ls</span><br><span class="line">img-list.txt  pull-img.sh  push-img.sh</span><br><span class="line">[root@test--0004 v1.4.10]#</span><br><span class="line"></span><br><span class="line"># 从wise2c-test空间pull镜像到本地</span><br><span class="line">[root@test--0004 v1.4.10]# .&#x2F;pull-img.sh</span><br><span class="line">args:  registry.cn-hangzhou.aliyuncs.com wise2c-test wise2cdev Wise2c2017 wise2c@aliyun.com</span><br><span class="line">Login Succeeded</span><br><span class="line">Trying to pull repository registry.cn-hangzhou.aliyuncs.com&#x2F;wise2c-test&#x2F;conf_agent ...</span><br><span class="line">sha256:667ab0ce12ce53b7cd7a527c0620ce05e197d924e658dc37d4c9ec37fe4d6cda: Pulling from registry.cn-hangzhou.aliyuncs.com&#x2F;wise2c-test&#x2F;conf_agent</span><br><span class="line">Digest: sha256:667ab0ce12ce53b7cd7a527c0620ce05e197d924e658dc37d4c9ec37fe4d6cda</span><br><span class="line">........</span><br><span class="line">Status: Image is up to date for registry.cn-hangzhou.aliyuncs.com&#x2F;wise2c-test&#x2F;alpine-curl:latest</span><br><span class="line">+++++++++++ Note: found space line, skip it! +++++++++++</span><br><span class="line">[root@test--0004 v1.4.10]#</span><br><span class="line"></span><br><span class="line"># 把镜像push的内置镜像仓库</span><br><span class="line">[root@test--0004 v1.4.10]# .&#x2F;push-img.sh</span><br><span class="line">args:  192.168.1.251 wise2c admin Harbor12345</span><br><span class="line">Login Succeeded</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com&#x2F;wise2c-test&#x2F;conf_agent:v1.4.10</span><br><span class="line">old_label: registry.cn-hangzhou.aliyuncs.com&#x2F;wise2c-test&#x2F;conf_agent:v1.4.10</span><br><span class="line">new_label: 192.168.1.251&#x2F;wise2c&#x2F;conf_agent:v1.4.10</span><br><span class="line">The push refers to a repository [192.168.1.251&#x2F;wise2c&#x2F;conf_agent]</span><br><span class="line">25620950a61d: Layer already exists</span><br><span class="line">cd7100a72410: Layer already exists</span><br><span class="line">v1.4.10: digest: sha256:667ab0ce12ce53b7cd7a527c0620ce05e197d924e658dc37d4c9ec37fe4d6cda size: 740</span><br><span class="line">registry.cn-hangzhou.aliyuncs.com&#x2F;wise2c-test&#x2F;wise-logger:v1.4.10</span><br><span class="line">old_label: registry.cn-hangzhou.aliyuncs.com&#x2F;wise2c-test&#x2F;wise-logger:v1.4.10</span><br><span class="line">new_label: 192.168.1.251&#x2F;wise2c&#x2F;wise-logger:v1.4.10</span><br><span class="line">......</span><br><span class="line">1ee6de2057d0: Layer already exists</span><br><span class="line">cd7100a72410: Layer already exists</span><br><span class="line">latest: digest: sha256:00c64bda2814f95a13ad6a46d6de487dc88f424f2b1f6c62c6dfce36701fe516 size: 738</span><br><span class="line">[root@test--0004 v1.4.10]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从码云上拉取部署需要的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@test--0004 ~]# git clone https:&#x2F;&#x2F;gitee.com&#x2F;wisecloud&#x2F;wisecloud-k8s-yaml.git</span><br><span class="line">Cloning into &#39;wisecloud-k8s-yaml&#39;...</span><br><span class="line">Username for &#39;https:&#x2F;&#x2F;gitee.com&#39;: leicj@wise2c.com</span><br><span class="line">Password for &#39;https:&#x2F;&#x2F;leicj@wise2c.com@gitee.com&#39;:</span><br><span class="line">remote: Counting objects: 3085, done.</span><br><span class="line">remote: Compressing objects: 100% (2613&#x2F;2613), done.</span><br><span class="line">remote: Total 3085 (delta 2098), reused 668 (delta 439)</span><br><span class="line">Receiving objects: 100% (3085&#x2F;3085), 443.03 KiB | 0 bytes&#x2F;s, done.</span><br><span class="line">Resolving deltas: 100% (2098&#x2F;2098), done.</span><br><span class="line">[root@test--0004 ~]#</span><br><span class="line"></span><br><span class="line"># 切换对应的分支</span><br><span class="line">[root@test--0004 wisecloud-k8s-yaml]# git checkout v1.4.10	</span><br><span class="line">Branch v1.4.10 set up to track remote branch v1.4.10 from origin.</span><br><span class="line">Switched to a new branch &#39;v1.4.10&#39;</span><br><span class="line">[root@test--0004 wisecloud-k8s-yaml]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为主机打上标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 进入到wisecloud-k8s-yaml目录</span><br><span class="line">[root@test--0004 wisecloud-k8s-yaml]# pwd</span><br><span class="line">&#x2F;root&#x2F;liaoxb&#x2F;v1.4.10&#x2F;wisecloud-k8s-yaml</span><br><span class="line">[root@test--0004 wisecloud-k8s-yaml]#</span><br><span class="line"></span><br><span class="line"># 运行打标签命令</span><br><span class="line">[root@test--0004 wisecloud-k8s-yaml]#.&#x2F;preDeploy.py --file label.json</span><br></pre></td></tr></table></figure>
+
+<p><code>label.json</code>文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;roles&quot;:[</span><br><span class="line">    &#123;&quot;name&quot;:&quot;controller&quot;, &quot;hosts&quot;:[&quot;test--0001&quot;,&quot;test--0002&quot;,&quot;test--0003&quot;]&#125;,</span><br><span class="line">    &#123;&quot;name&quot;:&quot;ingress-gateway&quot;, &quot;hosts&quot;:[&quot;test--0004&quot;,&quot;test--0006&quot;]&#125;,</span><br><span class="line">    &#123;&quot;name&quot;:&quot;prometheus&quot;,      &quot;hosts&quot;:[&quot;test--0002&quot;]&#125;,</span><br><span class="line">    &#123;&quot;name&quot;:&quot;artifactory&quot;,     &quot;hosts&quot;:[&quot;test--0003&quot;]&#125;,</span><br><span class="line">    &#123;&quot;name&quot;:&quot;kibana&quot;,          &quot;hosts&quot;:[&quot;test--0001&quot;]&#125;,</span><br><span class="line">    &#123;&quot;name&quot;:&quot;buildflow&quot;,       &quot;hosts&quot;:[&quot;test--0001&quot;]&#125;</span><br><span class="line">]&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行部署脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 进入到wisecloud-k8s-yaml目录</span><br><span class="line">[root@test--0004 wisecloud-k8s-yaml]# pwd</span><br><span class="line">&#x2F;root&#x2F;liaoxb&#x2F;v1.4.10&#x2F;wisecloud-k8s-yaml</span><br><span class="line">[root@test--0004 wisecloud-k8s-yaml]#</span><br><span class="line"></span><br><span class="line"># 运行部署脚本</span><br><span class="line">[root@test--0004 wisecloud-k8s-yaml]#.&#x2F;install.sh</span><br></pre></td></tr></table></figure>
+
+<p><code>install.sh</code>文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># 注意k8s_wisecloud_deploy2.sh 这个文件名称可能有变动</span><br><span class="line">.&#x2F;k8s_wisecloud_deploy2.sh \</span><br><span class="line">      --db_url&#x3D;192.168.1.28 \</span><br><span class="line">      --db_port&#x3D;3307 \</span><br><span class="line">      --db_user&#x3D;wise2c \</span><br><span class="line">      --db_pwd&#x3D;wise2c \</span><br><span class="line">      --etcd&#x3D;http:&#x2F;&#x2F;192.168.1.28:2379,http:&#x2F;&#x2F;192.168.1.227:2379,http:&#x2F;&#x2F;192.168.1.120:2379 \</span><br><span class="line">      --k8s_endpoint&#x3D;192.168.1.227:6444 \</span><br><span class="line">      --k8s_hosts&#x3D;test-002,test-003,test-004 \</span><br><span class="line">      --wisecloud_api_url&#x3D;192.168.1.227 \</span><br><span class="line">      --wisecloud_api_port&#x3D;8080 \</span><br><span class="line">      --artifactory_url&#x3D;192.168.1.227 \</span><br><span class="line">      --artifactory_port&#x3D;32778 \</span><br><span class="line">      --custom_registry_url&#x3D;192.168.1.251 \</span><br><span class="line">      --custom_registry_ns&#x3D;wise2c \</span><br><span class="line">      --custom_registry_user&#x3D;admin \</span><br><span class="line">      --custom_registry_pwd&#x3D;Harbor12345 \</span><br><span class="line">      --custom_registry_email&#x3D;wise2c@aliyun.com \</span><br><span class="line">      --es_url&#x3D;192.168.1.227 \</span><br><span class="line">      --es_port&#x3D;32768 \</span><br><span class="line">      --es_cluster_port&#x3D;32769 \</span><br><span class="line">      --consul_url&#x3D;192.168.1.227 \</span><br><span class="line">      --consul_port&#x3D;32772 \</span><br><span class="line">      --redis_url&#x3D;192.168.1.227 \</span><br><span class="line">      --redis_port&#x3D;32770 \</span><br><span class="line">      --pusher_url&#x3D;192.168.1.227 \</span><br><span class="line">      --pusher_api_port&#x3D;32774 \</span><br><span class="line">      --pusher_ws_port&#x3D;32773 \</span><br><span class="line">      --mq_url&#x3D;192.168.1.227 \</span><br><span class="line">      --mq_port&#x3D;32775 \</span><br><span class="line">      --mq_admin_port&#x3D;32776 \</span><br><span class="line">      --mode&#x3D;deploy \</span><br><span class="line">      --custom_install_interval&#x3D;1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看部署结果（如果都是running状态，表示部署成功）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"># kcc 命令等效于：kubectl -n wisecloud-controller</span><br><span class="line">[root@test--0004 ~]# kcc get pods</span><br><span class="line">NAME                                READY     STATUS    RESTARTS   AGE</span><br><span class="line">artifactory-7fc884dbcc-xhfjw        1&#x2F;1       Running   0          3h</span><br><span class="line">backup-restore-5c6c797cdc-rt6j6     1&#x2F;1       Running   0          3h</span><br><span class="line">buildflow-cd8f4b895-92x2t           1&#x2F;1       Running   0          2h</span><br><span class="line">config-center-664496955-677hv       1&#x2F;1       Running   0          3h</span><br><span class="line">config-center-664496955-h2x7t       1&#x2F;1       Running   0          3h</span><br><span class="line">config-center-664496955-tv9td       1&#x2F;1       Running   0          3h</span><br><span class="line">elasticsearch-7cc6d9d568-jxr2w      1&#x2F;1       Running   0          3h</span><br><span class="line">elasticsearch-7cc6d9d568-k4nqw      1&#x2F;1       Running   0          3h</span><br><span class="line">elasticsearch-7cc6d9d568-mhgc5      1&#x2F;1       Running   0          3h</span><br><span class="line">kibana-7f964f9877-c9hqc             2&#x2F;2       Running   0          3h</span><br><span class="line">metrics-7bd486564f-mcd5m            1&#x2F;1       Running   0          3h</span><br><span class="line">metrics-7bd486564f-w4zrj            1&#x2F;1       Running   0          3h</span><br><span class="line">metrics-7bd486564f-x7l2z            1&#x2F;1       Running   0          3h</span><br><span class="line">monitor-api-c59c57c57-hrghr         1&#x2F;1       Running   0          3h</span><br><span class="line">monitor-api-c59c57c57-zwm75         1&#x2F;1       Running   0          3h</span><br><span class="line">monitor-api-c59c57c57-zz4rh         1&#x2F;1       Running   0          3h</span><br><span class="line">orchestration-6c66f646b4-c8zfz      6&#x2F;6       Running   0          3h</span><br><span class="line">orchestration-6c66f646b4-pbb5m      6&#x2F;6       Running   0          3h</span><br><span class="line">orchestration-6c66f646b4-r7njz      6&#x2F;6       Running   0          3h</span><br><span class="line">prometheus-65d97c9d54-fl4js         7&#x2F;7       Running   0          3h</span><br><span class="line">pusher-8566dfff6-4wjkf              2&#x2F;2       Running   0          3h</span><br><span class="line">pusher-8566dfff6-jj27m              2&#x2F;2       Running   0          3h</span><br><span class="line">pusher-8566dfff6-w4mpg              2&#x2F;2       Running   0          3h</span><br><span class="line">resource-manager-58c64446f5-7k2qm   1&#x2F;1       Running   0          3h</span><br><span class="line">resource-manager-58c64446f5-pbm4p   1&#x2F;1       Running   0          3h</span><br><span class="line">resource-manager-58c64446f5-wclhl   1&#x2F;1       Running   0          3h</span><br><span class="line">ui-bc465d74-5xmlm                   3&#x2F;3       Running   1          3h</span><br><span class="line">ui-bc465d74-n24h4                   3&#x2F;3       Running   1          3h</span><br><span class="line">ui-bc465d74-rt6x6                   3&#x2F;3       Running   1          3h</span><br><span class="line">worker-7fm68                        1&#x2F;1       Running   0          3h</span><br><span class="line">worker-9ljrb                        1&#x2F;1       Running   0          3h</span><br><span class="line">worker-p7gtc                        1&#x2F;1       Running   0          3h</span><br><span class="line">workflow-f4c79cdd6-5bwr2            2&#x2F;2       Running   0          3h</span><br><span class="line">workflow-f4c79cdd6-9p2p7            2&#x2F;2       Running   0          3h</span><br><span class="line">workflow-f4c79cdd6-bhb24            2&#x2F;2       Running   0          3h</span><br><span class="line">[root@test--0004 ~]#</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h3 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h3><h4 id="部署中重置相关问题"><a href="#部署中重置相关问题" class="headerlink" title="部署中重置相关问题"></a>部署中重置相关问题</h4><ul>
+<li><p>Q：在部署ui上重置docker和Kubernetes后，在主机上还能运行docker 和 kubectl命令 ?</p>
+<p>A：重置只是把相关的配置清理掉，不会卸载 。并且重置户安装新的docker版本或者Kubernetes 能安装成功。如果有安装有问题时，可以尝试运行命令卸载<code>yum remove &lt;package&gt;</code></p>
+</li>
+</ul>
+<h4 id="安装部署包"><a href="#安装部署包" class="headerlink" title="安装部署包"></a>安装部署包</h4><ul>
+<li><p>Q：怎么查看已有的包？</p>
+<p>A：浏览器中访问<code>http://&lt;部署机器IP&gt;:2009</code>，出现以下界面</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1frl8l5yzv9j311k0x8jvx.jpg" alt="image-20180523140329943"></p>
+</li>
+</ul>
+<h4 id="kcc运行pod启动异常"><a href="#kcc运行pod启动异常" class="headerlink" title="kcc运行pod启动异常"></a>kcc运行pod启动异常</h4><ul>
+<li><p>Q：用命令<code>kcc get pods</code>查看发现许多pod状态为<code>Init:0/1</code>，并且查看pusher的pod有图片中错误信息</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1frl8pz7ed1j30gt0imtdd.jpg" alt="image-20180523140805028"></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1frl8pi9ww5j313b0hhdko.jpg" alt="image-20180523140741207"></p>
+</li>
+</ul>
+<p>A：在haproxy所在的主机修改<code>haproxy.cfg</code>配置文件，对应的<code>Redis</code>,<code>consul</code>,<code>RabbitMQ</code>字段下server的IP地址改为公共组件所在的地址，然后重启haproxy的docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@test--0002 loadbalancer]# pwd</span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;wise2c&#x2F;loadbalancer</span><br><span class="line">[root@test--0002 loadbalancer]#</span><br><span class="line"></span><br><span class="line"># 修改haproxy.cfg文件，&#96;Redis&#96;,&#96;consul&#96;,&#96;RabbitMQ&#96;字段下有server IP的均有修改</span><br><span class="line">[root@test--0002 loadbalancer]# vi haproxy.cfg</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/1792073630.html" rel="bookmark">API自动化测试Docker版使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/3637687526.html" rel="bookmark">Kubernetes没有拉取镜像权限</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/1592056819.html" rel="bookmark">RobotFramework-Docker制作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/3648725050.html" rel="bookmark">WiseCloud中调试Ingress</a></div>
+    </li>
+  </ul>
+
+        
+
+<div class="post-copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径TODO: 这两个js好像可以不要-->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p>
+    <span>本文标题：</span>
+    <a href="/articles/1027612251.html">WiseCloud部署安装</a>
+  </p>
+  <p>
+    <span>本文作者：</span>
+    <a href="/" title="访问 Ritboy 的个人博客">Ritboy</a>
+  </p>
+  <p>
+    <span>发布时间：</span>
+    2018年05月23日 - 14:26:35
+  </p>
+  <p>
+    <span>最后更新：</span>
+    2018年05月23日 - 14:26:35
+  </p>
+  <p><span>本文链接：</span>
+    <a href="/articles/1027612251.html" title="WiseCloud部署安装">https://blog.ritboy.com/articles/1027612251.html</a>
+    <span class="copy-path"  title="点击复制文章链接">
+      <i class="fa fa-clipboard" data-clipboard-text="https://blog.ritboy.com/articles/1027612251.html"  aria-label="复制成功！"></i>
+    </span>
+  </p>
+  <p>
+    <span>版权声明：</span>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请保留原文链接及作者。
+  </p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          icon: "success",
+          showConfirmButton: true
+          });
+    });
+    });
+</script>
+
+        
+    <div class="read-over">
+        -------------------本文结束
+        <i class="fa fa-paw"></i>
+        感谢您的阅读-------------------
+    </div>
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Ritboy 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ritboy 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Wise2c/" rel="tag">
+                  <i class="fa fa-tag"></i>
+                
+                  Wise2c
+              </a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/articles/1105286840.html" rel="prev" title="awk去重">
+      <i class="fa fa-chevron-left"></i> awk去重
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/articles/1592904657.html" rel="next" title="测试流程">
+      测试流程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#WiseCloud部署安装"><span class="nav-number">1.</span> <span class="nav-text">WiseCloud部署安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#部署UI搭建"><span class="nav-number">1.1.</span> <span class="nav-text">部署UI搭建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署UI安装各个组件"><span class="nav-number">1.2.</span> <span class="nav-text">部署UI安装各个组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署WiseCloud"><span class="nav-number">1.3.</span> <span class="nav-text">部署WiseCloud</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题总结"><span class="nav-number">2.</span> <span class="nav-text">问题总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#部署中重置相关问题"><span class="nav-number">2.1.</span> <span class="nav-text">部署中重置相关问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装部署包"><span class="nav-number">2.2.</span> <span class="nav-text">安装部署包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kcc运行pod启动异常"><span class="nav-number">2.3.</span> <span class="nav-text">kcc运行pod启动异常</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ritboy"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Ritboy</p>
+  <div class="site-description" itemprop="description">鲲鹏万里，能躺否，或许能编程</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ritboylei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ritboylei" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ritboylei@gmail.com" title="E-Mail → mailto:ritboylei@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener external nofollow noreferrer" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ritboy</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+
+    
+
+    <span title="站点总字数">364k</span>
+
+
+
+
+  <div class="beian">
+      <img src="/images/beian.png" style="display: inline-block;"><a href="http://www.beian.miit.gov.cn/" rel="noopener external nofollow noreferrer" target="_blank"> 蜀ICP备 19038127号-2 </a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+  
+  
+    <script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>

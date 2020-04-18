@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
+  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="转载：https:&#x2F;&#x2F;my.oschina.net&#x2F;leejun2005&#x2F;blog&#x2F;145911 在 python 中赋值语句总是建立对象的引用值，而不是复制对象。因此，python 变量更像是指针，而不是数据存储区域，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解Python中的复制、引用、拷贝、作用域">
+<meta property="og:url" content="https://blog.ritboy.com/articles/2439534387.html">
+<meta property="og:site_name" content="Ritboy&#39;s Blog">
+<meta property="og:description" content="转载：https:&#x2F;&#x2F;my.oschina.net&#x2F;leejun2005&#x2F;blog&#x2F;145911 在 python 中赋值语句总是建立对象的引用值，而不是复制对象。因此，python 变量更像是指针，而不是数据存储区域，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://static.oschina.net/uploads/space/2013/0722/011541_xE4k_568818.jpg">
+<meta property="og:image" content="http://static.oschina.net/uploads/img/201307/21011458_e6oW.jpg">
+<meta property="og:image" content="http://static.oschina.net/uploads/img/201307/21011459_8n1Y.jpg">
+<meta property="og:image" content="http://static.oschina.net/uploads/img/201307/21011459_EJcH.jpg">
+<meta property="og:image" content="http://static.oschina.net/uploads/img/201307/21011459_MqCC.jpg">
+<meta property="og:image" content="http://static.oschina.net/uploads/img/201307/21011459_E4CB.jpg">
+<meta property="article:published_time" content="2018-05-30T07:33:42.000Z">
+<meta property="article:modified_time" content="2018-05-30T07:33:42.000Z">
+<meta property="article:author" content="Ritboy">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://static.oschina.net/uploads/space/2013/0722/011541_xE4k_568818.jpg">
+
+<link rel="canonical" href="https://blog.ritboy.com/articles/2439534387.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>深入理解Python中的复制、引用、拷贝、作用域 | Ritboy's Blog</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-163895731-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a2c1e7007a525ab8670b72d6edb333af";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ritboy's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">或许能编程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">101</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ritboylei" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener external nofollow noreferrer" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/2439534387.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，或许能编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深入理解Python中的复制、引用、拷贝、作用域
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-30 15:33:42" itemprop="dateCreated datePublished" datetime="2018-05-30T15:33:42+08:00">2018-05-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>转载</strong>：<a href="https://my.oschina.net/leejun2005/blog/145911" target="_blank" rel="noopener external nofollow noreferrer">https://my.oschina.net/leejun2005/blog/145911</a></p>
+<p>在 python 中赋值语句总是建立对象的引用值，而不是复制对象。因此，python 变量更像是指针，而不是数据存储区域，</p>
+<a id="more"></a>
+<p><img src="http://static.oschina.net/uploads/space/2013/0722/011541_xE4k_568818.jpg" alt="img"></p>
+<p>这点和大多数 OO 语言类似吧，比如 C++、java 等 ~</p>
+<h3 id="1、先来看个问题吧："><a href="#1、先来看个问题吧：" class="headerlink" title="1、先来看个问题吧："></a>1、先来看个问题吧：</h3><p>[在Python中，令values=[0,1,2];values[1]=values,为何结果是[0,[…],2]?](<a href="http://www.zhihu.com/question/21000872" target="_blank" rel="noopener external nofollow noreferrer">http://www.zhihu.com/question/21000872</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; values &#x3D; [0, 1, 2]</span><br><span class="line">&gt;&gt;&gt; values[1] &#x3D; values</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">[0, [...], 2]</span><br></pre></td></tr></table></figure>
+
+<p>我预想应当是 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[0, [0, 1, 2], 2]</span><br></pre></td></tr></table></figure>
+
+<p>但结果却为何要赋值无限次？</p>
+<p>可以说 Python 没有赋值，只有引用。你这样相当于创建了一个引用自身的结构，所以导致了无限循环。为了理解这个问题，有个基本概念需要搞清楚。<br>Python 没有「变量」，我们平时所说的变量其实只是「标签」，是引用。</p>
+<p>执行 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values &#x3D; [0, 1, 2]</span><br></pre></td></tr></table></figure>
+
+<p>的时候，Python 做的事情是首先创建一个列表对象 [0, 1, 2]，然后给它贴上名为 values 的标签。如果随后又执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values &#x3D; [3, 4, 5]</span><br></pre></td></tr></table></figure>
+
+<p>的话，Python 做的事情是创建另一个列表对象 [3, 4, 5]，然后把刚才那张名为 values 的标签从前面的 [0, 1, 2] 对象上撕下来，重新贴到 [3, 4, 5] 这个对象上。<br>至始至终，并没有一个叫做 values 的列表对象容器存在，Python 也没有把任何对象的值复制进 values 去。过程如图所示：<br><img src="http://static.oschina.net/uploads/img/201307/21011458_e6oW.jpg" alt="img"></p>
+<p>执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values[1] &#x3D; values</span><br></pre></td></tr></table></figure>
+
+<p>的时候，Python 做的事情则是把 values 这个标签所引用的列表对象的第二个元素指向 values 所引用的列表对象本身。执行完毕后，values 标签还是指向原来那个对象，只不过那个对象的结构发生了变化，从之前的列表 [0, 1, 2] 变成了 [0, ?, 2]，而这个 ? 则是指向那个对象本身的一个引用。如图所示：<br><img src="http://static.oschina.net/uploads/img/201307/21011459_8n1Y.jpg" alt="img"><br>要达到你所需要的效果，即得到 [0, [0, 1, 2], 2] 这个对象，你不能直接将 values[1] 指向 values 引用的对象本身，而是需要吧 [0, 1, 2] 这个对象「复制」一遍，得到一个新对象，再将 values[1] 指向这个复制后的对象。Python 里面复制对象的操作因对象类型而异，复制列表 values 的操作是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values[:] #生成对象的拷贝或者是复制序列，不再是引用和共享变量，但此法只能顶层复制</span><br></pre></td></tr></table></figure>
+
+<p>所以你需要执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values[1] &#x3D; values[:]</span><br></pre></td></tr></table></figure>
+
+<p>Python 做的事情是，先 dereference 得到 values 所指向的对象 [0, 1, 2]，然后执行 [0, 1, 2][:] 复制操作得到一个新的对象，内容也是 [0, 1, 2]，然后将 values 所指向的列表对象的第二个元素指向这个复制二来的列表对象，最终 values 指向的对象是 [0, [0, 1, 2], 2]。过程如图所示：<br><img src="http://static.oschina.net/uploads/img/201307/21011459_EJcH.jpg" alt="img"></p>
+<p>往更深处说，values[:] 复制操作是所谓的「浅复制」(shallow copy)，当列表对象有嵌套的时候也会产生出乎意料的错误，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; [0, [1, 2], 3]</span><br><span class="line">b &#x3D; a[:]</span><br><span class="line">a[0] &#x3D; 8</span><br><span class="line">a[1][1] &#x3D; 9</span><br></pre></td></tr></table></figure>
+
+<p>问：此时 a 和 b 分别是多少？<br>正确答案是 a 为 [8, [1, 9], 3]，b 为 [0, [1, 9], 3]。发现没？b 的第二个元素也被改变了。想想是为什么？不明白的话看下图<br><img src="http://static.oschina.net/uploads/img/201307/21011459_MqCC.jpg" alt="img"></p>
+<p>正确的复制嵌套元素的方法是进行「深复制」(deep copy)，方法是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import copy</span><br><span class="line"></span><br><span class="line">a &#x3D; [0, [1, 2], 3]</span><br><span class="line">b &#x3D; copy.deepcopy(a)</span><br><span class="line">a[0] &#x3D; 8</span><br><span class="line">a[1][1] &#x3D; 9</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.oschina.net/uploads/img/201307/21011459_E4CB.jpg" alt="img"></p>
+<h3 id="2、引用-VS-拷贝："><a href="#2、引用-VS-拷贝：" class="headerlink" title="2、引用 VS 拷贝："></a>2、引用 VS 拷贝：</h3><p>（1）没有限制条件的分片表达式（L[:]）能够复制序列，但此法只能浅层复制。</p>
+<p>（2）字典 copy 方法，D.copy() 能够复制字典，但此法只能浅层复制</p>
+<p>（3）有些内置函数，例如 list，能够生成拷贝 list(L)</p>
+<p>（4）copy 标准库模块能够生成完整拷贝：deepcopy 本质上是递归 copy</p>
+<p>（5）对于不可变对象和可变对象来说，浅复制都是复制的引用，只是因为复制不变对象和复制不变对象的引用是等效的（因为对象不可变，当改变时会新建对象重新赋值）。所以看起来浅复制只复制不可变对象（整数，实数，字符串等），对于可变对象，浅复制其实是创建了一个对于该对象的引用，也就是说只是给同一个对象贴上了另一个标签而已。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">L &#x3D; [1, 2, 3]</span><br><span class="line">D &#x3D; &#123;&#39;a&#39;:1, &#39;b&#39;:2&#125;</span><br><span class="line">A &#x3D; L[:]</span><br><span class="line">B &#x3D; D.copy()</span><br><span class="line">print &quot;L, D&quot;</span><br><span class="line">print  L, D</span><br><span class="line">print &quot;A, B&quot;</span><br><span class="line">print A, B</span><br><span class="line">print &quot;--------------------&quot;</span><br><span class="line">A[1] &#x3D; &#39;NI&#39;</span><br><span class="line">B[&#39;c&#39;] &#x3D; &#39;spam&#39;</span><br><span class="line">print &quot;L, D&quot;</span><br><span class="line">print  L, D</span><br><span class="line">print &quot;A, B&quot;</span><br><span class="line">print A, B</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">L, D</span><br><span class="line">[1, 2, 3] &#123;&#39;a&#39;: 1, &#39;b&#39;: 2&#125;</span><br><span class="line">A, B</span><br><span class="line">[1, 2, 3] &#123;&#39;a&#39;: 1, &#39;b&#39;: 2&#125;</span><br><span class="line">--------------------</span><br><span class="line">L, D</span><br><span class="line">[1, 2, 3] &#123;&#39;a&#39;: 1, &#39;b&#39;: 2&#125;</span><br><span class="line">A, B</span><br><span class="line">[1, &#39;NI&#39;, 3] &#123;&#39;a&#39;: 1, &#39;c&#39;: &#39;spam&#39;, &#39;b&#39;: 2&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、增强赋值以及共享引用："><a href="#3、增强赋值以及共享引用：" class="headerlink" title="3、增强赋值以及共享引用："></a>3、增强赋值以及共享引用：</h3><p>x = x + y，x 出现两次，必须执行两次，性能不好，合并必须新建对象 x，然后复制两个列表合并</p>
+<p>属于复制/拷贝</p>
+<p>x += y，x 只出现一次，也只会计算一次，性能好，不生成新对象，只在内存块末尾增加元素。</p>
+<p>当 x、y 为list时， += 会自动调用 extend 方法进行合并运算，in-place change。</p>
+<p>属于共享引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">L &#x3D; [1, 2]</span><br><span class="line">M &#x3D; L</span><br><span class="line">L &#x3D; L + [3, 4]</span><br><span class="line">print L, M</span><br><span class="line">print &quot;-------------------&quot;</span><br><span class="line">L &#x3D; [1, 2]</span><br><span class="line">M &#x3D; L</span><br><span class="line">L +&#x3D; [3, 4]</span><br><span class="line">print L, M</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[1, 2, 3, 4] [1, 2]</span><br><span class="line">-------------------</span><br><span class="line">[1, 2, 3, 4] [1, 2, 3, 4]</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、python-从-2k-到-3k，语句变函数引发的变量作用域问题"><a href="#4、python-从-2k-到-3k，语句变函数引发的变量作用域问题" class="headerlink" title="4、python 从 2k 到 3k，语句变函数引发的变量作用域问题"></a>4、python 从 2k 到 3k，语句变函数引发的变量作用域问题</h3><p>先看段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def test():</span><br><span class="line">    a &#x3D; False</span><br><span class="line">    exec (&quot;a &#x3D; True&quot;)</span><br><span class="line">    print (&quot;a &#x3D; &quot;, a)</span><br><span class="line">test()</span><br><span class="line"></span><br><span class="line">b &#x3D; False</span><br><span class="line">exec (&quot;b &#x3D; True&quot;)</span><br><span class="line">print (&quot;b &#x3D; &quot;, b)</span><br></pre></td></tr></table></figure>
+
+<p>在 python 2k 和 3k 下 你会发现他们的结果不一样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">2K：</span><br><span class="line">a &#x3D;  True</span><br><span class="line">b &#x3D;  True</span><br><span class="line"></span><br><span class="line">3K：</span><br><span class="line">a &#x3D;  False</span><br><span class="line">b &#x3D;  True</span><br></pre></td></tr></table></figure>
+
+<p>这是为什么呢？</p>
+<p>因为 3k 中 exec 由语句变成函数了，而在函数中变量默认都是局部的，也就是说</p>
+<p>你所见到的两个 a，是两个不同的变量，分别处于不同的命名空间中，而不会冲突。</p>
+<p>具体参考 《learning python》P331-P332</p>
+<p>知道原因了，我们可以这么改改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def test():</span><br><span class="line">    a &#x3D; False</span><br><span class="line">    ldict &#x3D; locals()</span><br><span class="line">    exec(&quot;a&#x3D;True&quot;,globals(),ldict)</span><br><span class="line">    a &#x3D; ldict[&#39;a&#39;]</span><br><span class="line">    print(a)</span><br><span class="line"></span><br><span class="line">test()</span><br><span class="line"></span><br><span class="line">b &#x3D; False</span><br><span class="line">exec(&quot;b &#x3D; True&quot;, globals())</span><br><span class="line">print(&quot;b &#x3D; &quot;, b)</span><br></pre></td></tr></table></figure>
+
+<p>这个问题在  stackoverflow 上已经有人问了，而且 python 官方也有人报了 bug。。。</p>
+<p>具体链接在下面：</p>
+<p><a href="http://stackoverflow.com/questions/7668724/variables-declared-in-execed-code-dont-become-local-in-python-3-documentatio" target="_blank" rel="noopener external nofollow noreferrer">http://stackoverflow.com/questions/7668724/variables-declared-in-execed-code-dont-become-local-in-python-3-documentatio</a></p>
+<p><a href="http://bugs.python.org/issue4831" target="_blank" rel="noopener external nofollow noreferrer">http://bugs.python.org/issue4831</a></p>
+<p><a href="http://stackoverflow.com/questions/1463306/how-does-exec-work-with-locals" target="_blank" rel="noopener external nofollow noreferrer">http://stackoverflow.com/questions/1463306/how-does-exec-work-with-locals</a></p>
+<p>这是一个典型的 python 2k 移植到 3k 不兼容的案例，类似的还有很多，也算是移植的坑吧~</p>
+<p>具体的 2k 与 3k 有哪些差异可以看这里：</p>
+<p>使用 2to3 将代码移植到 Python 3</p>
+<p><a href="http://woodpecker.org.cn/diveintopython3/porting-code-to-python-3-with-2to3.html" target="_blank" rel="noopener external nofollow noreferrer">http://woodpecker.org.cn/diveintopython3/porting-code-to-python-3-with-2to3.html</a></p>
+<h3 id="5、深入理解-python-变量作用域及其陷阱"><a href="#5、深入理解-python-变量作用域及其陷阱" class="headerlink" title="5、深入理解 python 变量作用域及其陷阱"></a>5、深入理解 python 变量作用域及其陷阱</h3><h4 id="5-1-可变对象-amp-不可变对象"><a href="#5-1-可变对象-amp-不可变对象" class="headerlink" title="5.1 可变对象 &amp; 不可变对象"></a>5.1 可变对象 &amp; 不可变对象</h4><p>在Python中，对象分为两种：可变对象和不可变对象，不可变对象包括int，float，long，str，tuple等，可变对象包括list，set，dict等。需要注意的是：这里说的不可变指的是值的不可变。对于不可变类型的变量，如果要更改变量，则会创建一个新值，把变量绑定到新值上，而旧值如果没有被引用就等待垃圾回收。另外，不可变的类型可以计算hash值，作为字典的key。可变类型数据对对象操作的时候，不需要再在其他地方申请内存，只需要在此对象后面连续申请(+/-)即可，也就是它的内存地址会保持不变，但区域会变长或者变短。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a &#x3D; &#39;xianglong.me&#39;</span><br><span class="line">&gt;&gt;&gt; id(a)</span><br><span class="line">140443303134352</span><br><span class="line">&gt;&gt;&gt; a &#x3D; &#39;1saying.com&#39;</span><br><span class="line">&gt;&gt;&gt; id(a)</span><br><span class="line">140443303131776</span><br><span class="line"># 重新赋值之后，变量a的内存地址已经变了</span><br><span class="line"># &#39;xianglong.me&#39;是str类型，不可变，所以赋值操作知识重新创建了str &#39;1saying.com&#39;对象，然后将变量a指向了它</span><br><span class="line"> </span><br><span class="line">&gt;&gt;&gt; a_list &#x3D; [1, 2, 3]</span><br><span class="line">&gt;&gt;&gt; id(a_list)</span><br><span class="line">140443302951680</span><br><span class="line">&gt;&gt;&gt; a_list.append(4)</span><br><span class="line">&gt;&gt;&gt; id(a_list)</span><br><span class="line">140443302951680</span><br><span class="line"># list重新赋值之后，变量a_list的内存地址并未改变</span><br><span class="line"># [1, 2, 3]是可变的，append操作只是改变了其value，变量a_list指向没有变</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-2-函数值传递"><a href="#5-2-函数值传递" class="headerlink" title="5.2 函数值传递"></a>5.2 函数值传递</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def func_int(a):</span><br><span class="line">    a +&#x3D; 4</span><br><span class="line"> </span><br><span class="line">def func_list(a_list):</span><br><span class="line">    a_list[0] &#x3D; 4</span><br><span class="line"> </span><br><span class="line">t &#x3D; 0</span><br><span class="line">func_int(t)</span><br><span class="line">print t</span><br><span class="line"># output: 0</span><br><span class="line"> </span><br><span class="line">t_list &#x3D; [1, 2, 3]</span><br><span class="line">func_list(t_list)</span><br><span class="line">print t_list</span><br><span class="line"># output: [4, 2, 3]</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 对于上面的输出，不少Python初学者都比较疑惑：第一个例子看起来像是传值，而第二个例子确实传引用。其实，解释这个问题也非常容易，主要是因为可变对象和不可变对象的原因：对于可变对象，对象的操作不会重建对象，而对于不可变对象，每一次操作就重建新的对象。</p>
+<p>​    在函数参数传递的时候，Python其实就是把参数里传入的变量对应的对象的引用依次赋值给对应的函数内部变量。参照上面的例子来说明更容易理解，func_int中的局部变量”a”其实是全部变量”t”所指向对象的另一个引用，由于整数对象是不可变的，所以当func_int对变量”a”进行修改的时候，实际上是将局部变量”a”指向到了整数对象”1”。所以很明显，func_list修改的是一个可变的对象，局部变量”a”和全局变量”t_list”指向的还是同一个对象。</p>
+<h4 id="5-3-为什么修改全局的dict变量不用global关键字"><a href="#5-3-为什么修改全局的dict变量不用global关键字" class="headerlink" title="5.3 为什么修改全局的dict变量不用global关键字"></a>5.3 为什么修改全局的dict变量不用global关键字</h4><p>为什么修改字典d的值不用global关键字先声明呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s &#x3D; &#39;foo&#39;</span><br><span class="line">d &#x3D; &#123;&#39;a&#39;:1&#125;</span><br><span class="line">def f():</span><br><span class="line">    s &#x3D; &#39;bar&#39;</span><br><span class="line">    d[&#39;b&#39;] &#x3D; 2</span><br><span class="line">f()</span><br><span class="line">print s  # foo</span><br><span class="line">print d  # &#123;&#39;a&#39;: 1, &#39;b&#39;: 2&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是因为，在s = ‘bar’这句中，它是“有歧义的“，因为它既可以是表示引用全局变量s，也可以是创建一个新的局部变量，所以在python中，默认它的行为是创建局部变量，除非显式声明global，global定义的本地变量会变成其对应全局变量的一个别名，即是同一个变量。</p>
+<p>在d[‘b’]=2这句中，它是“明确的”，因为如果把d当作是局部变量的话，它会报KeyError，所以它只能是引用全局的d,故不需要多此一举显式声明global。</p>
+<p>上面这两句赋值语句其实是不同的行为，一个是<strong>rebinding（不可变对象）</strong>, 一个是<strong>mutation（可变对象）</strong>.</p>
+<p>但是如果是下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">d &#x3D; &#123;&#39;a&#39;:1&#125;</span><br><span class="line">def f():</span><br><span class="line">    d &#x3D; &#123;&#125;</span><br><span class="line">    d[&#39;b&#39;] &#x3D; 2</span><br><span class="line">f()</span><br><span class="line">print d  # &#123;&#39;a&#39;: 1&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在d = {}这句，它是”有歧义的“了，所以它是创建了局部变量d，而不是引用全局变量d，所以d[‘b’]=2也是操作的局部变量。</p>
+<p>推而远之，这一切现象的本质就是”它是否是明确的“。</p>
+<p>仔细想想，就会发现不止dict不需要global，所有”明确的“东西都不需要global。因为int类型str类型之类的不可变对象，每一次操作就重建新的对象，他们只有一种修改方法，即x = y， 恰好这种修改方法同时也是创建变量的方法，所以产生了歧义，不知道是要修改还是创建。而dict/list/对象等可变对象，操作不会重建对象，可以通过dict[‘x’]=y或list.append()之类的来修改，跟创建变量不冲突，不产生歧义，所以都不用显式global。</p>
+<h4 id="5-4-可变对象-list-的-和-append-extend-差别在哪？"><a href="#5-4-可变对象-list-的-和-append-extend-差别在哪？" class="headerlink" title="5.4 可变对象 list 的 = 和 append/extend 差别在哪？"></a>5.4 可变对象 list 的 = 和 append/extend 差别在哪？</h4><p>接上面 5.3 的理论，下面咱们再看一例常见的错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># coding&#x3D;utf-8</span><br><span class="line"># 测试utf-8编码</span><br><span class="line">import sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(&#39;utf-8&#39;)</span><br><span class="line"></span><br><span class="line">list_a &#x3D; []</span><br><span class="line">def a():</span><br><span class="line">    list_a &#x3D; [1]      ## 语句1</span><br><span class="line">a()</span><br><span class="line">print list_a    # []</span><br><span class="line"></span><br><span class="line">print &quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;</span><br><span class="line"></span><br><span class="line">list_b &#x3D; []</span><br><span class="line">def b():</span><br><span class="line">    list_b.append(1)    ## 语句2</span><br><span class="line">b()</span><br><span class="line">print list_b    # [1]</span><br></pre></td></tr></table></figure>
+
+<p>大家可以看到为什么 语句1 不能改变 list_a 的值，而 语句2 却可以？他们的差别在哪呢？</p>
+<p><strong>因为 = 创建了局部变量，而 .append() 或者 .extend() 重用了全局变量。</strong></p>
+<h4 id="5-5-陷阱：使用可变的默认参数"><a href="#5-5-陷阱：使用可变的默认参数" class="headerlink" title="5.5 陷阱：使用可变的默认参数"></a>5.5 陷阱：使用可变的默认参数</h4><p>我多次见到过如下的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def foo(a, b, c&#x3D;[]):</span><br><span class="line"># append to c</span><br><span class="line"># do some more stuff</span><br></pre></td></tr></table></figure>
+
+<p>永远不要使用可变的默认参数，可以使用如下的代码代替：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def foo(a, b, c&#x3D;None):</span><br><span class="line">    if c is None:</span><br><span class="line">        c &#x3D; []</span><br><span class="line">    # append to c</span><br><span class="line">    # do some more stuff</span><br></pre></td></tr></table></figure>
+
+<p>‍‍与其解释这个问题是什么，不如展示下使用可变默认参数的影响：‍‍</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">In[2]: def foo(a, b, c&#x3D;[]):</span><br><span class="line">...        c.append(a)</span><br><span class="line">...        c.append(b)</span><br><span class="line">...        print(c)</span><br><span class="line">...</span><br><span class="line">In[3]: foo(1, 1)</span><br><span class="line">[1, 1]</span><br><span class="line">In[4]: foo(1, 1)</span><br><span class="line">[1, 1, 1, 1]</span><br><span class="line">In[5]: foo(1, 1)</span><br><span class="line">[1, 1, 1, 1, 1, 1]</span><br></pre></td></tr></table></figure>
+
+<p>同一个变量c在函数调用的每一次都被反复引用。这可能有一些意想不到的后果。</p>
+<p>REF：</p>
+<p>[1] 《learning python》：P130、P134、P202、P204 、P245</p>
+<p><a href="http://www.zhihu.com/question/21000872/answer/16856382" target="_blank" rel="noopener external nofollow noreferrer">http://www.zhihu.com/question/21000872/answer/16856382</a></p>
+<p>[2] 理解 Python 的 LEGB</p>
+<p><a href="http://blog.segmentfault.com/sunisdown/1190000000640834" target="_blank" rel="noopener external nofollow noreferrer">http://blog.segmentfault.com/sunisdown/1190000000640834</a></p>
+<p>[3] Python函数参数默认值的陷阱和原理深究</p>
+<p><a href="http://cenalulu.github.io/python/default-mutable-arguments/" target="_blank" rel="noopener external nofollow noreferrer">http://cenalulu.github.io/python/default-mutable-arguments/</a></p>
+<p>[4] 潜在的Python陷阱</p>
+<p><a href="http://python.jobbole.com/81564/" target="_blank" rel="noopener external nofollow noreferrer">http://python.jobbole.com/81564/</a></p>
+<p>[5] 陷阱！python参数默认值</p>
+<p><a href="http://segmentfault.com/a/1190000000743526" target="_blank" rel="noopener external nofollow noreferrer">http://segmentfault.com/a/1190000000743526</a></p>
+<p>[6] Python中的变量、引用、拷贝和作用域</p>
+<p><a href="http://xianglong.me/article/python-variable-quote-copy-and-scope/" target="_blank" rel="noopener external nofollow noreferrer">http://xianglong.me/article/python-variable-quote-copy-and-scope/</a></p>
+<p>[7] Python入门基础知识(1) :locals() 和globals()</p>
+<p><a href="http://www.cnblogs.com/wanxsb/archive/2013/05/07/3064783.html" target="_blank" rel="noopener external nofollow noreferrer">http://www.cnblogs.com/wanxsb/archive/2013/05/07/3064783.html</a></p>
+<p>[8] Python程序员写代码时应该避免的16个“坑”</p>
+<p><a href="http://bit.ly/29vnLvz" target="_blank" rel="noopener external nofollow noreferrer">http://bit.ly/29vnLvz</a></p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/3426993658.html" rel="bookmark">解决Centos7开启Django服务不能远程访问的问题</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/2139646571.html" rel="bookmark">CentOS7安装python虚拟运行环境</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/2185007545.html" rel="bookmark">Python代码获取系统环境变量的值</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/422075899.html" rel="bookmark">Python中环境变量的查看与添加</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/articles/2264741891.html" rel="bookmark">Python中的字符串与字符编码</a></div>
+    </li>
+  </ul>
+
+        
+
+<div class="post-copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径TODO: 这两个js好像可以不要-->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p>
+    <span>本文标题：</span>
+    <a href="/articles/2439534387.html">深入理解Python中的复制、引用、拷贝、作用域</a>
+  </p>
+  <p>
+    <span>本文作者：</span>
+    <a href="/" title="访问 Ritboy 的个人博客">Ritboy</a>
+  </p>
+  <p>
+    <span>发布时间：</span>
+    2018年05月30日 - 15:33:42
+  </p>
+  <p>
+    <span>最后更新：</span>
+    2018年05月30日 - 15:33:42
+  </p>
+  <p><span>本文链接：</span>
+    <a href="/articles/2439534387.html" title="深入理解Python中的复制、引用、拷贝、作用域">https://blog.ritboy.com/articles/2439534387.html</a>
+    <span class="copy-path"  title="点击复制文章链接">
+      <i class="fa fa-clipboard" data-clipboard-text="https://blog.ritboy.com/articles/2439534387.html"  aria-label="复制成功！"></i>
+    </span>
+  </p>
+  <p>
+    <span>版权声明：</span>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请保留原文链接及作者。
+  </p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          icon: "success",
+          showConfirmButton: true
+          });
+    });
+    });
+</script>
+
+        
+    <div class="read-over">
+        -------------------本文结束
+        <i class="fa fa-paw"></i>
+        感谢您的阅读-------------------
+    </div>
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Ritboy 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ritboy 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag">
+                  <i class="fa fa-tag"></i>
+                
+                  Python
+              </a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/articles/3426993658.html" rel="prev" title="解决Centos7开启Django服务不能远程访问的问题">
+      <i class="fa fa-chevron-left"></i> 解决Centos7开启Django服务不能远程访问的问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/articles/2139646571.html" rel="next" title="CentOS7安装python虚拟运行环境">
+      CentOS7安装python虚拟运行环境 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、先来看个问题吧："><span class="nav-number">1.</span> <span class="nav-text">1、先来看个问题吧：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、引用-VS-拷贝："><span class="nav-number">2.</span> <span class="nav-text">2、引用 VS 拷贝：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、增强赋值以及共享引用："><span class="nav-number">3.</span> <span class="nav-text">3、增强赋值以及共享引用：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、python-从-2k-到-3k，语句变函数引发的变量作用域问题"><span class="nav-number">4.</span> <span class="nav-text">4、python 从 2k 到 3k，语句变函数引发的变量作用域问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、深入理解-python-变量作用域及其陷阱"><span class="nav-number">5.</span> <span class="nav-text">5、深入理解 python 变量作用域及其陷阱</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-可变对象-amp-不可变对象"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 可变对象 &amp; 不可变对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-函数值传递"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 函数值传递</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-为什么修改全局的dict变量不用global关键字"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 为什么修改全局的dict变量不用global关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-可变对象-list-的-和-append-extend-差别在哪？"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 可变对象 list 的 &#x3D; 和 append&#x2F;extend 差别在哪？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-陷阱：使用可变的默认参数"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 陷阱：使用可变的默认参数</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ritboy"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Ritboy</p>
+  <div class="site-description" itemprop="description">鲲鹏万里，能躺否，或许能编程</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ritboylei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ritboylei" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ritboylei@gmail.com" title="E-Mail → mailto:ritboylei@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener external nofollow noreferrer" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ritboy</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+
+    
+
+    <span title="站点总字数">364k</span>
+
+
+
+
+  <div class="beian">
+      <img src="/images/beian.png" style="display: inline-block;"><a href="http://www.beian.miit.gov.cn/" rel="noopener external nofollow noreferrer" target="_blank"> 蜀ICP备 19038127号-2 </a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+  
+  
+    <script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>
