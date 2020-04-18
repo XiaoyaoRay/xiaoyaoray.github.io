@@ -34,7 +34,8 @@ if (screen.width >= 768) {
 		initWidget({
 			waifuPath: live2d_path + "waifu-tips.json",
 			// cdnPath: live2d_path + "api/"
-			cdnPath: "https://sswhite.gitee.io/live2d_api/"   //存放在gitee上 可以fork到自己仓库
+			// cdnPath: "https://sswhite.gitee.io/live2d_api/"   //存放在gitee上 可以fork到自己仓库
+			cdnPath: "https://cdn.jsdelivr.net/gh/ritboylei/live2d_api/"   //可以fork到自己仓库
 		});
 	});
 }
