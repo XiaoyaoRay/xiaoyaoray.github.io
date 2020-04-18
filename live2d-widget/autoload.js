@@ -33,7 +33,7 @@ if (screen.width >= 768) {
 	]).then(() => {
 		initWidget({
 			waifuPath: live2d_path + "waifu-tips.json",
-			cdnPath: "ttp://sswhite.gitee.io/live2d_api/"   //存放在gitee上 可以fork到自己仓库
+			cdnPath: "https://sswhite.gitee.io/live2d_api/"   //存放在gitee上 可以fork到自己仓库
 		});
 	});
 }
