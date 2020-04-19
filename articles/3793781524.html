@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="清理overlay存储我们在使用docker的过程中发现基于swarm使用Storage Driver: overlay的方式进行存储.但是发现这个特别占用存储空间.">
+  <meta name="description" content="清理overlay存储我们在使用docker的过程中发现基于swarm使用Storage Driver: overlay的方式进行存储.但是发现这个特别占用存储空间. 清理所有停止的容器1docker container prune">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker清理方案">
 <meta property="og:url" content="https://blog.ritboy.com/articles/3793781524.html">
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
-<meta property="og:description" content="清理overlay存储我们在使用docker的过程中发现基于swarm使用Storage Driver: overlay的方式进行存储.但是发现这个特别占用存储空间.">
+<meta property="og:description" content="清理overlay存储我们在使用docker的过程中发现基于swarm使用Storage Driver: overlay的方式进行存储.但是发现这个特别占用存储空间. 清理所有停止的容器1docker container prune">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-06-21T08:41:20.000Z">
 <meta property="article:modified_time" content="2018-06-21T08:41:20.000Z">
@@ -154,17 +154,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">43</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -287,8 +287,9 @@
 
       
         <h2 id="清理overlay存储"><a href="#清理overlay存储" class="headerlink" title="清理overlay存储"></a>清理overlay存储</h2><p>我们在使用docker的过程中发现基于swarm使用Storage Driver: overlay的方式进行存储.但是发现这个特别占用存储空间.</p>
-<a id="more"></a>
 <h3 id="清理所有停止的容器"><a href="#清理所有停止的容器" class="headerlink" title="清理所有停止的容器"></a>清理所有停止的容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container prune</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
 
 <h3 id="清理所有不用数据-停止的容器-不使用的volume-不使用的networks-悬挂的镜像"><a href="#清理所有不用数据-停止的容器-不使用的volume-不使用的networks-悬挂的镜像" class="headerlink" title="清理所有不用数据(停止的容器,不使用的volume,不使用的networks,悬挂的镜像)"></a>清理所有不用数据(停止的容器,不使用的volume,不使用的networks,<em>悬挂</em>的镜像)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker system prune -a</span><br></pre></td></tr></table></figure>
 
@@ -320,7 +321,7 @@
 <h3 id="第一步日志位置"><a href="#第一步日志位置" class="headerlink" title="第一步日志位置"></a>第一步日志位置</h3><p>找到对应container的日志文件，一般是在 <code>/var/lib/docker/containers/containerid/containerid.log-json.log</code>（<code>containerid</code>是指你的容器id）</p>
 <h4 id="找日志位置"><a href="#找日志位置" class="headerlink" title="找日志位置"></a>找日志位置</h4><p>如果找不到，可以模糊查询一下 <code>find / -type f -name &quot;*.log&quot; | xargs grep &quot;ERROR&quot;</code> 找到日志位置(这行命令的意思是从根目录开始查找所有扩展名为.log的文本文件，并找出包含”ERROR”的行，你可把 error 换成你日志中存在的内容，docker logs -f container name 就能看到有什么内容啦)</p>
 <h4 id="找容器id"><a href="#找容器id" class="headerlink" title="找容器id"></a>找容器id</h4><p>如果不知道容器id是什么， docker inspect Container name 可以看到容器id</p>
-<h3 id="第二部：清理一下"><a href="#第二部：清理一下" class="headerlink" title="第二部：清理一下"></a>第二部：清理一下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;dev&#x2F;null &gt;&#x2F;var&#x2F;lib&#x2F;docker&#x2F;containers&#x2F;containerid&#x2F;&lt;containerid&gt;.log-json.log</span><br></pre></td></tr></table></figure>
+<h3 id="第二步：清理一下"><a href="#第二步：清理一下" class="headerlink" title="第二步：清理一下"></a>第二步：清理一下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;dev&#x2F;null &gt;&#x2F;var&#x2F;lib&#x2F;docker&#x2F;containers&#x2F;containerid&#x2F;&lt;containerid&gt;.log-json.log</span><br></pre></td></tr></table></figure>
 
 
 
@@ -335,19 +336,10 @@
   <div class="popular-posts-header">推荐阅读</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/articles/555453948.html" rel="bookmark">修改使用Alpine Linux的Docker容器的时区</a></div>
+      <div class="popular-posts-title"><a href="/articles/555453948.html" rel="bookmark">修改Alpine Docker容器时区</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/articles/356140278.html" rel="bookmark">Docker镜像的导入导出</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/articles/299853131.html" rel="bookmark">Docker列出镜像用法</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/articles/4103956697.html" rel="bookmark">Docker stats监控容器资源消耗</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/articles/2670786286.html" rel="bookmark">Dockerfile编写最佳实践</a></div>
+      <div class="popular-posts-title"><a href="/articles/3779592231.html" rel="bookmark">Docker问题收集</a></div>
     </li>
   </ul>
 
@@ -446,8 +438,8 @@
       <i class="fa fa-chevron-left"></i> Kubernetes安装之Kubespray
     </a></div>
       <div class="post-nav-item">
-    <a href="/articles/226070369.html" rel="next" title="CentOS7安装Cobbler">
-      CentOS7安装Cobbler <i class="fa fa-chevron-right"></i>
+    <a href="/articles/929099485.html" rel="next" title="locale的设定及LANG、LC_CTYPE、LC_ALL环境变量">
+      locale的设定及LANG、LC_CTYPE、LC_ALL环境变量 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -507,7 +499,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#清理overlay存储"><span class="nav-number">1.</span> <span class="nav-text">清理overlay存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#清理所有停止的容器"><span class="nav-number">1.1.</span> <span class="nav-text">清理所有停止的容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清理所有不用数据-停止的容器-不使用的volume-不使用的networks-悬挂的镜像"><span class="nav-number">1.2.</span> <span class="nav-text">清理所有不用数据(停止的容器,不使用的volume,不使用的networks,悬挂的镜像)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#overlay存储"><span class="nav-number">1.3.</span> <span class="nav-text">overlay存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#overlayfs"><span class="nav-number">1.3.1.</span> <span class="nav-text">overlayfs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overlayfs数据清理"><span class="nav-number">1.3.2.</span> <span class="nav-text">overlayfs数据清理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整理"><span class="nav-number">1.4.</span> <span class="nav-text">整理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">1.5.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-时间同步"><span class="nav-number">1.5.1.</span> <span class="nav-text">docker 时间同步?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-存储地方修改"><span class="nav-number">1.5.2.</span> <span class="nav-text">docker 存储地方修改</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理容器日志"><span class="nav-number">2.</span> <span class="nav-text">清理容器日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步日志位置"><span class="nav-number">2.1.</span> <span class="nav-text">第一步日志位置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#找日志位置"><span class="nav-number">2.1.1.</span> <span class="nav-text">找日志位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#找容器id"><span class="nav-number">2.1.2.</span> <span class="nav-text">找容器id</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部：清理一下"><span class="nav-number">2.2.</span> <span class="nav-text">第二部：清理一下</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#清理overlay存储"><span class="nav-number">1.</span> <span class="nav-text">清理overlay存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#清理所有停止的容器"><span class="nav-number">1.1.</span> <span class="nav-text">清理所有停止的容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清理所有不用数据-停止的容器-不使用的volume-不使用的networks-悬挂的镜像"><span class="nav-number">1.2.</span> <span class="nav-text">清理所有不用数据(停止的容器,不使用的volume,不使用的networks,悬挂的镜像)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#overlay存储"><span class="nav-number">1.3.</span> <span class="nav-text">overlay存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#overlayfs"><span class="nav-number">1.3.1.</span> <span class="nav-text">overlayfs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overlayfs数据清理"><span class="nav-number">1.3.2.</span> <span class="nav-text">overlayfs数据清理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整理"><span class="nav-number">1.4.</span> <span class="nav-text">整理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">1.5.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-时间同步"><span class="nav-number">1.5.1.</span> <span class="nav-text">docker 时间同步?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-存储地方修改"><span class="nav-number">1.5.2.</span> <span class="nav-text">docker 存储地方修改</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理容器日志"><span class="nav-number">2.</span> <span class="nav-text">清理容器日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步日志位置"><span class="nav-number">2.1.</span> <span class="nav-text">第一步日志位置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#找日志位置"><span class="nav-number">2.1.1.</span> <span class="nav-text">找日志位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#找容器id"><span class="nav-number">2.1.2.</span> <span class="nav-text">找容器id</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步：清理一下"><span class="nav-number">2.2.</span> <span class="nav-text">第二步：清理一下</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -890,7 +882,7 @@
 
     
 
-    <span title="站点总字数">355k</span>
+    <span title="站点总字数">134k</span>
 
 
 

@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="问题出现原因不同的操作系统(Windows和Linux)，所以换行符的差异会让 Git 认为文件的内容发生了变化。Windows下换行符为CRLF, Linux／Unix／Mac 系统换行符为LF">
+  <meta name="description" content="问题出现原因不同的操作系统(Windows和Linux)，所以换行符的差异会让 Git 认为文件的内容发生了变化。Windows下换行符为CRLF, Linux／Unix／Mac 系统换行符为LF 方法一修改Git配置 12git config core.filemode falsegit config core.eol lf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git出现换行符报错(CRLT和LF)">
 <meta property="og:url" content="https://blog.ritboy.com/articles/587466736.html">
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
-<meta property="og:description" content="问题出现原因不同的操作系统(Windows和Linux)，所以换行符的差异会让 Git 认为文件的内容发生了变化。Windows下换行符为CRLF, Linux／Unix／Mac 系统换行符为LF">
+<meta property="og:description" content="问题出现原因不同的操作系统(Windows和Linux)，所以换行符的差异会让 Git 认为文件的内容发生了变化。Windows下换行符为CRLF, Linux／Unix／Mac 系统换行符为LF 方法一修改Git配置 12git config core.filemode falsegit config core.eol lf">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/21174c749c17d2f6a42be0f34cd3e088.jpg">
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/047550c14cc09fcdfe5d4dd53b00a34b.jpg">
@@ -158,17 +158,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">43</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -291,9 +291,10 @@
 
       
         <h3 id="问题出现原因"><a href="#问题出现原因" class="headerlink" title="问题出现原因"></a>问题出现原因</h3><p>不同的操作系统(Windows和Linux)，所以换行符的差异会让 Git 认为文件的内容发生了变化。Windows下换行符为<code>CRLF</code>, Linux／Unix／Mac 系统换行符为<code>LF</code></p>
-<a id="more"></a>
 <h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>修改Git配置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config core.filemode false</span><br><span class="line">git config core.eol lf</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
 
 <h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><ol>
 <li>在 Windows 系统下，安装 Git 时应当置选项 <code>core.autocrlf</code> 为 <code>true</code>，也就是下图所示的那一个：<br><img src="https://image.ritboy.com/markdown/202004/21174c749c17d2f6a42be0f34cd3e088.jpg" alt="请输入图片描述"></li>
@@ -417,8 +418,8 @@
       <i class="fa fa-chevron-left"></i> Python中环境变量的查看与添加
     </a></div>
       <div class="post-nav-item">
-    <a href="/articles/3426993658.html" rel="next" title="解决Centos7开启Django服务不能远程访问的问题">
-      解决Centos7开启Django服务不能远程访问的问题 <i class="fa fa-chevron-right"></i>
+    <a href="/articles/2139646571.html" rel="next" title="CentOS7安装python虚拟运行环境">
+      CentOS7安装python虚拟运行环境 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -861,7 +862,7 @@
 
     
 
-    <span title="站点总字数">355k</span>
+    <span title="站点总字数">134k</span>
 
 
 

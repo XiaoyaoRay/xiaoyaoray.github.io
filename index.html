@@ -155,17 +155,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">28</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">99</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">43</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -280,7 +280,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>记录一次使用scratch镜像运行Golang程序的build镜像过程以及问题解决。scratch镜像来运行Golang能大大缩减最终生成镜像的大小。</p>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>记录一次使用scratch镜像运行Golang程序的build镜像过程以及问题解决。scratch镜像来运行Golang能大大缩减Docker镜像的大小。</p>
 <h1 id="DEMO代码"><a href="#DEMO代码" class="headerlink" title="DEMO代码"></a>DEMO代码</h1><p>网上复制的一段Golang代码</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># filename: main.<span class="keyword">go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	resp, err := http.Get(<span class="string">"https://www.baidu.com"</span>)</span><br><span class="line">	check(err)</span><br><span class="line">	body, err := ioutil.ReadAll(resp.Body)</span><br><span class="line">	check(err)</span><br><span class="line">	fmt.Println(<span class="built_in">len</span>(body))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(err error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
@@ -354,7 +354,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>986</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -373,107 +373,10 @@
 
       
           <h2 id="WatchGuard-Cloud添加ADFS-Resource"><a href="#WatchGuard-Cloud添加ADFS-Resource" class="headerlink" title="WatchGuard Cloud添加ADFS Resource"></a>WatchGuard Cloud添加ADFS Resource</h2><h3 id="进入到AuthPoint配置界面"><a href="#进入到AuthPoint配置界面" class="headerlink" title="进入到AuthPoint配置界面"></a>进入到AuthPoint配置界面</h3><p>在<code>Configure</code>中选择<code>AuthPoint</code></p>
-<p><img src="https://image.ritboy.com/markdown/202004/881466b773319a7f8192b4e18b0ea8f4.jpg" alt="image-20190624102156098"></p>
+<p> <img src="https://image.ritboy.com/markdown/202004/881466b773319a7f8192b4e18b0ea8f4.jpg" alt="image-20190624102156098"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/articles/1631318906.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/2845749437.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Ritboy">
-      <meta itemprop="description" content="鲲鹏万里，能躺否，也许会编程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ritboy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/articles/2845749437.html" class="post-title-link" itemprop="url">Allow Multiple Remote Desktop (RDP) Connections In Windows Server 2012/2016</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-06-03 15:11:45" itemprop="dateCreated datePublished" datetime="2019-06-03T15:11:45+08:00">2019-06-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/2016/" itemprop="url" rel="index"><span itemprop="name">2016</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="From-Multiple-Remote-Desktop-RDP-Connections"><a href="#From-Multiple-Remote-Desktop-RDP-Connections" class="headerlink" title="From Multiple Remote Desktop (RDP) Connections"></a>From <a href="https://www.hostwinds.com/guide/allow-multiple-remote-desktop-rdp-connections-in-windows-server-2012-2016/" target="_blank" rel="noopener external nofollow noreferrer">Multiple Remote Desktop (RDP) Connections</a></h2><p>This guide will explain how to allow multiple sessions in a Windows VPS. A common usage case for this would be to allow the usage of a developed application or a remotely accessed support desktop. Additionally, there will be some information on where to purchase the RDS CAL license directly from Microsoft to allow for a larger number of users.</p>
-<p>If you need more than 2 connections to your Windows Server 2016 from internal device, then, below RDS serve role might be necessary:</p>
-<ol>
-<li>RD Connection Broker.</li>
-<li>RD Session Host.</li>
-<li>RD Licensing server – there is 120-day licensing grace period, appropriate RDS CALs should be purchased and installed before it has expired.</li>
-</ol>
-<p><em>It may be best to consider a higher specification VPS or a Dedicated Server if you wish to use more than 3 users per machine, as the overall performance of the VPS will degrade per user.</em></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/articles/2845749437.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -565,184 +468,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/1481098013.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Ritboy">
-      <meta itemprop="description" content="鲲鹏万里，能躺否，也许会编程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ritboy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/articles/1481098013.html" class="post-title-link" itemprop="url">RDS 2016 – Preview HTML5 RDP Client for Remote Desktop Services 2016</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-05-28 11:14:20" itemprop="dateCreated datePublished" datetime="2019-05-28T11:14:20+08:00">2019-05-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/2016/" itemprop="url" rel="index"><span itemprop="name">2016</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="From-HTML5-RDP-Client"><a href="#From-HTML5-RDP-Client" class="headerlink" title="From HTML5 RDP Client"></a>From <a href="https://c-nergy.be/blog/?p=11974" target="_blank" rel="noopener external nofollow noreferrer">HTML5 RDP Client</a></h2><p>Hello World, </p>
-<p>In <a href="http://c-nergy.be/blog/?p=11950" target="_blank" rel="noopener external nofollow noreferrer">our previous post</a>,  we have discussed the RDS roles in Windows 2019 Server Preview edition  and we have found out that some of the roles (the most important one  actually) are not available anymore which make not possible (at the  moment), to implement a full RDS 2019 Architecture.  While looking and  browsing the web and the Microsoft Documentations about RDS (remote  Desktop services), we came across this link Set up the <a href="https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-web-client-admin" target="_blank" rel="noopener external nofollow noreferrer">Remote Desktop web client for your users</a></p>
-<p>Reading through the documentation page,  it seems that in RDS 2016, a new RDP client is available.  This new RDP  client is not based on any ActiveX components but it’s a pure html 5 RDP  client. This was a request or a wish submitted on<a href="https://remotedesktop.uservoice.com/forums/266795-remote-desktop-services/suggestions/8135250-modern-rdweb-access-with-html-5-support" target="_blank" rel="noopener external nofollow noreferrer"> this web</a>  site so time ago.  It seems that this request went through…. Actually,  it seems that the RemoteApp Azure html client has been integrated in the  RDS 2016 solution </p>
-<p>In this post, we will try to install it  and see how it behave….We didn’t invent anything, all the necessary  information can be found <a href="https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-web-client-admin" target="_blank" rel="noopener external nofollow noreferrer">here</a>.  However, some information or guidance are not up to date anymore… </p>
-<p>Let’s do this … </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/articles/1481098013.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/4244417556.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Ritboy">
-      <meta itemprop="description" content="鲲鹏万里，能躺否，也许会编程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ritboy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/articles/4244417556.html" class="post-title-link" itemprop="url">Step by step Windows 2012 R2 Install Remote Desktop Service Web</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-05-27 10:15:30" itemprop="dateCreated datePublished" datetime="2019-05-27T10:15:30+08:00">2019-05-27</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/2012-R2/" itemprop="url" rel="index"><span itemprop="name">2012 R2</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>89</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><h3 id="Other-URL"><a href="#Other-URL" class="headerlink" title="Other URL"></a>Other URL</h3><p><a href="https://msfreaks.wordpress.com/2013/12/09/windows-2012-r2-remote-desktop-services-part-1/" target="_blank" rel="noopener external nofollow noreferrer">Step by Step Windows 2012 R2 Remote Desktop Services</a></p>
-<p><a href="https://www.crazycen.com/virtualization/1299.html" target="_blank" rel="noopener external nofollow noreferrer">单台服务器部署Windows Server 2012 RDS Web</a></p>
-
       
     </div>
 
@@ -950,97 +675,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/417282922.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Ritboy">
-      <meta itemprop="description" content="鲲鹏万里，能躺否，也许会编程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ritboy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/articles/417282922.html" class="post-title-link" itemprop="url">Windows 10添加本地用户</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-04-28 17:44:21" itemprop="dateCreated datePublished" datetime="2019-04-28T17:44:21+08:00">2019-04-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows/" itemprop="url" rel="index"><span itemprop="name">Windows</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows/win10/" itemprop="url" rel="index"><span itemprop="name">win10</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>转载：<a href="https://www.laptopmag.com/articles/limited-user-accounts-windows-10" target="_blank" rel="noopener external nofollow noreferrer">How to Set Up Limited User Accounts in Windows 10</a></p>
-<p>To be successful, malware and other security exploits frequently leverage the powers of highly privileged Windows user accounts. It’s not entirely a shock, then, that a new report reveals that 86 percent of all Windows security threats patched in 2015 would have been stopped or rendered toothless if they had attacked users who were using limited, rather than administrator, accounts, and hence lacked the power to install, modify or delete software.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/articles/417282922.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/3209066549.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1129,10 +763,468 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/1930033449.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，也许会编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/articles/1930033449.html" class="post-title-link" itemprop="url">AuthPoint添加RADIUS</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-23 16:09:19" itemprop="dateCreated datePublished" datetime="2019-04-23T16:09:19+08:00">2019-04-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WatchGuard/" itemprop="url" rel="index"><span itemprop="name">WatchGuard</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WatchGuard/RADIUS/" itemprop="url" rel="index"><span itemprop="name">RADIUS</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>922</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Windows上安装Gateway"><a href="#Windows上安装Gateway" class="headerlink" title="Windows上安装Gateway"></a>Windows上安装Gateway</h2><h3 id="下载Gateway软件"><a href="#下载Gateway软件" class="headerlink" title="下载Gateway软件"></a>下载Gateway软件</h3><p>下载完成后复制到Gateway的Windows主机上</p>
+<p>地址： <a href="https://staging.deu.cloud.watchguard.com/services/auth/general/download" target="_blank" rel="noopener external nofollow noreferrer">https://staging.deu.cloud.watchguard.com/services/auth/general/download</a></p>
+<p><img src="https://image.ritboy.com/markdown/202004/f28920efd01d6d0e2142886c772c571b.jpg" alt="image-20190424162937266"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/articles/1930033449.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/4078729915.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，也许会编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/articles/4078729915.html" class="post-title-link" itemprop="url">AuthPoint添加SAML</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-22 15:53:25" itemprop="dateCreated datePublished" datetime="2019-04-22T15:53:25+08:00">2019-04-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WatchGuard/" itemprop="url" rel="index"><span itemprop="name">WatchGuard</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WatchGuard/SAML/" itemprop="url" rel="index"><span itemprop="name">SAML</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="FireBox-Web-UI配置"><a href="#FireBox-Web-UI配置" class="headerlink" title="FireBox Web UI配置"></a>FireBox Web UI配置</h2><h3 id="WatchGuard-Cloud-UI上获取METADAT-URL"><a href="#WatchGuard-Cloud-UI上获取METADAT-URL" class="headerlink" title="WatchGuard Cloud UI上获取METADAT URL"></a>WatchGuard Cloud UI上获取<code>METADAT URL</code></h3><p>打开WatchGuard Cloud UI(比如：<a href="https://staging.cloud.watchguard.com/" target="_blank" rel="noopener external nofollow noreferrer">https://staging.cloud.watchguard.com</a>)，然后通过账户密码登录并进入到AuthPoint界面。</p>
+<ul>
+<li>在<code>Resources</code>界面新建<strong>Certificate</strong></li>
+</ul>
+<p><img src="https://image.ritboy.com/markdown/202004/70bfbce4f4280d5bcf95a73261411e1b.jpg" alt="image-20190423144332795"></p>
+<ul>
+<li><p>在<code>CERTIFICATE</code>界面上复制<code>METADATA URL</code></p>
+<p><img src="https://image.ritboy.com/markdown/202004/a2b14d83585d6a8383452c189c861d40.jpg" alt="image-20190423144453467"></p>
+</li>
+</ul>
+<h3 id="登录FireBox-UI"><a href="#登录FireBox-UI" class="headerlink" title="登录FireBox UI"></a>登录FireBox UI</h3><p>登录到FireBox Web UI(比如：https://&lt; firebox ip &gt;:8080)，然后通过账号和密码登录进入FireBox。</p>
+<h3 id="FireBox-Web-UI配置Access-Portal"><a href="#FireBox-Web-UI配置Access-Portal" class="headerlink" title="FireBox Web UI配置Access Portal"></a>FireBox Web UI配置Access Portal</h3><p>在FireBox Web UI上选择<strong>Subscription Services –&gt; Access Portal</strong>.可能需要先点击🔓</p>
+<p> <img src="https://image.ritboy.com/markdown/202004/3435d7eab366308cb11af1fa2d9d3e75.jpg" alt="image-20190422175756919"></p>
+<h4 id="添加Applications"><a href="#添加Applications" class="headerlink" title="添加Applications"></a>添加Applications</h4><ul>
+<li><p>在<strong>Applications中ADD按钮</strong>添加SP(Service Provider)，比如：Web Application</p>
+<p><img src="https://image.ritboy.com/markdown/202004/5bb25872385fb9070dca5516fe23673e.jpg" alt="image-20190422180250765"></p>
+</li>
+<li><p>配置Application的信息</p>
+<p><img src="https://image.ritboy.com/markdown/202004/b038560fd9cdc40261860fd8796d778f.jpg" alt="image-20190422180750195"></p>
+</li>
+</ul>
+<h4 id="配置SAML"><a href="#配置SAML" class="headerlink" title="配置SAML"></a>配置SAML</h4><p>在Access Portal页面选择<code>SAML</code>页面</p>
+<p><img src="https://image.ritboy.com/markdown/202004/cba23577b74ed78b45c57ff6b56891f8.jpg" alt="image-20190422181014843"></p>
+<ul>
+<li>勾选<code>Enable Accesss Portal</code></li>
+<li>勾选<code>Enable SAML</code></li>
+<li>配置<code>Idp Name</code>，内容自定义。配置后再SAML登录界面会看到该信息</li>
+<li>配置<code>Host Name</code>，内容自定义。注意：需要在本地的<code>hosts文件</code>把<code>FireBox</code>的IP地址与该Host Name对应(macOS中的<code>/etc/hosts</code>文件)</li>
+<li>配置<code>Idp Metadata URL</code>，内容为从<strong>WatchGuard Cloud UI</strong>上复制到的<code>METADATA URL</code>数据(操作请见：<strong>WatchGuard Cloud UI上获取<code>METADAT URL</code></strong>)</li>
+<li>最后点击<code>SAVE</code>按钮</li>
+</ul>
+<h3 id="FireBox-Web-UI配置Users-and-Groups"><a href="#FireBox-Web-UI配置Users-and-Groups" class="headerlink" title="FireBox Web UI配置Users and Groups"></a>FireBox Web UI配置Users and Groups</h3><p>进入到<code>Users and Groups</code>界面，可能需要先点击下🔓</p>
+<p> <img src="https://image.ritboy.com/markdown/202004/6c04a3f1fccd39ba8973249d0cbb7e35.jpg" alt="image-20190422183117703"></p>
+<h4 id="点击ADD按钮"><a href="#点击ADD按钮" class="headerlink" title="点击ADD按钮"></a>点击ADD按钮</h4><p> <img src="https://image.ritboy.com/markdown/202004/c9c329bf3bd2315235a481b6d6340c0e.jpg" alt="image-20190423094359746"></p>
+<h4 id="配置用户信息"><a href="#配置用户信息" class="headerlink" title="配置用户信息"></a>配置用户信息</h4><ul>
+<li><p>type：选择<code>User</code></p>
+</li>
+<li><p>Name：自定义，注意需要在WatchGuard Cloud中有相应的用户才能正常使用</p>
+</li>
+<li><p>Authentication Server：选择<code>AuthPoint</code></p>
+</li>
+<li><p>其余的为默认值</p>
+</li>
+<li><p>点击<code>OK</code>保存</p>
+<p><img src="https://image.ritboy.com/markdown/202004/c4ad6b7e87b3903cd543948848daa07a.jpg" alt="image-20190423094542736"></p>
+</li>
+</ul>
+<h3 id="获取EntityID，Assertion-Consumer-Service-ACS-URL，Certificate"><a href="#获取EntityID，Assertion-Consumer-Service-ACS-URL，Certificate" class="headerlink" title="获取EntityID，Assertion Consumer Service(ACS) URL，Certificate"></a>获取EntityID，Assertion Consumer Service(ACS) URL，Certificate</h3><p>在浏览器中打开地址：https://&lt; your Host Name &gt;/auth/saml，其中<code>Host Name</code>为配置<strong>SAML</strong>时填的，并且该域名需要在<code>hosts文件</code>中配置</p>
+<p> <img src="https://image.ritboy.com/markdown/202004/3fe816337e0dbe77db5b46069278acb2.jpg" alt="image-20190423095313020"></p>
+<h2 id="WatchGuard-Cloud-Web-UI配置AuthPoint"><a href="#WatchGuard-Cloud-Web-UI配置AuthPoint" class="headerlink" title="WatchGuard Cloud Web UI配置AuthPoint"></a>WatchGuard Cloud Web UI配置AuthPoint</h2><h3 id="进入到Resource界面"><a href="#进入到Resource界面" class="headerlink" title="进入到Resource界面"></a>进入到Resource界面</h3><ul>
+<li><p>打开WatchGuard Cloud UI(比如：<a href="https://staging.cloud.watchguard.com/" target="_blank" rel="noopener external nofollow noreferrer">https://staging.cloud.watchguard.com</a>)，并使用账户密码登录</p>
+<p><img src="https://image.ritboy.com/markdown/202004/943b6e117fff84befee9a9fbe86ad7d9.jpg" alt="image-20190422172127535"></p>
+</li>
+<li><p>进入到AuthPoint界面</p>
+<p><img src="https://image.ritboy.com/markdown/202004/5350d262716b3cc8fa6e1eb65ee4f11e.jpg" alt="image-20190422172345367"></p>
+</li>
+<li><p>进入到Resource界面</p>
+<p><img src="https://image.ritboy.com/markdown/202004/7c074ffd360fedb3a4f5172a86bbc602.jpg" alt="image-20190423100444852"></p>
+</li>
+</ul>
+<h3 id="添加SAML-Resource"><a href="#添加SAML-Resource" class="headerlink" title="添加SAML Resource"></a>添加SAML Resource</h3><h4 id="选择SAML-并点击Add-Resource按钮"><a href="#选择SAML-并点击Add-Resource按钮" class="headerlink" title="选择SAML,并点击Add Resource按钮"></a>选择SAML,并点击<code>Add Resource</code>按钮</h4><p> <img src="https://image.ritboy.com/markdown/202004/c6d1781673fdc5efc7442201ec7d1b6c.jpg" alt="image-20190423100721545"></p>
+<h4 id="配置添加SAML信息"><a href="#配置添加SAML信息" class="headerlink" title="配置添加SAML信息"></a>配置添加SAML信息</h4><ul>
+<li><p><strong>Name</strong>：自定义</p>
+</li>
+<li><p><strong>Application Type</strong>: 选择Firebox Access Portal</p>
+</li>
+<li><p><strong>Service Provider Entity ID</strong> : 粘贴从<code>https://&lt; your Host Name &gt;/auth/saml</code>网页上复制的EntityID</p>
+</li>
+<li><p><strong>Assertion Consumer Service</strong>：粘贴从<code>https://&lt; your Host Name &gt;/auth/saml</code>网页上复制的Assertion Consumer Service URL</p>
+</li>
+<li><p><strong>Choose File</strong>：选择从<code>https://&lt; your Host Name &gt;/auth/saml</code>下载的证书</p>
+</li>
+<li><p>点击<strong>SAVE</strong>按钮</p>
+<p><img src="https://image.ritboy.com/markdown/202004/0e87c9b03ae3c4db3e24a075de8d4f8c.jpg" alt="image-20190423100846010"></p>
+</li>
+</ul>
+<h3 id="添加Group和User"><a href="#添加Group和User" class="headerlink" title="添加Group和User"></a>添加Group和User</h3><h4 id="添加Group"><a href="#添加Group" class="headerlink" title="添加Group"></a>添加Group</h4><ul>
+<li><p>点击Add Group按钮</p>
+<p><img src="https://image.ritboy.com/markdown/202004/cb0682aefc9389c79ab6342850ade600.jpg" alt="image-20190423103410439"></p>
+</li>
+<li><p>添加Policy, 选择<code>SAML</code> Resource</p>
+</li>
+</ul>
+<p><img src="https://image.ritboy.com/markdown/202004/13a4710ecc37412287b4bd05a413a2b9.jpg" alt="image-20190423103457822"></p>
+<ul>
+<li>点击<strong>SAVE</strong>按钮</li>
+</ul>
+<h4 id="添加User"><a href="#添加User" class="headerlink" title="添加User"></a>添加User</h4><ul>
+<li><p>点击Add User按钮<img src="https://image.ritboy.com/markdown/202004/1ce3109e6e35fa63b9950066a87b5a2e.jpg" alt="image-20190423103605963"></p>
+</li>
+<li><p>配置新用户信息，邮箱地址需要真实用户激活</p>
+<p><img src="https://image.ritboy.com/markdown/202004/e717f9cc095b807a629e05128c7950ce.jpg" alt="image-20190423103630457"></p>
+</li>
+</ul>
+<h4 id="激活用户"><a href="#激活用户" class="headerlink" title="激活用户"></a>激活用户</h4><p>使用添加用户的的邮箱，设置密码并用手机App扫邮件中二维码激活该该账户</p>
+<h3 id="登录用户"><a href="#登录用户" class="headerlink" title="登录用户"></a>登录用户</h3><ul>
+<li>SAML AuthPoint登录地址：http://&lt; firebox ip &gt;</li>
+<li>登录界面输入用户</li>
+<li>登录界面输入密码</li>
+<li>手机App确认登录</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/2596788713.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，也许会编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/articles/2596788713.html" class="post-title-link" itemprop="url">Mac OS 操作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-02 23:24:03" itemprop="dateCreated datePublished" datetime="2019-04-02T23:24:03+08:00">2019-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MacOS/" itemprop="url" rel="index"><span itemprop="name">MacOS</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>338</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="MAC-OS上配置Lantern代理"><a href="#MAC-OS上配置Lantern代理" class="headerlink" title="MAC OS上配置Lantern代理"></a>MAC OS上配置Lantern代理</h3><ol>
+<li><p>首先确保设备在同一个局域网内</p>
+</li>
+<li><p>先关闭你的 Lantern，然后通过命令行启动 Lantern，在电脑终端输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;Applications&#x2F;Lantern.app&#x2F;Contents&#x2F;MacOS&#x2F;lantern -addr 0.0.0.0:8787</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>找到Mac的IP地址，在需要代理的机器上配置<mac-ip>:8787</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/articles/2596788713.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.ritboy.com/articles/4021449867.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Ritboy">
+      <meta itemprop="description" content="鲲鹏万里，能躺否，也许会编程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritboy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/articles/4021449867.html" class="post-title-link" itemprop="url">V2Ray的安装使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-25 14:33:56" itemprop="dateCreated datePublished" datetime="2019-01-25T14:33:56+08:00">2019-01-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VPN/" itemprop="url" rel="index"><span itemprop="name">VPN</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>663</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="使用Docker方式安装"><a href="#使用Docker方式安装" class="headerlink" title="使用Docker方式安装"></a>使用Docker方式安装</h3><ul>
+<li><p>Docker具体安装请见：<a href="https://docs.docker.com/install/linux/docker-ce/centos/" target="_blank" rel="noopener external nofollow noreferrer">https://docs.docker.com/install/linux/docker-ce/centos/</a></p>
+</li>
+<li><p>新建运行目录，比如：<code>makir v2ray</code></p>
+</li>
+<li><p>进入到<code>v2ray</code>目录新建一个文件<code>config.json</code>，可以在<a href="https://intmainreturn0.com/v2ray-config-gen/#" target="_blank" rel="noopener external nofollow noreferrer">V2Ray生成配置网站</a>生成。填写所需的端口，然后复制配置到文件<code>config.json</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/articles/4021449867.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1567,7 +1659,7 @@
 
     
 
-    <span title="站点总字数">355k</span>
+    <span title="站点总字数">134k</span>
 
 
 
