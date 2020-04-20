@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
-  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+  <meta name="baidu-site-verification" content="hipO1KlYzqhv7bxW">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/047550c14cc09fcdfe5d4dd53b00a34b.jpg">
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/3d18ee248fc8a0b61067fedd05b29e72.jpg">
 <meta property="article:published_time" content="2018-06-01T02:01:52.000Z">
-<meta property="article:modified_time" content="2018-06-01T02:01:52.000Z">
+<meta property="article:modified_time" content="2020-04-20T13:19:09.771Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary">
@@ -292,7 +292,7 @@
       
         <h3 id="问题出现原因"><a href="#问题出现原因" class="headerlink" title="问题出现原因"></a>问题出现原因</h3><p>不同的操作系统(Windows和Linux)，所以换行符的差异会让 Git 认为文件的内容发生了变化。Windows下换行符为<code>CRLF</code>, Linux／Unix／Mac 系统换行符为<code>LF</code></p>
 <h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>修改Git配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config core.filemode false</span><br><span class="line">git config core.eol lf</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config core.filemode <span class="literal">false</span></span><br><span class="line">git config core.eol lf</span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>
 
@@ -303,7 +303,7 @@
 <p>以上两种设置最终的结果就是提交的时候 Git 总是将换行符自动转为 <code>LF</code>，并且在 Windows 下 <code>checkout</code> 回来时自动帮你转换为 <code>CRLF</code>，以便适应 Windows 下的编辑器。</p>
 <p>如果你做了上述设置依然会碰到题目中描述的问题，那么不用想，一定是你的团队中另外有别的成员没有做对以上两点的设置（很大的可能性是使用 Windows 的），你们可以逐一排查。</p>
 <p>另外，安装 Windows Git 时另外一个设置也比较让人费解，建议选下图这样的：</p>
-<p><img src="https://image.ritboy.com/markdown/202004/3d18ee248fc8a0b61067fedd05b29e72.jpg" alt="请输入图片描述"></p>
+<p> <img src="https://image.ritboy.com/markdown/202004/3d18ee248fc8a0b61067fedd05b29e72.jpg" alt="请输入图片描述"></p>
 <p>选择这种，所需要的配置量最少，CLI 和 Linux 的兼容性也比较高，唯一的缺陷就是 Windows CLI 里和 Linux 重名的命令会被 Linux 版本覆盖掉，比如 <code>find</code> 之类的。在我看来，反正 Windows CLI 是个渣渣，覆盖了也无所谓了。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://segmentfault.com/q/1010000000518769" target="_blank" rel="noopener external nofollow noreferrer">https://segmentfault.com/q/1010000000518769</a></p>
 
@@ -345,7 +345,7 @@
   </p>
   <p>
     <span>最后更新：</span>
-    2018年06月01日 - 10:01:52
+    2020年04月20日 - 21:19:09
   </p>
   <p><span>本文链接：</span>
     <a href="/articles/587466736.html" title="Git出现换行符报错(CRLT和LF)">https://blog.ritboy.com/articles/587466736.html</a>
@@ -862,7 +862,7 @@
 
     
 
-    <span title="站点总字数">134k</span>
+    <span title="站点总字数">131k</span>
 
 
 

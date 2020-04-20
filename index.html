@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
-  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+  <meta name="baidu-site-verification" content="hipO1KlYzqhv7bxW">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -927,103 +927,14 @@
 <li>在<code>Resources</code>界面新建<strong>Certificate</strong></li>
 </ul>
 <p><img src="https://image.ritboy.com/markdown/202004/70bfbce4f4280d5bcf95a73261411e1b.jpg" alt="image-20190423144332795"></p>
-<ul>
-<li><p>在<code>CERTIFICATE</code>界面上复制<code>METADATA URL</code></p>
-<p><img src="https://image.ritboy.com/markdown/202004/a2b14d83585d6a8383452c189c861d40.jpg" alt="image-20190423144453467"></p>
-</li>
-</ul>
-<h3 id="登录FireBox-UI"><a href="#登录FireBox-UI" class="headerlink" title="登录FireBox UI"></a>登录FireBox UI</h3><p>登录到FireBox Web UI(比如：https://&lt; firebox ip &gt;:8080)，然后通过账号和密码登录进入FireBox。</p>
-<h3 id="FireBox-Web-UI配置Access-Portal"><a href="#FireBox-Web-UI配置Access-Portal" class="headerlink" title="FireBox Web UI配置Access Portal"></a>FireBox Web UI配置Access Portal</h3><p>在FireBox Web UI上选择<strong>Subscription Services –&gt; Access Portal</strong>.可能需要先点击🔓</p>
-<p> <img src="https://image.ritboy.com/markdown/202004/3435d7eab366308cb11af1fa2d9d3e75.jpg" alt="image-20190422175756919"></p>
-<h4 id="添加Applications"><a href="#添加Applications" class="headerlink" title="添加Applications"></a>添加Applications</h4><ul>
-<li><p>在<strong>Applications中ADD按钮</strong>添加SP(Service Provider)，比如：Web Application</p>
-<p><img src="https://image.ritboy.com/markdown/202004/5bb25872385fb9070dca5516fe23673e.jpg" alt="image-20190422180250765"></p>
-</li>
-<li><p>配置Application的信息</p>
-<p><img src="https://image.ritboy.com/markdown/202004/b038560fd9cdc40261860fd8796d778f.jpg" alt="image-20190422180750195"></p>
-</li>
-</ul>
-<h4 id="配置SAML"><a href="#配置SAML" class="headerlink" title="配置SAML"></a>配置SAML</h4><p>在Access Portal页面选择<code>SAML</code>页面</p>
-<p><img src="https://image.ritboy.com/markdown/202004/cba23577b74ed78b45c57ff6b56891f8.jpg" alt="image-20190422181014843"></p>
-<ul>
-<li>勾选<code>Enable Accesss Portal</code></li>
-<li>勾选<code>Enable SAML</code></li>
-<li>配置<code>Idp Name</code>，内容自定义。配置后再SAML登录界面会看到该信息</li>
-<li>配置<code>Host Name</code>，内容自定义。注意：需要在本地的<code>hosts文件</code>把<code>FireBox</code>的IP地址与该Host Name对应(macOS中的<code>/etc/hosts</code>文件)</li>
-<li>配置<code>Idp Metadata URL</code>，内容为从<strong>WatchGuard Cloud UI</strong>上复制到的<code>METADATA URL</code>数据(操作请见：<strong>WatchGuard Cloud UI上获取<code>METADAT URL</code></strong>)</li>
-<li>最后点击<code>SAVE</code>按钮</li>
-</ul>
-<h3 id="FireBox-Web-UI配置Users-and-Groups"><a href="#FireBox-Web-UI配置Users-and-Groups" class="headerlink" title="FireBox Web UI配置Users and Groups"></a>FireBox Web UI配置Users and Groups</h3><p>进入到<code>Users and Groups</code>界面，可能需要先点击下🔓</p>
-<p> <img src="https://image.ritboy.com/markdown/202004/6c04a3f1fccd39ba8973249d0cbb7e35.jpg" alt="image-20190422183117703"></p>
-<h4 id="点击ADD按钮"><a href="#点击ADD按钮" class="headerlink" title="点击ADD按钮"></a>点击ADD按钮</h4><p> <img src="https://image.ritboy.com/markdown/202004/c9c329bf3bd2315235a481b6d6340c0e.jpg" alt="image-20190423094359746"></p>
-<h4 id="配置用户信息"><a href="#配置用户信息" class="headerlink" title="配置用户信息"></a>配置用户信息</h4><ul>
-<li><p>type：选择<code>User</code></p>
-</li>
-<li><p>Name：自定义，注意需要在WatchGuard Cloud中有相应的用户才能正常使用</p>
-</li>
-<li><p>Authentication Server：选择<code>AuthPoint</code></p>
-</li>
-<li><p>其余的为默认值</p>
-</li>
-<li><p>点击<code>OK</code>保存</p>
-<p><img src="https://image.ritboy.com/markdown/202004/c4ad6b7e87b3903cd543948848daa07a.jpg" alt="image-20190423094542736"></p>
-</li>
-</ul>
-<h3 id="获取EntityID，Assertion-Consumer-Service-ACS-URL，Certificate"><a href="#获取EntityID，Assertion-Consumer-Service-ACS-URL，Certificate" class="headerlink" title="获取EntityID，Assertion Consumer Service(ACS) URL，Certificate"></a>获取EntityID，Assertion Consumer Service(ACS) URL，Certificate</h3><p>在浏览器中打开地址：https://&lt; your Host Name &gt;/auth/saml，其中<code>Host Name</code>为配置<strong>SAML</strong>时填的，并且该域名需要在<code>hosts文件</code>中配置</p>
-<p> <img src="https://image.ritboy.com/markdown/202004/3fe816337e0dbe77db5b46069278acb2.jpg" alt="image-20190423095313020"></p>
-<h2 id="WatchGuard-Cloud-Web-UI配置AuthPoint"><a href="#WatchGuard-Cloud-Web-UI配置AuthPoint" class="headerlink" title="WatchGuard Cloud Web UI配置AuthPoint"></a>WatchGuard Cloud Web UI配置AuthPoint</h2><h3 id="进入到Resource界面"><a href="#进入到Resource界面" class="headerlink" title="进入到Resource界面"></a>进入到Resource界面</h3><ul>
-<li><p>打开WatchGuard Cloud UI(比如：<a href="https://staging.cloud.watchguard.com/" target="_blank" rel="noopener external nofollow noreferrer">https://staging.cloud.watchguard.com</a>)，并使用账户密码登录</p>
-<p><img src="https://image.ritboy.com/markdown/202004/943b6e117fff84befee9a9fbe86ad7d9.jpg" alt="image-20190422172127535"></p>
-</li>
-<li><p>进入到AuthPoint界面</p>
-<p><img src="https://image.ritboy.com/markdown/202004/5350d262716b3cc8fa6e1eb65ee4f11e.jpg" alt="image-20190422172345367"></p>
-</li>
-<li><p>进入到Resource界面</p>
-<p><img src="https://image.ritboy.com/markdown/202004/7c074ffd360fedb3a4f5172a86bbc602.jpg" alt="image-20190423100444852"></p>
-</li>
-</ul>
-<h3 id="添加SAML-Resource"><a href="#添加SAML-Resource" class="headerlink" title="添加SAML Resource"></a>添加SAML Resource</h3><h4 id="选择SAML-并点击Add-Resource按钮"><a href="#选择SAML-并点击Add-Resource按钮" class="headerlink" title="选择SAML,并点击Add Resource按钮"></a>选择SAML,并点击<code>Add Resource</code>按钮</h4><p> <img src="https://image.ritboy.com/markdown/202004/c6d1781673fdc5efc7442201ec7d1b6c.jpg" alt="image-20190423100721545"></p>
-<h4 id="配置添加SAML信息"><a href="#配置添加SAML信息" class="headerlink" title="配置添加SAML信息"></a>配置添加SAML信息</h4><ul>
-<li><p><strong>Name</strong>：自定义</p>
-</li>
-<li><p><strong>Application Type</strong>: 选择Firebox Access Portal</p>
-</li>
-<li><p><strong>Service Provider Entity ID</strong> : 粘贴从<code>https://&lt; your Host Name &gt;/auth/saml</code>网页上复制的EntityID</p>
-</li>
-<li><p><strong>Assertion Consumer Service</strong>：粘贴从<code>https://&lt; your Host Name &gt;/auth/saml</code>网页上复制的Assertion Consumer Service URL</p>
-</li>
-<li><p><strong>Choose File</strong>：选择从<code>https://&lt; your Host Name &gt;/auth/saml</code>下载的证书</p>
-</li>
-<li><p>点击<strong>SAVE</strong>按钮</p>
-<p><img src="https://image.ritboy.com/markdown/202004/0e87c9b03ae3c4db3e24a075de8d4f8c.jpg" alt="image-20190423100846010"></p>
-</li>
-</ul>
-<h3 id="添加Group和User"><a href="#添加Group和User" class="headerlink" title="添加Group和User"></a>添加Group和User</h3><h4 id="添加Group"><a href="#添加Group" class="headerlink" title="添加Group"></a>添加Group</h4><ul>
-<li><p>点击Add Group按钮</p>
-<p><img src="https://image.ritboy.com/markdown/202004/cb0682aefc9389c79ab6342850ade600.jpg" alt="image-20190423103410439"></p>
-</li>
-<li><p>添加Policy, 选择<code>SAML</code> Resource</p>
-</li>
-</ul>
-<p><img src="https://image.ritboy.com/markdown/202004/13a4710ecc37412287b4bd05a413a2b9.jpg" alt="image-20190423103457822"></p>
-<ul>
-<li>点击<strong>SAVE</strong>按钮</li>
-</ul>
-<h4 id="添加User"><a href="#添加User" class="headerlink" title="添加User"></a>添加User</h4><ul>
-<li><p>点击Add User按钮<img src="https://image.ritboy.com/markdown/202004/1ce3109e6e35fa63b9950066a87b5a2e.jpg" alt="image-20190423103605963"></p>
-</li>
-<li><p>配置新用户信息，邮箱地址需要真实用户激活</p>
-<p><img src="https://image.ritboy.com/markdown/202004/e717f9cc095b807a629e05128c7950ce.jpg" alt="image-20190423103630457"></p>
-</li>
-</ul>
-<h4 id="激活用户"><a href="#激活用户" class="headerlink" title="激活用户"></a>激活用户</h4><p>使用添加用户的的邮箱，设置密码并用手机App扫邮件中二维码激活该该账户</p>
-<h3 id="登录用户"><a href="#登录用户" class="headerlink" title="登录用户"></a>登录用户</h3><ul>
-<li>SAML AuthPoint登录地址：http://&lt; firebox ip &gt;</li>
-<li>登录界面输入用户</li>
-<li>登录界面输入密码</li>
-<li>手机App确认登录</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/articles/4078729915.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1659,7 +1570,7 @@
 
     
 
-    <span title="站点总字数">134k</span>
+    <span title="站点总字数">131k</span>
 
 
 

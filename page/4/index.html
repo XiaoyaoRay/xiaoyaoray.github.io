@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
-  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+  <meta name="baidu-site-verification" content="hipO1KlYzqhv7bxW">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -359,7 +359,7 @@
       
           <h3 id="问题出现原因"><a href="#问题出现原因" class="headerlink" title="问题出现原因"></a>问题出现原因</h3><p>不同的操作系统(Windows和Linux)，所以换行符的差异会让 Git 认为文件的内容发生了变化。Windows下换行符为<code>CRLF</code>, Linux／Unix／Mac 系统换行符为<code>LF</code></p>
 <h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>修改Git配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config core.filemode false</span><br><span class="line">git config core.eol lf</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config core.filemode <span class="literal">false</span></span><br><span class="line">git config core.eol lf</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/articles/587466736.html#more" rel="contents">
@@ -427,7 +427,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.2k</span>
+              <span>1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -445,8 +445,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="安装PIP"><a href="#安装PIP" class="headerlink" title="安装PIP"></a>安装PIP</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]# yum -y install python-pip</span><br></pre></td></tr></table></figure>
-<h4 id="安装Virtualenv"><a href="#安装Virtualenv" class="headerlink" title="安装Virtualenv"></a>安装Virtualenv</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]# pip install virtualenv</span><br><span class="line">[root@ray ~]# virtualenv --version</span><br></pre></td></tr></table></figure>
+          <h4 id="安装PIP"><a href="#安装PIP" class="headerlink" title="安装PIP"></a>安装PIP</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]<span class="comment"># yum -y install python-pip</span></span><br></pre></td></tr></table></figure>
+<h4 id="安装Virtualenv"><a href="#安装Virtualenv" class="headerlink" title="安装Virtualenv"></a>安装Virtualenv</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]<span class="comment"># pip install virtualenv</span></span><br><span class="line">[root@ray ~]<span class="comment"># virtualenv --version</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/articles/2139646571.html#more" rel="contents">
@@ -689,7 +689,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>697</span>
+              <span>602</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -713,7 +713,7 @@
 <li><p>仅仅适用于<strong>没有</strong>安装<code>uclibc</code>的系统。</p>
 </li>
 </ul>
-<h1 id="修改Dockerfile"><a href="#修改Dockerfile" class="headerlink" title="修改Dockerfile"></a>修改Dockerfile</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.....</span><br><span class="line"></span><br><span class="line">RUN apk add -U tzdata &amp;&amp; \</span><br><span class="line">    cp &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime &amp;&amp; \</span><br><span class="line">    apk del tzdata</span><br><span class="line"></span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+<h1 id="修改Dockerfile"><a href="#修改Dockerfile" class="headerlink" title="修改Dockerfile"></a>修改Dockerfile</h1><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.....</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apk add -U tzdata &amp;&amp; \</span></span><br><span class="line"><span class="bash">    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \</span></span><br><span class="line"><span class="bash">    apk del tzdata</span></span><br><span class="line"></span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/articles/555453948.html#more" rel="contents">
@@ -1532,7 +1532,7 @@
 
     
 
-    <span title="站点总字数">134k</span>
+    <span title="站点总字数">131k</span>
 
 
 

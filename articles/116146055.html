@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
-  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+  <meta name="baidu-site-verification" content="hipO1KlYzqhv7bxW">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -30,7 +30,7 @@
 <meta property="og:description" content="gitignore工作原理当你对文件进行源代码管理时，gitignore插件会去查找当前编辑文件的目录或者其祖先目录中是否存在.gitignore配置文件。 如果存在，则.gitignore配置文件中对应配置的规则会生效，忽略对应的文件 如何使用gitignoregitignore使用起来非常的方便  在项目根目录创建一个.gitignore的文件  在这个文件中定义需要忽略的文件  给IDE安装">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-08-03T02:48:55.000Z">
-<meta property="article:modified_time" content="2018-08-03T02:48:55.000Z">
+<meta property="article:modified_time" content="2020-04-20T13:19:09.773Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary">
@@ -268,7 +268,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.2k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -319,33 +319,33 @@
 <li><p>规则：<code>/fd1/*</code> 　　　　<br>说明：忽略根目录下的 <code>/fd1/</code> 目录的全部内容；</p>
 </li>
 <li><p>规则：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">!.gitignore</span><br><span class="line">!&#x2F;foo</span><br><span class="line">!&#x2F;foo&#x2F;bar</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">!.gitignore</span><br><span class="line">!/foo</span><br><span class="line">!/foo/bar</span><br></pre></td></tr></table></figure>
 
 <p>说明：忽略全部内容，但是不忽略 <code>.gitignore</code> 文件、根目录下的 <code>/foo</code> 和 <code>/foo/bar</code>目录</p>
 </li>
 <li><p>忽略指定文件/目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 忽略指定文件</span><br><span class="line">HelloWrold.class</span><br><span class="line"></span><br><span class="line"># 忽略指定文件夹</span><br><span class="line">bin&#x2F;</span><br><span class="line">bin&#x2F;gen&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 忽略指定文件</span></span><br><span class="line">HelloWrold.class</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 忽略指定文件夹</span></span><br><span class="line">bin/</span><br><span class="line">bin/gen/</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>通配符忽略规则</p>
 <p>通配符规则如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 忽略.class的所有文件</span><br><span class="line">*.class</span><br><span class="line"></span><br><span class="line"># 忽略名称中末尾为ignore的文件夹</span><br><span class="line">*ignore&#x2F;</span><br><span class="line"></span><br><span class="line"># 忽略名称中间包含ignore的文件夹</span><br><span class="line">*ignore*&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 忽略.class的所有文件</span></span><br><span class="line">*.class</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 忽略名称中末尾为ignore的文件夹</span></span><br><span class="line">*ignore/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 忽略名称中间包含ignore的文件夹</span></span><br><span class="line">*ignore*/s</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
 <h2 id="查看gitignore规则"><a href="#查看gitignore规则" class="headerlink" title="查看gitignore规则"></a>查看gitignore规则</h2><p>   如果你发下<code>.gitignore</code>写得有问题，需要找出来到底哪个规则写错了，可以用<code>git check-ignore</code>命令检查：</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git check-ignore -v HelloWorld.class</span><br><span class="line">.gitignore:1:*.class    HelloWorld.class</span><br></pre></td></tr></table></figure>
+   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git check-ignore -v HelloWorld.class</span><br><span class="line">.gitignore:1:*.class    HelloWorld.class</span><br></pre></td></tr></table></figure>
 
 <p>   可以看到<code>HelloWorld.class</code>匹配到了我们的第一条<code>*.class</code>的忽略规则所以文件被忽略了。</p>
 <h2 id="使用技巧"><a href="#使用技巧" class="headerlink" title="使用技巧"></a>使用技巧</h2><p>要忽略已存在的文件或路径时，如果此时代码仓库已存在该路径或文件，需要先移除本地的路径或文件，然后执行如下代码，最后再push到仓库：</p>
 <ul>
 <li>如果要移除路径 dir</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached -r dir&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached -r dir/</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>如果要移除文件 doc.txt</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached -r doc.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached -r doc.txt</span><br></pre></td></tr></table></figure>
 
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/a09a9b40ad20" target="_blank" rel="noopener external nofollow noreferrer">Git忽略文件.gitignore的使用</a></p>
 <p><a href="https://juejin.im/post/5b4a4cd5e51d4519520e5775" target="_blank" rel="noopener external nofollow noreferrer">代码管理工具Git的使用–gitignore</a></p>
@@ -397,7 +397,7 @@
   </p>
   <p>
     <span>最后更新：</span>
-    2018年08月03日 - 10:48:55
+    2020年04月20日 - 21:19:09
   </p>
   <p><span>本文链接：</span>
     <a href="/articles/116146055.html" title="Git中.gitignore文件的使用">https://blog.ritboy.com/articles/116146055.html</a>
@@ -914,7 +914,7 @@
 
     
 
-    <span title="站点总字数">134k</span>
+    <span title="站点总字数">131k</span>
 
 
 

@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
-  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+  <meta name="baidu-site-verification" content="hipO1KlYzqhv7bxW">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -30,7 +30,7 @@
 <meta property="og:description" content="安装PIP1[root@ray ~]# yum -y install python-pip 安装Virtualenv12[root@ray ~]# pip install virtualenv[root@ray ~]# virtualenv --version">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-05-30T06:45:55.000Z">
-<meta property="article:modified_time" content="2018-05-30T06:45:55.000Z">
+<meta property="article:modified_time" content="2020-04-20T13:19:09.766Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="CentOS">
 <meta property="article:tag" content="Python">
@@ -269,7 +269,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.2k</span>
+              <span>1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -287,24 +287,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="安装PIP"><a href="#安装PIP" class="headerlink" title="安装PIP"></a>安装PIP</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]# yum -y install python-pip</span><br></pre></td></tr></table></figure>
-<h4 id="安装Virtualenv"><a href="#安装Virtualenv" class="headerlink" title="安装Virtualenv"></a>安装Virtualenv</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]# pip install virtualenv</span><br><span class="line">[root@ray ~]# virtualenv --version</span><br></pre></td></tr></table></figure>
+        <h4 id="安装PIP"><a href="#安装PIP" class="headerlink" title="安装PIP"></a>安装PIP</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]<span class="comment"># yum -y install python-pip</span></span><br></pre></td></tr></table></figure>
+<h4 id="安装Virtualenv"><a href="#安装Virtualenv" class="headerlink" title="安装Virtualenv"></a>安装Virtualenv</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]<span class="comment"># pip install virtualenv</span></span><br><span class="line">[root@ray ~]<span class="comment"># virtualenv --version</span></span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>
 
 <h4 id="安装新的Python版本"><a href="#安装新的Python版本" class="headerlink" title="安装新的Python版本"></a>安装新的Python版本</h4><ul>
 <li><p>安装编译需要的包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]# yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]<span class="comment"># yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>下载python源码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]# wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.6.5&#x2F;Python-3.6.5.tar.xz</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]<span class="comment"># wget https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编译源码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]# tar -xvjf Python-3.6.5.tar.xz</span><br><span class="line">[root@ray ~]# cd Python-3.6.5</span><br><span class="line">[root@ray ~]# .&#x2F;configure prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;python3</span><br><span class="line">[root@ray ~]# make &amp; make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ray ~]<span class="comment"># tar -xvjf Python-3.6.5.tar.xz</span></span><br><span class="line">[root@ray ~]<span class="comment"># cd Python-3.6.5</span></span><br><span class="line">[root@ray ~]<span class="comment"># ./configure prefix=/usr/local/python3</span></span><br><span class="line">[root@ray ~]<span class="comment"># make &amp; make install</span></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h4 id="创建虚拟环境"><a href="#创建虚拟环境" class="headerlink" title="创建虚拟环境"></a>创建虚拟环境</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@ray pythonenv]# virtualenv -p &#x2F;usr&#x2F;local&#x2F;python3&#x2F;bin&#x2F;python3.6 python36</span><br><span class="line">Running virtualenv with interpreter &#x2F;usr&#x2F;local&#x2F;python3&#x2F;bin&#x2F;python3.6</span><br><span class="line">Using base prefix &#39;&#x2F;usr&#x2F;local&#x2F;python3&#39;</span><br><span class="line">New python executable in &#x2F;pythonenv&#x2F;python36&#x2F;bin&#x2F;python3.6</span><br><span class="line">Also creating executable in &#x2F;pythonenv&#x2F;python36&#x2F;bin&#x2F;python</span><br><span class="line">Installing setuptools, pip, wheel...done.</span><br><span class="line"></span><br><span class="line"># 启动python</span><br><span class="line">[root@ray python36]# source bin&#x2F;activate</span><br><span class="line">(python36) [root@ray python36]#</span><br></pre></td></tr></table></figure>
+<h4 id="创建虚拟环境"><a href="#创建虚拟环境" class="headerlink" title="创建虚拟环境"></a>创建虚拟环境</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@ray pythonenv]<span class="comment"># virtualenv -p /usr/local/python3/bin/python3.6 python36</span></span><br><span class="line">Running virtualenv with interpreter /usr/<span class="built_in">local</span>/python3/bin/python3.6</span><br><span class="line">Using base prefix <span class="string">'/usr/local/python3'</span></span><br><span class="line">New python executable <span class="keyword">in</span> /pythonenv/python36/bin/python3.6</span><br><span class="line">Also creating executable <span class="keyword">in</span> /pythonenv/python36/bin/python</span><br><span class="line">Installing setuptools, pip, wheel...done.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动python</span></span><br><span class="line">[root@ray python36]<span class="comment"># source bin/activate</span></span><br><span class="line">(python36) [root@ray python36]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://blog.csdn.net/blueheart20/article/details/70598031" target="_blank" rel="noopener external nofollow noreferrer">https://blog.csdn.net/blueheart20/article/details/70598031</a></p>
 <p><a href="https://www.cnblogs.com/JahanGu/p/7452527.html" target="_blank" rel="noopener external nofollow noreferrer">https://www.cnblogs.com/JahanGu/p/7452527.html</a></p>
@@ -356,7 +356,7 @@
   </p>
   <p>
     <span>最后更新：</span>
-    2018年05月30日 - 14:45:55
+    2020年04月20日 - 21:19:09
   </p>
   <p><span>本文链接：</span>
     <a href="/articles/2139646571.html" title="CentOS7安装python虚拟运行环境">https://blog.ritboy.com/articles/2139646571.html</a>
@@ -878,7 +878,7 @@
 
     
 
-    <span title="站点总字数">134k</span>
+    <span title="站点总字数">131k</span>
 
 
 

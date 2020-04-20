@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta name="google-site-verification" content="ME3msYcybKqnDs44ndmIfn2DaVmb4yp5PI_9FPy6">
-  <meta name="baidu-site-verification" content="tYbnPEPXVc">
+  <meta name="baidu-site-verification" content="hipO1KlYzqhv7bxW">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -348,13 +348,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>2.3k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -366,8 +366,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>官网</strong>：<a href="https://alpinelinux.org/about/" target="_blank" rel="noopener external nofollow noreferrer">https://alpinelinux.org/about/</a></p>
-<p>Alpine Linux 是围绕 musl libc 和 busybox 构建的。这使得它比传统的GNU/Linux发行版更小、更节省资源。一个Alpine容器大小不超过8MB，而一个最小的传统GNU/Linux安装到磁盘上的需要130MB左右的存储空间。Alpine LInux不仅是一个完整的Linux环境，还可以从版本库中获得大量的软件包。</p>
+          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Alpine Linux 是围绕 musl libc 和 busybox 构建的。这使得它比传统的GNU/Linux发行版更小、更节省资源。一个Alpine容器大小不超过8MB，而一个最小的传统GNU/Linux安装到磁盘上的需要130MB左右的存储空间。Alpine LInux不仅是一个完整的Linux环境，还可以从版本库中获得大量的软件包。</p>
 <p>系统的二进制包被更好的精简和分割，使得对安装的而今之宝有了更多的控制权，这反过来又让你的环境尽可能地保持了小而高效。</p>
 <p>Alpine Linux在设计时就考虑到了安全问题。所有的userland二进制文件都被编译为位置独立可执行文件（PIE），并带有堆栈粉碎保护。这些安全特性可以防止被zero-day漏洞和其他漏洞利用。</p>
           <!--noindex-->
@@ -437,7 +436,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.2k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -802,7 +801,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>2.5k</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -821,7 +820,7 @@
 
       
           <h2 id="清理overlay存储"><a href="#清理overlay存储" class="headerlink" title="清理overlay存储"></a>清理overlay存储</h2><p>我们在使用docker的过程中发现基于swarm使用Storage Driver: overlay的方式进行存储.但是发现这个特别占用存储空间.</p>
-<h3 id="清理所有停止的容器"><a href="#清理所有停止的容器" class="headerlink" title="清理所有停止的容器"></a>清理所有停止的容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container prune</span><br></pre></td></tr></table></figure>
+<h3 id="清理所有停止的容器"><a href="#清理所有停止的容器" class="headerlink" title="清理所有停止的容器"></a>清理所有停止的容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container prune</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/articles/3793781524.html#more" rel="contents">
@@ -1074,7 +1073,7 @@
 
       
           <h3 id="Docker挂载主机目录，访问出现Premission-denied解决办法"><a href="#Docker挂载主机目录，访问出现Premission-denied解决办法" class="headerlink" title="Docker挂载主机目录，访问出现Premission denied解决办法"></a>Docker挂载主机目录，访问出现Premission denied解决办法</h3><ul>
-<li>Docker挂载主机目录，访问相应的文件出现Premission denied的权限访问问题:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost soft]# docker images</span><br><span class="line">REPOSITORY TAG IMAGE ID CREATED SIZE</span><br><span class="line">docker.io&#x2F;centos 7.2.1511 686672a1d0cc 5 weeks ago</span><br><span class="line">&#x2F;&#x2F;将主机上的&#x2F;soft目录挂载到docker的&#x2F;soft目录，前面的是主机目录，后面的是docker的目录。</span><br><span class="line">docker run -i -t -v &#x2F;soft:&#x2F;soft 686672a1d0cc &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+<li>Docker挂载主机目录，访问相应的文件出现Premission denied的权限访问问题:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost soft]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY TAG IMAGE ID CREATED SIZE</span><br><span class="line">docker.io/centos 7.2.1511 686672a1d0cc 5 weeks ago</span><br><span class="line">//将主机上的/soft目录挂载到docker的/soft目录，前面的是主机目录，后面的是docker的目录。</span><br><span class="line">docker run -i -t -v /soft:/soft 686672a1d0cc /bin/bash</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -1538,7 +1537,7 @@
 
     
 
-    <span title="站点总字数">134k</span>
+    <span title="站点总字数">131k</span>
 
 
 
