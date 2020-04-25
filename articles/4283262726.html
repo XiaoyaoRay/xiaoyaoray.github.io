@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"blog.ritboy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言在Travis CI中进行持续集成，自动把hexo博客的源码生成静态网页。记录一下自己配置过程以及问题。 代码仓库添加TokenGithub添加Token登录Github打开个人设置，选择Developer settings 并在Personal acces tokens中点击Generate new token生成Travis-ci TOKEN">
+  <meta name="description" content="前言在Travis CI中进行持续集成，自动把hexo博客的源码生成静态网页，记录一下自己配置过程。持续集成后只需每次提交文章的markdown文件到博客仓库，就会自动生成静态网页，然后更新网站。 代码仓库添加TokenGithub添加Token登录Github打开个人设置，选择Developer settings 并在Personal acces tokens中点击Generate new to">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Travis CI自动部署hexo博客">
 <meta property="og:url" content="https://blog.ritboy.com/articles/4283262726.html">
 <meta property="og:site_name" content="Ritboy&#39;s Blog">
-<meta property="og:description" content="前言在Travis CI中进行持续集成，自动把hexo博客的源码生成静态网页。记录一下自己配置过程以及问题。 代码仓库添加TokenGithub添加Token登录Github打开个人设置，选择Developer settings 并在Personal acces tokens中点击Generate new token生成Travis-ci TOKEN">
+<meta property="og:description" content="前言在Travis CI中进行持续集成，自动把hexo博客的源码生成静态网页，记录一下自己配置过程。持续集成后只需每次提交文章的markdown文件到博客仓库，就会自动生成静态网页，然后更新网站。 代码仓库添加TokenGithub添加Token登录Github打开个人设置，选择Developer settings 并在Personal acces tokens中点击Generate new to">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/e0e352ff450de08d72d003b501166fe5.jpg">
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/52691566eb6ce813572c1b48018e407f.jpg">
@@ -38,8 +38,9 @@
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/e317bf196cf94d8919536c9293cd83ae.jpg">
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/dd1346b3481890dc7cf2032f585548ae.jpg">
 <meta property="og:image" content="https://image.ritboy.com/markdown/202004/b97fb3f7fe98f473b9ca622bea6a46a9.jpg">
+<meta property="og:image" content="https://image.ritboy.com/markdown/202004/e7e05a6f13577d36951975b556345d35.jpg">
 <meta property="article:published_time" content="2020-04-21T11:38:36.000Z">
-<meta property="article:modified_time" content="2020-04-21T15:20:03.318Z">
+<meta property="article:modified_time" content="2020-04-23T13:36:10.072Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="Travis">
@@ -275,17 +276,31 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/articles/4283262726.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/articles/4283262726.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>4.6k</span>
+              <span>5.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>4 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -297,8 +312,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="https://travis-ci.com" target="_blank" rel="noopener external nofollow noreferrer">Travis CI</a>中进行持续集成，自动把hexo博客的源码生成静态网页。记录一下自己配置过程以及问题。</p>
-<h1 id="代码仓库添加Token"><a href="#代码仓库添加Token" class="headerlink" title="代码仓库添加Token"></a>代码仓库添加Token</h1><h2 id="Github添加Token"><a href="#Github添加Token" class="headerlink" title="Github添加Token"></a>Github添加Token</h2><p>登录<a href="https://github.com" target="_blank" rel="noopener external nofollow noreferrer">Github</a>打开个人设置，选择<code>Developer settings</code> 并在<code>Personal acces tokens</code>中点击<code>Generate new token</code>生成<code>Travis-ci TOKEN</code></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在<a href="https://travis-ci.com" target="_blank" rel="noopener external nofollow noreferrer">Travis CI</a>中进行持续集成，自动把hexo博客的源码生成静态网页，记录一下自己配置过程。持续集成后只需每次提交文章的markdown文件到博客仓库，就会自动生成静态网页，然后更新网站。</p>
+<h2 id="代码仓库添加Token"><a href="#代码仓库添加Token" class="headerlink" title="代码仓库添加Token"></a>代码仓库添加Token</h2><h3 id="Github添加Token"><a href="#Github添加Token" class="headerlink" title="Github添加Token"></a>Github添加Token</h3><p>登录<a href="https://github.com" target="_blank" rel="noopener external nofollow noreferrer">Github</a>打开个人设置，选择<code>Developer settings</code> 并在<code>Personal acces tokens</code>中点击<code>Generate new token</code>生成<code>Travis-ci TOKEN</code></p>
 <p> <img src="https://image.ritboy.com/markdown/202004/e0e352ff450de08d72d003b501166fe5.jpg" alt="image-20200421213522559"></p>
 <a id="more"></a>
 
@@ -306,16 +321,16 @@
 <p>  <img src="https://image.ritboy.com/markdown/202004/52691566eb6ce813572c1b48018e407f.jpg" alt="image-20200421214124737"></p>
 <p>把生成的TOKEN复制保存，然后在<code>Travis CI</code>中对应的仓库添加。<strong>注意</strong>：token一次性的，如果刷新页面只能重新再次添加。</p>
 <p><img src="https://image.ritboy.com/markdown/202004/2857ba65ec0e902993f2bd236a0169c6.jpg" alt="image-20200421214641334"></p>
-<h2 id="Coding中添加Token"><a href="#Coding中添加Token" class="headerlink" title="Coding中添加Token"></a>Coding中添加Token</h2><p>登录<a href="https://coding.net" target="_blank" rel="noopener external nofollow noreferrer">Coding</a>打开个人设置，在<code>访问令牌</code>中选择<code>新建令牌</code>。</p>
+<h3 id="Coding中添加Token"><a href="#Coding中添加Token" class="headerlink" title="Coding中添加Token"></a>Coding中添加Token</h3><p>登录<a href="https://coding.net" target="_blank" rel="noopener external nofollow noreferrer">Coding</a>打开个人设置，在<code>访问令牌</code>中选择<code>新建令牌</code>。</p>
 <p> <img src="https://image.ritboy.com/markdown/202004/391162ef6164a62a02101d3445c78851.jpg" alt="image-20200421215022580"></p>
 <p>在新建令牌界面配置好里面名称后，选择图中第一项即可，其余的如果需要自行斟酌。</p>
 <p> <img src="https://image.ritboy.com/markdown/202004/ef34348ca915a2187695d184c567646c.jpg" alt="image-20200421221028615"></p>
 <p>创建token成功后，请复制保存好<code>Token</code>和<code>令牌用户名</code>，如图所示。</p>
 <p> <img src="https://image.ritboy.com/markdown/202004/63a04f88b0e812104d574bf5c26b4479.jpg" alt="image-20200421221240239"></p>
-<h2 id="在Travis的仓库设置中添加获取的Token"><a href="#在Travis的仓库设置中添加获取的Token" class="headerlink" title="在Travis的仓库设置中添加获取的Token"></a>在Travis的仓库设置中添加获取的Token</h2><p>在界面上分别添加<code>CODING_TOKEN</code>，<code>CODING_USER</code>，<code>GITHUB_TOKEN</code>。<strong>注意</strong>：请把<code>DISPLAY VALUE IN BUILD LOG</code>禁掉防止TOKEN泄露，如图所示。</p>
+<h3 id="在Travis的仓库设置中添加获取的Token"><a href="#在Travis的仓库设置中添加获取的Token" class="headerlink" title="在Travis的仓库设置中添加获取的Token"></a>在Travis的仓库设置中添加获取的Token</h3><p>在界面上分别添加<code>CODING_TOKEN</code>，<code>CODING_USER</code>，<code>GITHUB_TOKEN</code>。<strong>注意</strong>：请把<code>DISPLAY VALUE IN BUILD LOG</code>禁掉防止TOKEN泄露，如图所示。</p>
 <p> <img src="https://image.ritboy.com/markdown/202004/e317bf196cf94d8919536c9293cd83ae.jpg" alt="image-20200421221657537"></p>
-<h1 id="编写-travis-yml文件"><a href="#编写-travis-yml文件" class="headerlink" title="编写.travis.yml文件"></a>编写.travis.yml文件</h1><p>在所有的准备工作完成后就是要定制我们自动构建部署的工作流程了。Travis CI 通过仓库根目录下的 <code>.travis.yml</code> 文件来定制工作流程。</p>
-<h2 id="另建一个仓库给Travis使用"><a href="#另建一个仓库给Travis使用" class="headerlink" title="另建一个仓库给Travis使用"></a>另建一个仓库给Travis使用</h2><p>Travis上开源的仓库是免费的，私有的仓库有使用次数（好像是100次吧）。</p>
+<h2 id="编写-travis-yml文件"><a href="#编写-travis-yml文件" class="headerlink" title="编写.travis.yml文件"></a>编写.travis.yml文件</h2><p>在所有的准备工作完成后就是要定制我们自动构建部署的工作流程了。Travis CI 通过仓库根目录下的 <code>.travis.yml</code> 文件来定制工作流程。</p>
+<h3 id="另建一个仓库给Travis使用"><a href="#另建一个仓库给Travis使用" class="headerlink" title="另建一个仓库给Travis使用"></a>另建一个仓库给Travis使用</h3><p>Travis上开源的仓库是免费的，私有的仓库有使用次数（好像是100次吧）。</p>
 <p> <img src="https://image.ritboy.com/markdown/202004/dd1346b3481890dc7cf2032f585548ae.jpg" alt="image-20200421225857293"></p>
 <p>自己的博客源码和主题在Github上为私有仓库，所以单独创建了个仓库给Travis使用。并且把这个仓库作为博客源码的子模块。目录结构如下</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">│</span> <span class="string">package.json</span></span><br><span class="line"><span class="string">│</span> <span class="string">.gitignore</span></span><br><span class="line"><span class="string">│</span> <span class="string">_config.yml</span></span><br><span class="line"><span class="string">│</span> <span class="string">git-push.sh</span></span><br><span class="line"><span class="string">├─scaffolds</span></span><br><span class="line"><span class="string">│</span>      <span class="string">draft.md</span></span><br><span class="line"><span class="string">│</span>      <span class="string">page.md</span></span><br><span class="line"><span class="string">│</span>      <span class="string">post.md</span></span><br><span class="line"><span class="string">├─source</span></span><br><span class="line"><span class="string">│</span>   <span class="string">├─xxxxxx</span></span><br><span class="line"><span class="string">│</span>   <span class="string">├─xxxxxx</span></span><br><span class="line"><span class="string">│</span>   <span class="string">└─_posts</span></span><br><span class="line"><span class="string">│</span>      <span class="string">├─xxxxxx</span></span><br><span class="line"><span class="string">│</span>      <span class="string">└─xxxxxx</span>       </span><br><span class="line"><span class="string">├─travis</span>		<span class="comment"># 子模块</span></span><br><span class="line"><span class="string">│</span>	  <span class="string">├─.travis.yml</span></span><br><span class="line"><span class="string">│</span></span><br><span class="line"><span class="string">└─themes</span></span><br><span class="line">    <span class="string">└─xxxxxx</span></span><br></pre></td></tr></table></figure>
@@ -323,17 +338,21 @@
 
 
 <p>编写了个简单的<code>PUSH</code>脚本，使得博客源码仓库更新同时更新Travis的仓库。有文章更新时运行该脚本即可。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line">commit=<span class="variable">$1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># blog code push</span></span><br><span class="line"><span class="comment">#curdate=`date '+%Y%m%d-%H:%M:%S'`</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"blog code repository push"</span></span><br><span class="line">branch=`git symbolic-ref --short -q HEAD`</span><br><span class="line">git status</span><br><span class="line">sleep 1</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"<span class="variable">$commit</span>"</span></span><br><span class="line">git push origin <span class="variable">$branch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提交 travis 模块</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"travis repository push"</span></span><br><span class="line"><span class="built_in">cd</span> travis</span><br><span class="line">curdate=`date <span class="string">'+%Y%m%d-%H:%M:%S'</span>`</span><br><span class="line">git checkout master</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$commit</span> <span class="variable">$curdate</span>"</span> &gt; commit-blog.txt</span><br><span class="line">git status</span><br><span class="line">sleep 1</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"<span class="variable">$commit</span>"</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line">commit=<span class="variable">$1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># blog code push</span></span><br><span class="line"><span class="comment">#curdate=`date '+%Y%m%d-%H:%M:%S'`</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"blog code repository push"</span></span><br><span class="line">blog_branch=`git symbolic-ref --short -q HEAD`</span><br><span class="line">git status</span><br><span class="line">sleep 1</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"<span class="variable">$commit</span>"</span></span><br><span class="line">git push origin <span class="variable">$blog_branch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提交 travis 模块</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"travis repository push"</span></span><br><span class="line"><span class="built_in">cd</span> travis</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"set blog branch to .travis.yml"</span></span><br><span class="line"><span class="comment"># macOS sed</span></span><br><span class="line">sed -i <span class="string">""</span> -e <span class="string">"s#- BLOG_CODE_BRANCH=.*#- BLOG_CODE_BRANCH=<span class="variable">$blog_branch</span>#g"</span> .travis.yml</span><br><span class="line"><span class="comment"># linux sed</span></span><br><span class="line"><span class="comment">#sed -i "s#- BLOG_CODE_BRANCH=.*#- BLOG_CODE_BRANCH=$blog_branch#g" .travis.yml</span></span><br><span class="line"></span><br><span class="line">curdate=`date <span class="string">'+%Y%m%d-%H:%M:%S'</span>`</span><br><span class="line">git checkout master</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$commit</span> <span class="variable">$curdate</span>"</span> &gt; commit-blog.txt</span><br><span class="line">git status</span><br><span class="line">sleep 1</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"<span class="variable">$commit</span>"</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="完整配置文件"><a href="#完整配置文件" class="headerlink" title="完整配置文件"></a>完整配置文件</h2><p>以下为目前自己所使用的配置文件</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">node</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">dist:</span> <span class="string">trusty</span></span><br><span class="line"></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="attr">global:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line"></span><br><span class="line"><span class="attr">git:</span></span><br><span class="line">  <span class="attr">depth:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">submodules:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">cache:</span></span><br><span class="line">  <span class="attr">apt:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">directories:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">node_modules</span></span><br><span class="line"></span><br><span class="line"><span class="attr">before_install:</span></span><br><span class="line">  <span class="comment"># Git Config</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.name</span> <span class="string">"ritboy"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.email</span> <span class="string">"ritboylei@gmail.com"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># clone blog code</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">-b</span> <span class="string">ritboy</span> <span class="string">https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/blog-code-ritboy.git</span> <span class="string">blog-code</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cd</span> <span class="string">./blog-code</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s#https://github.com/ritboylei/ritboylei.github.io.git#https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/ritboylei.github.io.git#g"</span> <span class="string">_config.yml</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s#https://e.coding.net/ritboy/blog.git#https://$&#123;CODING_USER&#125;:$&#123;CODING_TOKEN&#125;@e.coding.net/ritboy/blog.git#g"</span> <span class="string">_config.yml</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Restore last modified time</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">"git ls-files -z | while read -d '' path; do touch -d \"$(git log -1 --format=\"@%ct\" \"$path\")\" \"$path\"; done"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Submodules</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/hexo-theme-ritboy.git</span> <span class="string">themes/ritboy</span></span><br><span class="line"></span><br><span class="line"><span class="attr">install:</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">clean</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">g</span> <span class="string">-d</span></span><br></pre></td></tr></table></figure>
+<h3 id="完整配置文件"><a href="#完整配置文件" class="headerlink" title="完整配置文件"></a>完整配置文件</h3><p>以下为目前自己所使用的配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">lts/*</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">dist:</span> <span class="string">trusty</span></span><br><span class="line"></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="attr">global:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">BLOG_CODE_DIR=blog-code</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">BLOG_CODE_BRANCH=ritboy</span></span><br><span class="line"></span><br><span class="line"><span class="attr">git:</span></span><br><span class="line">  <span class="attr">depth:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">submodules:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂时不能用，因为使用缓存后git博客代码时$&#123;BLOG_CODE_DIR&#125;目录不为空</span></span><br><span class="line"><span class="comment">#cache: </span></span><br><span class="line"><span class="comment">#  directories:</span></span><br><span class="line"><span class="comment">#   - $&#123;BLOG_CODE_DIR&#125;/node_modules</span></span><br><span class="line"></span><br><span class="line"><span class="attr">before_install:</span></span><br><span class="line">  <span class="comment"># Git Config</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.name</span> <span class="string">"ritboy"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.email</span> <span class="string">"ritboylei@gmail.com"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># clone blog code</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/blog-code-ritboy.git</span> <span class="string">$&#123;BLOG_CODE_DIR&#125;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cd</span> <span class="string">./$&#123;BLOG_CODE_DIR&#125;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">checkout</span> <span class="string">$&#123;BLOG_CODE_BRANCH&#125;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s#https://github.com/ritboylei/ritboylei.github.io.git#https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/ritboylei.github.io.git#g"</span> <span class="string">_config.yml</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s#https://e.coding.net/ritboy/blog.git#https://$&#123;CODING_USER&#125;:$&#123;CODING_TOKEN&#125;@e.coding.net/ritboy/blog.git#g"</span> <span class="string">_config.yml</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Restore last modified time</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">"git ls-files -z | while read -d '' path; do touch -d \"$(git log -1 --format=\"@%ct\" \"$path\")\" \"$path\"; done"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Submodules</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/hexo-theme-ritboy.git</span> <span class="string">themes/ritboy</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Deploy history</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">--branch=master</span> <span class="string">--single-branch</span> <span class="string">https://github.com/ritboylei/ritboylei.github.io.git</span> <span class="string">.deploy_git</span></span><br><span class="line"></span><br><span class="line"><span class="attr">install:</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">clean</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">g</span> <span class="string">-d</span></span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="解读下配置文件"><a href="#解读下配置文件" class="headerlink" title="解读下配置文件"></a>解读下配置文件</h2><p><a href="https://docs.travis-ci.com/user/languages/javascript-with-nodejs" target="_blank" rel="noopener external nofollow noreferrer">travis官网Node.js配置</a>，首先需要确定部署环境，Hexo 是基于 nodejs 的，版本这里我们选择最新的稳定版本。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">node</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">dist:</span> <span class="string">trusty</span></span><br></pre></td></tr></table></figure>
+<h3 id="解读下配置文件"><a href="#解读下配置文件" class="headerlink" title="解读下配置文件"></a>解读下配置文件</h3><p><a href="https://docs.travis-ci.com/user/languages/javascript-with-nodejs" target="_blank" rel="noopener external nofollow noreferrer">travis官网Node.js配置</a>，首先需要确定部署环境，Hexo 是基于 nodejs 的。</p>
+<ul>
+<li><code>node</code> 最新稳定的Node.js版本 （可能运行报错）</li>
+<li><code>lts/*</code>最新长期维护Node.js版本 （<strong>建议版本</strong>）</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">lts/*</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">dist:</span> <span class="string">trusty</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -342,8 +361,8 @@
 
 
 
-<p><code>travis.com</code> 还提供了 <code>cache</code> 参数可以对特定目录进行缓存，我们可以缓存<code>node_modules</code>目录。网上说是能加快后续构建的速度，个人没有感觉。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cache:</span></span><br><span class="line">  <span class="attr">apt:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">directories:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">node_modules</span></span><br></pre></td></tr></table></figure>
+<p><code>travis.com</code> 还提供了 <code>cache</code> 参数可以对特定目录进行缓存，我们可以缓存<code>node_modules</code>目录，网上说是能加快后续构建的速度。<strong>暂未使用</strong>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 暂时不能用，因为使用缓存后git博客代码时$&#123;BLOG_CODE_DIR&#125;目录不为空</span></span><br><span class="line"><span class="attr">cache:</span></span><br><span class="line">  <span class="attr">directories:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">node_modules</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -353,7 +372,7 @@
 
 
 <p>获取博客源码，在这里我们通过如下格式的 url 访问来保证对仓库有操作权：<code>https://your-gitHub-personal-access-token@your-repo-url</code>。由于我们前面把 <code>GitHub Personal Access Token/Coding Token</code> 和 <code>GitHub Pages/Coding</code> 仓库链接都写进了环境变量，所以直接通过环境变量引用就行了。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">before_install:</span></span><br><span class="line">  <span class="comment"># Git Config，git push会有用</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.name</span> <span class="string">"ritboy"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.email</span> <span class="string">"ritboylei@gmail.com"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># clone blog code，clone ritboy分支</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">-b</span> <span class="string">ritboy</span> <span class="string">https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/blog-code-ritboy.git</span> <span class="string">blog-code</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cd</span> <span class="string">./blog-code</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 替换主站配置文件中github的URL，为push做准备</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s#https://github.com/ritboylei/ritboylei.github.io.git#https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/ritboylei.github.io.git#g"</span> <span class="string">_config.yml</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 替换主站配置文件中coding的URL，为push做准备</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s#https://e.coding.net/ritboy/blog.git#https://$&#123;CODING_USER&#125;:$&#123;CODING_TOKEN&#125;@e.coding.net/ritboy/blog.git#g"</span> <span class="string">_config.yml</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Restore last modified time，博客中文章更新改为git仓库中最后提交时间</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">"git ls-files -z | while read -d '' path; do touch -d \"$(git log -1 --format=\"@%ct\" \"$path\")\" \"$path\"; done"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Submodules，主题代码</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/hexo-theme-ritboy.git</span> <span class="string">themes/ritboy</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">before_install:</span></span><br><span class="line">  <span class="comment"># Git Config，git push会有用</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.name</span> <span class="string">"ritboy"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.email</span> <span class="string">"ritboylei@gmail.com"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># clone blog code，clone ritboy分支</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/blog-code-ritboy.git</span> <span class="string">$&#123;BLOG_CODE_DIR&#125;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cd</span> <span class="string">./$&#123;BLOG_CODE_DIR&#125;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">checkout</span> <span class="string">$&#123;BLOG_CODE_BRANCH&#125;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 替换主站配置文件中github的URL，为push做准备</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s#https://github.com/ritboylei/ritboylei.github.io.git#https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/ritboylei.github.io.git#g"</span> <span class="string">_config.yml</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 替换主站配置文件中coding的URL，为push做准备</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span> <span class="string">"s#https://e.coding.net/ritboy/blog.git#https://$&#123;CODING_USER&#125;:$&#123;CODING_TOKEN&#125;@e.coding.net/ritboy/blog.git#g"</span> <span class="string">_config.yml</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Restore last modified time，博客中文章更新改为git仓库中最后提交时间</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">"git ls-files -z | while read -d '' path; do touch -d \"$(git log -1 --format=\"@%ct\" \"$path\")\" \"$path\"; done"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Submodules，主题代码</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">https://$&#123;GITHUB_TOKEN&#125;@github.com/ritboylei/hexo-theme-ritboy.git</span> <span class="string">themes/ritboy</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Deploy history 保留生成静态博客的commit历史</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">--branch=master</span> <span class="string">--single-branch</span> <span class="string">https://github.com/ritboylei/ritboylei.github.io.git</span> <span class="string">.deploy_git</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -362,10 +381,12 @@
 
 
 
-<h1 id="运行效果"><a href="#运行效果" class="headerlink" title="运行效果"></a>运行效果</h1><p>将上面所有的东西配置好之后 <code>git push</code> 一下就可以在你用的 Travis CI 网站上看到 build 过程啦。若无意外，稍等一会儿就能看到绿色的<code>build passing</code>图标，博客内容也成功更新啦。</p>
+<h2 id="运行效果"><a href="#运行效果" class="headerlink" title="运行效果"></a>运行效果</h2><p>将上面所有的东西配置好之后 <code>git push</code> 一下就可以在你用的 Travis CI 网站上看到 build 过程啦。若无意外，稍等一会儿就能看到绿色的<code>build passing</code>图标，博客内容也成功更新啦。</p>
 <p>在Travis CI的build界面可以点击绿色的<code>build passing</code>图标获取链接，然后倒入自己的博客或者git仓库中。</p>
 <p> <img src="https://image.ritboy.com/markdown/202004/b97fb3f7fe98f473b9ca622bea6a46a9.jpg" alt="image-20200421224108481"></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://theme-next.org/docs/getting-started/deployment" target="_blank" rel="noopener external nofollow noreferrer">https://theme-next.org/docs/getting-started/deployment</a></p>
+<h2 id="曾遇到的问题"><a href="#曾遇到的问题" class="headerlink" title="曾遇到的问题"></a>曾遇到的问题</h2><h3 id="运行hexo-d时报错"><a href="#运行hexo-d时报错" class="headerlink" title="运行hexo d时报错"></a>运行<code>hexo d</code>时报错</h3><p>出现<code>TypeError [ERR_INVALID_ARG_TYPE]: The &quot;mode&quot; argument must be integer. Received an instance of Object</code>，可能是最新的node_js版本问题，在<code>Travis</code>的配置文件中把node_js的版本改为<code>lts/*</code></p>
+<p> <img src="https://image.ritboy.com/markdown/202004/e7e05a6f13577d36951975b556345d35.jpg" alt="image-20200422223200056"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://theme-next.org/docs/getting-started/deployment" target="_blank" rel="noopener external nofollow noreferrer">https://theme-next.org/docs/getting-started/deployment</a></p>
 <p><a href="https://xirikm.net/2019/826-2" target="_blank" rel="noopener external nofollow noreferrer">https://xirikm.net/2019/826-2</a></p>
 <p><a href="https://liyangzone.com/2020/01/16/deploy-hexo-blog-with-travis-ci/" target="_blank" rel="noopener external nofollow noreferrer">https://liyangzone.com/2020/01/16/deploy-hexo-blog-with-travis-ci/</a></p>
 <p><a href="https://easyhexo.com/1-Hexo-install-and-config/1-5-continuous-integration.html" target="_blank" rel="noopener external nofollow noreferrer">https://easyhexo.com/1-Hexo-install-and-config/1-5-continuous-integration.html</a></p>
@@ -401,7 +422,7 @@
   </p>
   <p>
     <span>最后更新：</span>
-    2020年04月21日 - 23:20:03
+    2020年04月23日 - 21:36:10
   </p>
   <p><span>本文链接：</span>
     <a href="/articles/4283262726.html" title="使用Travis CI自动部署hexo博客">https://blog.ritboy.com/articles/4283262726.html</a>
@@ -410,7 +431,7 @@
     </span>
   </p>
   <p>
-    <span>版权声明：</span>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请保留原文链接及作者。
+    <span>版权声明：</span>文章采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议，转载请保留原文链接及作者。
   </p>
 </div>
 <script>
@@ -491,6 +512,7 @@
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -537,7 +559,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码仓库添加Token"><span class="nav-number">2.</span> <span class="nav-text">代码仓库添加Token</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Github添加Token"><span class="nav-number">2.1.</span> <span class="nav-text">Github添加Token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding中添加Token"><span class="nav-number">2.2.</span> <span class="nav-text">Coding中添加Token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Travis的仓库设置中添加获取的Token"><span class="nav-number">2.3.</span> <span class="nav-text">在Travis的仓库设置中添加获取的Token</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写-travis-yml文件"><span class="nav-number">3.</span> <span class="nav-text">编写.travis.yml文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#另建一个仓库给Travis使用"><span class="nav-number">3.1.</span> <span class="nav-text">另建一个仓库给Travis使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整配置文件"><span class="nav-number">3.2.</span> <span class="nav-text">完整配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解读下配置文件"><span class="nav-number">3.3.</span> <span class="nav-text">解读下配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行效果"><span class="nav-number">4.</span> <span class="nav-text">运行效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码仓库添加Token"><span class="nav-number">2.</span> <span class="nav-text">代码仓库添加Token</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Github添加Token"><span class="nav-number">2.1.</span> <span class="nav-text">Github添加Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Coding中添加Token"><span class="nav-number">2.2.</span> <span class="nav-text">Coding中添加Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Travis的仓库设置中添加获取的Token"><span class="nav-number">2.3.</span> <span class="nav-text">在Travis的仓库设置中添加获取的Token</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写-travis-yml文件"><span class="nav-number">3.</span> <span class="nav-text">编写.travis.yml文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#另建一个仓库给Travis使用"><span class="nav-number">3.1.</span> <span class="nav-text">另建一个仓库给Travis使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整配置文件"><span class="nav-number">3.2.</span> <span class="nav-text">完整配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解读下配置文件"><span class="nav-number">3.3.</span> <span class="nav-text">解读下配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行效果"><span class="nav-number">4.</span> <span class="nav-text">运行效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#曾遇到的问题"><span class="nav-number">5.</span> <span class="nav-text">曾遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行hexo-d时报错"><span class="nav-number">5.1.</span> <span class="nav-text">运行hexo d时报错</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -920,7 +942,7 @@
 
     
 
-    <span title="站点总字数">136k</span>
+    <span title="站点总字数">137k</span>
 
 
 
@@ -981,15 +1003,20 @@
 
 
   
-  <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
-  </script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
 
 
 
@@ -1012,6 +1039,35 @@
   
 
   
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.8/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'be5jYHX3EEooVHPINqYFznyD-MdYXbMMI',
+      appKey     : 'BKCg5s5GUcGdfOIp4qxvR9Y7',
+      placeholder: "Write a comment",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
   
   

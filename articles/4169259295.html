@@ -30,7 +30,7 @@
 <meta property="og:description" content="在hexo的目录下初始化github1git init  &#x2F;&#x2F;初始化本地仓库 在.gitignore文件中添加忽略的文件和文件夹123456cat .gitignorenode_modulesdebug.logdb.jsonpackage-lock.jsonpublic">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-04-13T06:47:34.000Z">
-<meta property="article:modified_time" content="2020-04-20T13:19:09.774Z">
+<meta property="article:modified_time" content="2020-04-22T14:37:40.432Z">
 <meta property="article:author" content="Ritboy">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
@@ -264,11 +264,25 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/articles/4169259295.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/articles/4169259295.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>706</span>
+              <span>700</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -286,16 +300,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="在hexo的目录下初始化github"><a href="#在hexo的目录下初始化github" class="headerlink" title="在hexo的目录下初始化github"></a>在hexo的目录下初始化github</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init  &#x2F;&#x2F;初始化本地仓库</span><br></pre></td></tr></table></figure>
-<h3 id="在-gitignore文件中添加忽略的文件和文件夹"><a href="#在-gitignore文件中添加忽略的文件和文件夹" class="headerlink" title="在.gitignore文件中添加忽略的文件和文件夹"></a>在<code>.gitignore</code>文件中添加忽略的文件和文件夹</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat .gitignore</span><br><span class="line">node_modules</span><br><span class="line">debug.log</span><br><span class="line">db.json</span><br><span class="line">package-lock.json</span><br><span class="line">public</span><br></pre></td></tr></table></figure>
+        <h3 id="在hexo的目录下初始化github"><a href="#在hexo的目录下初始化github" class="headerlink" title="在hexo的目录下初始化github"></a>在hexo的目录下初始化github</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br></pre></td></tr></table></figure>
+<h3 id="在-gitignore文件中添加忽略的文件和文件夹"><a href="#在-gitignore文件中添加忽略的文件和文件夹" class="headerlink" title="在.gitignore文件中添加忽略的文件和文件夹"></a>在<code>.gitignore</code>文件中添加忽略的文件和文件夹</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat .gitignore</span><br><span class="line">node_modules</span><br><span class="line">debug.log</span><br><span class="line">db.json</span><br><span class="line">package-lock.json</span><br><span class="line">public</span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>
 
-<h3 id="push到GitHub"><a href="#push到GitHub" class="headerlink" title="push到GitHub"></a>push到GitHub</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;Blog Source Hexo&quot;</span><br><span class="line">git branch hexo  &#x2F;&#x2F;新建hexo分支</span><br><span class="line">git checkout hexo  &#x2F;&#x2F;切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname&#x2F;yourname.github.io.git  &#x2F;&#x2F;将本地与Github项目对接</span><br></pre></td></tr></table></figure>
+<h3 id="push到GitHub"><a href="#push到GitHub" class="headerlink" title="push到GitHub"></a>push到GitHub</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"Blog Source Hexo"</span></span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br></pre></td></tr></table></figure>
 
 
 
-<h3 id="其他终端clone，安装npm的modules，生成blog"><a href="#其他终端clone，安装npm的modules，生成blog" class="headerlink" title="其他终端clone，安装npm的modules，生成blog"></a>其他终端clone，安装npm的modules，生成blog</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname&#x2F;yourname.github.io.git &#x2F;&#x2F;将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  &#x2F;&#x2F;切换到刚刚clone的文件夹内</span><br><span class="line">npm install    &#x2F;&#x2F;注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo d -g   &#x2F;&#x2F;push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></table></figure>
+<h3 id="其他终端clone，安装npm的modules，生成blog"><a href="#其他终端clone，安装npm的modules，生成blog" class="headerlink" title="其他终端clone，安装npm的modules，生成blog"></a>其他终端clone，安装npm的modules，生成blog</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b hexo git@github.com:yourname/yourname.github.io.git //将Github中hexo分支<span class="built_in">clone</span>到本地</span><br><span class="line"><span class="built_in">cd</span>  yourname.github.io  //切换到刚刚<span class="built_in">clone</span>的文件夹内</span><br><span class="line"></span><br><span class="line"><span class="comment"># 国内可以安装cnpm，然后使用cnpm install安装依赖包</span></span><br><span class="line"><span class="comment"># npm install -g cnpm --registry=https://registry.npm.taobao.org</span></span><br><span class="line">npm install    //注意，这里一定要切换到刚刚<span class="built_in">clone</span>的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://blog.csdn.net/Monkey_LZL/article/details/60870891" target="_blank" rel="noopener external nofollow noreferrer">如何解决github+Hexo的博客多终端同步问题</a></p>
 
@@ -328,7 +342,7 @@
   </p>
   <p>
     <span>最后更新：</span>
-    2020年04月20日 - 21:19:09
+    2020年04月22日 - 22:37:40
   </p>
   <p><span>本文链接：</span>
     <a href="/articles/4169259295.html" title="Hexo在不同终端同步">https://blog.ritboy.com/articles/4169259295.html</a>
@@ -337,7 +351,7 @@
     </span>
   </p>
   <p>
-    <span>版权声明：</span>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请保留原文链接及作者。
+    <span>版权声明：</span>文章采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议，转载请保留原文链接及作者。
   </p>
 </div>
 <script>
@@ -416,6 +430,7 @@
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -845,7 +860,7 @@
 
     
 
-    <span title="站点总字数">136k</span>
+    <span title="站点总字数">137k</span>
 
 
 
@@ -906,15 +921,20 @@
 
 
   
-  <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
-  </script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
 
 
 
@@ -937,6 +957,35 @@
   
 
   
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.8/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'be5jYHX3EEooVHPINqYFznyD-MdYXbMMI',
+      appKey     : 'BKCg5s5GUcGdfOIp4qxvR9Y7',
+      placeholder: "Write a comment",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
   
   
